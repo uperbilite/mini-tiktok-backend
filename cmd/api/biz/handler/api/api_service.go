@@ -4,6 +4,7 @@ package api
 
 import (
 	"context"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
@@ -16,23 +17,7 @@ import (
 // CheckUser .
 // @router /douyin/user/login/ [POST]
 func CheckUser(ctx context.Context, c *app.RequestContext) {
-	// TODO: use jwt middleware to check user directly
-	var err error
-	var req api.CheckUserRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp := new(api.CheckUserResponse)
-	uid, err := rpc.CheckUser(context.Background(), &user.CheckUserRequest{
-		Username: req.Username,
-		Password: req.Password,
-	})
-	resp.UserID = uid // uid should be 100
-
-	c.JSON(consts.StatusOK, resp)
+	mw.JwtMiddleware.LoginHandler(ctx, c)
 }
 
 // CreateUser .
@@ -60,7 +45,6 @@ func CreateUser(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	// TODO: call jwt to get token and user id
-
-	c.JSON(consts.StatusOK, resp)
+	// login after register and return login response message
+	mw.JwtMiddleware.LoginHandler(ctx, c)
 }

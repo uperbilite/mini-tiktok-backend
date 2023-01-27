@@ -4,11 +4,13 @@ package main
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 )
 
 func Init() {
 	rpc.Init()
+	mw.InitJWT()
 }
 
 func main() {
