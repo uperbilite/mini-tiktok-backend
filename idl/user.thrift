@@ -1,6 +1,6 @@
 namespace go user
 
-enum StatusCode {
+enum ErrCode {
     SuccessCode                = 0
     ServiceErrCode             = 10001
     ParamErrCode               = 10002
