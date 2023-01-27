@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"mini-tiktok-backend/cmd/user/service"
 	user "mini-tiktok-backend/kitex_gen/user"
 )
 
@@ -11,5 +12,14 @@ type UserServiceImpl struct{}
 // CheckUser implements the UserServiceImpl interface.
 func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserRequest) (resp *user.CheckUserResponse, err error) {
 	// TODO: Your code here...
-	return
+	resp = new(user.CheckUserResponse)
+
+	uid, err := service.NewCheckUserService(ctx).CheckUser(req)
+	if err != nil {
+		return resp, nil
+	}
+
+	resp.UserId = uid // uid should be 100
+
+	return resp, nil
 }

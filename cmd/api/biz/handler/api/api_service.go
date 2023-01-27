@@ -4,6 +4,8 @@ package api
 
 import (
 	"context"
+	"mini-tiktok-backend/cmd/api/biz/rpc"
+	"mini-tiktok-backend/kitex_gen/user"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -22,6 +24,11 @@ func CheckUser(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(api.CheckUserResponse)
+	uid, err := rpc.CheckUser(context.Background(), &user.CheckUserRequest{
+		Username: req.Username,
+		Password: req.Password,
+	})
+	resp.UserID = uid // uid should be 100
 
 	c.JSON(consts.StatusOK, resp)
 }
