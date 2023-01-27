@@ -6,6 +6,7 @@ import (
 	"context"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
+	"mini-tiktok-backend/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -15,6 +16,7 @@ import (
 // CheckUser .
 // @router /douyin/user/login/ [POST]
 func CheckUser(ctx context.Context, c *app.RequestContext) {
+	// TODO: use jwt middleware to check user directly
 	var err error
 	var req api.CheckUserRequest
 	err = c.BindAndValidate(&req)
@@ -49,6 +51,16 @@ func CreateUser(ctx context.Context, c *app.RequestContext) {
 		Username: req.Username,
 		Password: req.Password,
 	})
+
+	if err != nil {
+		Err := errno.ConvertErr(err)
+		resp.StatusCode = Err.ErrCode
+		resp.StatusMsg = Err.ErrMsg
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+
+	// TODO: call jwt to get token and user id
 
 	c.JSON(consts.StatusOK, resp)
 }

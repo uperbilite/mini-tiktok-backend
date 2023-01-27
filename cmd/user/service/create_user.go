@@ -4,6 +4,7 @@ import (
 	"context"
 	"mini-tiktok-backend/cmd/user/dal/db"
 	"mini-tiktok-backend/kitex_gen/user"
+	"mini-tiktok-backend/pkg/errno"
 )
 
 type CreateUserService struct {
@@ -22,9 +23,10 @@ func (s *CreateUserService) CreateUser(req *user.CreateUserRequest) error {
 		return err
 	}
 	if len(users) != 0 {
-		return err
+		return errno.UserAlreadyExistErr
 	}
 
+	// TODO: use encrypted password
 	return db.CreateUser(s.ctx, []*db.User{{
 		Username: req.Username,
 		Password: req.Password,

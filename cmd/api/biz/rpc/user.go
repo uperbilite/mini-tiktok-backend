@@ -5,6 +5,7 @@ import (
 	client2 "github.com/cloudwego/kitex/client"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/kitex_gen/user/userservice"
+	"mini-tiktok-backend/pkg/errno"
 )
 
 var userClient userservice.Client
@@ -24,8 +25,8 @@ func CreateUser(ctx context.Context, req *user.CreateUserRequest) error {
 	if err != nil {
 		return err
 	}
-	if resp.BaseResp.StatusCode != 0 {
-		return err // TODO: create new errno
+	if resp.BaseResp.StatusCode != 0 { // unpack err message from resp
+		return errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
 	return nil
 }
@@ -36,8 +37,8 @@ func CheckUser(ctx context.Context, req *user.CheckUserRequest) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	if resp.BaseResp.StatusCode != 0 {
-		return 0, err // TODO: create new errno
+	if resp.BaseResp.StatusCode != 0 { // unpack err message from resp
+		return 0, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
 	return resp.UserId, nil
 }
