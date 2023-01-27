@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"gorm.io/gorm"
+	"mini-tiktok-backend/pkg/consts"
 )
 
 type User struct {
@@ -12,7 +13,7 @@ type User struct {
 }
 
 func (u *User) TableName() string {
-	return "user"
+	return consts.UserTableName
 }
 
 // CreateUser create user info
