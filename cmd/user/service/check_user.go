@@ -2,6 +2,9 @@ package service
 
 import (
 	"context"
+	"crypto/md5"
+	"fmt"
+	"io"
 	"mini-tiktok-backend/cmd/user/dal/db"
 	"mini-tiktok-backend/pkg/errno"
 
@@ -21,18 +24,25 @@ func NewCheckUserService(ctx context.Context) *CheckUserService {
 
 // CheckUser check user info
 func (s *CheckUserService) CheckUser(req *user.CheckUserRequest) (int64, error) {
-	// TODO: use encrypted password and then compare username and password
-
-	userName := req.Username
-	users, err := db.QueryUser(s.ctx, userName)
+	username := req.Username
+	users, err := db.QueryUser(s.ctx, username)
 	if err != nil {
 		return 0, err
 	}
-
 	if len(users) == 0 {
 		return 0, errno.AuthorizationFailedErr
 	}
 
-	id := users[0].ID
+	h := md5.New()
+	if _, err := io.WriteString(h, req.Password); err != nil {
+		return 0, err
+	}
+	password := fmt.Sprintf("%x", h.Sum(nil))
+	u := users[0]
+	if u.Password != password {
+		return 0, errno.AuthorizationFailedErr
+	}
+
+	id := u.ID
 	return int64(id), nil
 }

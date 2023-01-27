@@ -2,6 +2,9 @@ package service
 
 import (
 	"context"
+	"crypto/md5"
+	"fmt"
+	"io"
 	"mini-tiktok-backend/cmd/user/dal/db"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
@@ -26,9 +29,13 @@ func (s *CreateUserService) CreateUser(req *user.CreateUserRequest) error {
 		return errno.UserAlreadyExistErr
 	}
 
-	// TODO: use encrypted password
+	h := md5.New()
+	if _, err = io.WriteString(h, req.Password); err != nil {
+		return err
+	}
+	password := fmt.Sprintf("%x", h.Sum(nil))
 	return db.CreateUser(s.ctx, []*db.User{{
 		Username: req.Username,
-		Password: req.Password,
+		Password: password,
 	}})
 }
