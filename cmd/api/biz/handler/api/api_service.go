@@ -32,3 +32,19 @@ func CheckUser(ctx context.Context, c *app.RequestContext) {
 
 	c.JSON(consts.StatusOK, resp)
 }
+
+// CreateUser .
+// @router /douyin/user/register/ [POST]
+func CreateUser(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.CreateUserRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.CreateUserResponse)
+
+	c.JSON(consts.StatusOK, resp)
+}
