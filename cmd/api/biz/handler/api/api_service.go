@@ -45,6 +45,10 @@ func CreateUser(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(api.CreateUserResponse)
+	err = rpc.CreateUser(context.Background(), &user.CreateUserRequest{
+		Username: req.Username,
+		Password: req.Password,
+	})
 
 	c.JSON(consts.StatusOK, resp)
 }

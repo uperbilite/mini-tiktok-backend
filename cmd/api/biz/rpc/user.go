@@ -18,6 +18,18 @@ func initUser() {
 	userClient = client
 }
 
+// CreateUser create user info
+func CreateUser(ctx context.Context, req *user.CreateUserRequest) error {
+	resp, err := userClient.CreateUser(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return err // TODO: create new errno
+	}
+	return nil
+}
+
 // CheckUser check user info
 func CheckUser(ctx context.Context, req *user.CheckUserRequest) (int64, error) {
 	resp, err := userClient.CheckUser(ctx, req)

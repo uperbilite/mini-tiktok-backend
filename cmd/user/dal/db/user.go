@@ -15,6 +15,11 @@ func (u *User) TableName() string {
 	return "user"
 }
 
+// CreateUser create user info
+func CreateUser(ctx context.Context, users []*User) error {
+	return DB.WithContext(ctx).Create(users).Error
+}
+
 // QueryUser query list of user info
 func QueryUser(ctx context.Context, userName string) ([]*User, error) {
 	res := make([]*User, 0)

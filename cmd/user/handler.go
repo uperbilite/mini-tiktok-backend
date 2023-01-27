@@ -23,3 +23,13 @@ func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserRequ
 
 	return resp, nil
 }
+
+func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRequest) (resp *user.CreateUserResponse, err error) {
+	resp = new(user.CreateUserResponse)
+
+	err = service.NewCreateUserService(ctx).CreateUser(req)
+	if err != nil {
+		return resp, nil
+	}
+	return resp, nil
+}
