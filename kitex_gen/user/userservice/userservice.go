@@ -19,7 +19,8 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "UserService"
 	handlerType := (*user.UserService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"CheckUser": kitex.NewMethodInfo(checkUserHandler, newUserServiceCheckUserArgs, newUserServiceCheckUserResult, false),
+		"CheckUser":  kitex.NewMethodInfo(checkUserHandler, newUserServiceCheckUserArgs, newUserServiceCheckUserResult, false),
+		"CreateUser": kitex.NewMethodInfo(createUserHandler, newUserServiceCreateUserArgs, newUserServiceCreateUserResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "user",
@@ -53,6 +54,24 @@ func newUserServiceCheckUserResult() interface{} {
 	return user.NewUserServiceCheckUserResult()
 }
 
+func createUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user.UserServiceCreateUserArgs)
+	realResult := result.(*user.UserServiceCreateUserResult)
+	success, err := handler.(user.UserService).CreateUser(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceCreateUserArgs() interface{} {
+	return user.NewUserServiceCreateUserArgs()
+}
+
+func newUserServiceCreateUserResult() interface{} {
+	return user.NewUserServiceCreateUserResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -68,6 +87,16 @@ func (p *kClient) CheckUser(ctx context.Context, req *user.CheckUserRequest) (r 
 	_args.Req = req
 	var _result user.UserServiceCheckUserResult
 	if err = p.c.Call(ctx, "CheckUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) CreateUser(ctx context.Context, req *user.CreateUserRequest) (r *user.CreateUserResponse, err error) {
+	var _args user.UserServiceCreateUserArgs
+	_args.Req = req
+	var _result user.UserServiceCreateUserResult
+	if err = p.c.Call(ctx, "CreateUser", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
