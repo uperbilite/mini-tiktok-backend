@@ -11,57 +11,57 @@ import (
 	"strings"
 )
 
-type StatusCode int64
+type ErrCode int64
 
 const (
-	StatusCode_SuccessCode                StatusCode = 0
-	StatusCode_ServiceErrCode             StatusCode = 10001
-	StatusCode_ParamErrCode               StatusCode = 10002
-	StatusCode_UserAlreadyExistErrCode    StatusCode = 10003
-	StatusCode_AuthorizationFailedErrCode StatusCode = 10004
+	ErrCode_SuccessCode                ErrCode = 0
+	ErrCode_ServiceErrCode             ErrCode = 10001
+	ErrCode_ParamErrCode               ErrCode = 10002
+	ErrCode_UserAlreadyExistErrCode    ErrCode = 10003
+	ErrCode_AuthorizationFailedErrCode ErrCode = 10004
 )
 
-func (p StatusCode) String() string {
+func (p ErrCode) String() string {
 	switch p {
-	case StatusCode_SuccessCode:
+	case ErrCode_SuccessCode:
 		return "SuccessCode"
-	case StatusCode_ServiceErrCode:
+	case ErrCode_ServiceErrCode:
 		return "ServiceErrCode"
-	case StatusCode_ParamErrCode:
+	case ErrCode_ParamErrCode:
 		return "ParamErrCode"
-	case StatusCode_UserAlreadyExistErrCode:
+	case ErrCode_UserAlreadyExistErrCode:
 		return "UserAlreadyExistErrCode"
-	case StatusCode_AuthorizationFailedErrCode:
+	case ErrCode_AuthorizationFailedErrCode:
 		return "AuthorizationFailedErrCode"
 	}
 	return "<UNSET>"
 }
 
-func StatusCodeFromString(s string) (StatusCode, error) {
+func ErrCodeFromString(s string) (ErrCode, error) {
 	switch s {
 	case "SuccessCode":
-		return StatusCode_SuccessCode, nil
+		return ErrCode_SuccessCode, nil
 	case "ServiceErrCode":
-		return StatusCode_ServiceErrCode, nil
+		return ErrCode_ServiceErrCode, nil
 	case "ParamErrCode":
-		return StatusCode_ParamErrCode, nil
+		return ErrCode_ParamErrCode, nil
 	case "UserAlreadyExistErrCode":
-		return StatusCode_UserAlreadyExistErrCode, nil
+		return ErrCode_UserAlreadyExistErrCode, nil
 	case "AuthorizationFailedErrCode":
-		return StatusCode_AuthorizationFailedErrCode, nil
+		return ErrCode_AuthorizationFailedErrCode, nil
 	}
-	return StatusCode(0), fmt.Errorf("not a valid StatusCode string")
+	return ErrCode(0), fmt.Errorf("not a valid ErrCode string")
 }
 
-func StatusCodePtr(v StatusCode) *StatusCode { return &v }
-func (p *StatusCode) Scan(value interface{}) (err error) {
+func ErrCodePtr(v ErrCode) *ErrCode { return &v }
+func (p *ErrCode) Scan(value interface{}) (err error) {
 	var result sql.NullInt64
 	err = result.Scan(value)
-	*p = StatusCode(result.Int64)
+	*p = ErrCode(result.Int64)
 	return
 }
 
-func (p *StatusCode) Value() (driver.Value, error) {
+func (p *ErrCode) Value() (driver.Value, error) {
 	if p == nil {
 		return nil, nil
 	}
