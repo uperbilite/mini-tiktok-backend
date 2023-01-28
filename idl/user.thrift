@@ -33,7 +33,17 @@ struct CreateUserResponse {
     1: required BaseResp base_resp
 }
 
+struct QueryUserRequest {
+    1: required i64 user_id (vt.gt = "0")
+}
+
+struct QueryUserResponse {
+    1: required string username
+    2: required BaseResp base_resp
+}
+
 service UserService {
     CheckUserResponse CheckUser(1: CheckUserRequest req)
     CreateUserResponse CreateUser(1: CreateUserRequest req)
+    QueryUserResponse QueryUser(1: QueryUserRequest req)
 }
