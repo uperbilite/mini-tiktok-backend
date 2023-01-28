@@ -9,28 +9,28 @@ enum ErrCode {
 }
 
 struct BaseResp {
-    1: i64 status_code
-    2: string status_msg
-    3: i64 service_time
+    1: required i64 status_code
+    2: required string status_msg
+    3: required i64 service_time
 }
 
 struct CheckUserRequest {
-    1: string username (vt.min_size = "1")
-    2: string password (vt.min_size = "1")
+    1: required string username (vt.min_size = "1")
+    2: required string password (vt.min_size = "1")
 }
 
 struct CheckUserResponse {
-    1: i64 user_id
-    2: BaseResp base_resp
+    1: required i64 user_id
+    2: required BaseResp base_resp
 }
 
 struct CreateUserRequest {
-    1: string username (vt.min_size = "1")
-    2: string password (vt.min_size = "1")
+    1: required string username (vt.min_size = "1")
+    2: required string password (vt.min_size = "1")
 }
 
 struct CreateUserResponse {
-    1: BaseResp base_resp
+    1: required BaseResp base_resp
 }
 
 service UserService {

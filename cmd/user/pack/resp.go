@@ -24,5 +24,9 @@ func BuildBaseResp(err error) *user.BaseResp {
 }
 
 func baseResp(err errno.ErrNo) *user.BaseResp {
-	return &user.BaseResp{StatusCode: err.ErrCode, StatusMsg: err.ErrMsg, ServiceTime: time.Now().Unix()}
+	return &user.BaseResp{
+		StatusCode:  err.ErrCode,
+		StatusMsg:   err.ErrMsg,
+		ServiceTime: time.Now().Unix(),
+	}
 }
