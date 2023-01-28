@@ -21,8 +21,8 @@ func CreateUser(ctx context.Context, users []*User) error {
 	return DB.WithContext(ctx).Create(users).Error
 }
 
-// QueryUser query list of user info
-func QueryUser(ctx context.Context, userName string) ([]*User, error) {
+// QueryUserByName query list of user info
+func QueryUserByName(ctx context.Context, userName string) ([]*User, error) {
 	res := make([]*User, 0)
 	if err := DB.WithContext(ctx).Where("username = ?", userName).Find(&res).Error; err != nil {
 		return nil, err

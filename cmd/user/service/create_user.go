@@ -21,7 +21,7 @@ func NewCreateUserService(ctx context.Context) *CreateUserService {
 
 // CreateUser create user info.
 func (s *CreateUserService) CreateUser(req *user.CreateUserRequest) error {
-	users, err := db.QueryUser(s.ctx, req.Username)
+	users, err := db.QueryUserByName(s.ctx, req.Username)
 	if err != nil {
 		return err
 	}

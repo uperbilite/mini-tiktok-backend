@@ -25,7 +25,7 @@ func NewCheckUserService(ctx context.Context) *CheckUserService {
 // CheckUser check user info
 func (s *CheckUserService) CheckUser(req *user.CheckUserRequest) (int64, error) {
 	username := req.Username
-	users, err := db.QueryUser(s.ctx, username)
+	users, err := db.QueryUserByName(s.ctx, username)
 	if err != nil {
 		return 0, err
 	}
