@@ -48,3 +48,20 @@ func CreateUser(ctx context.Context, c *app.RequestContext) {
 	// login after register and return login response message
 	mw.JwtMiddleware.LoginHandler(ctx, c)
 }
+
+// QueryUser .
+// @router /douyin/user/ [GET]
+func QueryUser(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.QueryUserRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.QueryUserResponse)
+	resp.User = new(api.User)
+
+	c.JSON(consts.StatusOK, resp)
+}

@@ -40,3 +40,8 @@ func _createuserMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _queryuserMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
