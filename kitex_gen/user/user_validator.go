@@ -58,3 +58,17 @@ func (p *CreateUserResponse) IsValid() error {
 	}
 	return nil
 }
+func (p *QueryUserRequest) IsValid() error {
+	if p.UserId <= int64(0) {
+		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)
+	}
+	return nil
+}
+func (p *QueryUserResponse) IsValid() error {
+	if p.BaseResp != nil {
+		if err := p.BaseResp.IsValid(); err != nil {
+			return fmt.Errorf("filed BaseResp not valid, %w", err)
+		}
+	}
+	return nil
+}

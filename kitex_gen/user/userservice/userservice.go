@@ -21,6 +21,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	methods := map[string]kitex.MethodInfo{
 		"CheckUser":  kitex.NewMethodInfo(checkUserHandler, newUserServiceCheckUserArgs, newUserServiceCheckUserResult, false),
 		"CreateUser": kitex.NewMethodInfo(createUserHandler, newUserServiceCreateUserArgs, newUserServiceCreateUserResult, false),
+		"QueryUser":  kitex.NewMethodInfo(queryUserHandler, newUserServiceQueryUserArgs, newUserServiceQueryUserResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "user",
@@ -72,6 +73,24 @@ func newUserServiceCreateUserResult() interface{} {
 	return user.NewUserServiceCreateUserResult()
 }
 
+func queryUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user.UserServiceQueryUserArgs)
+	realResult := result.(*user.UserServiceQueryUserResult)
+	success, err := handler.(user.UserService).QueryUser(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceQueryUserArgs() interface{} {
+	return user.NewUserServiceQueryUserArgs()
+}
+
+func newUserServiceQueryUserResult() interface{} {
+	return user.NewUserServiceQueryUserResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -97,6 +116,16 @@ func (p *kClient) CreateUser(ctx context.Context, req *user.CreateUserRequest) (
 	_args.Req = req
 	var _result user.UserServiceCreateUserResult
 	if err = p.c.Call(ctx, "CreateUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) QueryUser(ctx context.Context, req *user.QueryUserRequest) (r *user.QueryUserResponse, err error) {
+	var _args user.UserServiceQueryUserArgs
+	_args.Req = req
+	var _result user.UserServiceQueryUserResult
+	if err = p.c.Call(ctx, "QueryUser", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

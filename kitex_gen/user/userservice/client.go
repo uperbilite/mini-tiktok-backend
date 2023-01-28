@@ -13,6 +13,7 @@ import (
 type Client interface {
 	CheckUser(ctx context.Context, req *user.CheckUserRequest, callOptions ...callopt.Option) (r *user.CheckUserResponse, err error)
 	CreateUser(ctx context.Context, req *user.CreateUserRequest, callOptions ...callopt.Option) (r *user.CreateUserResponse, err error)
+	QueryUser(ctx context.Context, req *user.QueryUserRequest, callOptions ...callopt.Option) (r *user.QueryUserResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -52,4 +53,9 @@ func (p *kUserServiceClient) CheckUser(ctx context.Context, req *user.CheckUserR
 func (p *kUserServiceClient) CreateUser(ctx context.Context, req *user.CreateUserRequest, callOptions ...callopt.Option) (r *user.CreateUserResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateUser(ctx, req)
+}
+
+func (p *kUserServiceClient) QueryUser(ctx context.Context, req *user.QueryUserRequest, callOptions ...callopt.Option) (r *user.QueryUserResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.QueryUser(ctx, req)
 }
