@@ -4,14 +4,14 @@ package api
 
 import (
 	"context"
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	api "mini-tiktok-backend/cmd/api/biz/model/api"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
-
-	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	api "mini-tiktok-backend/cmd/api/biz/model/api"
+	"strconv"
 )
 
 // CheckUser .
@@ -62,8 +62,27 @@ func QueryUser(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.QueryUserResponse)
 	resp.User = new(api.User)
-	u, _ := c.Get("id") // TODO: change "id" to consts.IdentityKey
-	resp.User.ID = u.(*mw.User).UserId
+
+	id, err := strconv.ParseInt(req.UserID, 10, 64)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	username, err := rpc.QueryUser(ctx, &user.QueryUserRequest{
+		UserId: id,
+	})
+
+	if err != nil {
+		Err := errno.ConvertErr(err)
+		resp.StatusCode = Err.ErrCode
+		resp.StatusMsg = Err.ErrMsg
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+
+	resp.User.ID = id
+	resp.User.Name = username
 
 	c.JSON(consts.StatusOK, resp)
 }

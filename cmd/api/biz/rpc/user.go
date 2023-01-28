@@ -42,3 +42,15 @@ func CheckUser(ctx context.Context, req *user.CheckUserRequest) (int64, error) {
 	}
 	return resp.UserId, nil
 }
+
+// QueryUser query user info
+func QueryUser(ctx context.Context, req *user.QueryUserRequest) (string, error) {
+	resp, err := userClient.QueryUser(ctx, req)
+	if err != nil {
+		return "", err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return "", errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+	}
+	return resp.Username, nil
+}
