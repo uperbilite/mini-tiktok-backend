@@ -15,6 +15,11 @@ type UserServiceImpl struct{}
 func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserRequest) (resp *user.CheckUserResponse, err error) {
 	resp = new(user.CheckUserResponse)
 
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
 	uid, err := service.NewCheckUserService(ctx).CheckUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err) // pack err message
@@ -29,6 +34,11 @@ func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserRequ
 
 func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRequest) (resp *user.CreateUserResponse, err error) {
 	resp = new(user.CreateUserResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
 
 	err = service.NewCreateUserService(ctx).CreateUser(req)
 	if err != nil {
