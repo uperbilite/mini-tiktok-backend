@@ -31,7 +31,7 @@ struct CreateUserResponse {
 }
 
 struct QueryUserRequest {
-    1: required string user_id (api.query="user_id")
+    1: required string user_id (api.query="user_id") // TODO: string ?
     2: required string token (api.query="token")
 }
 

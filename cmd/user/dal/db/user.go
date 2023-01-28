@@ -29,3 +29,11 @@ func QueryUserByName(ctx context.Context, userName string) ([]*User, error) {
 	}
 	return res, nil
 }
+
+func QueryUserById(ctx context.Context, id int64) ([]*User, error) {
+	res := make([]*User, 0)
+	if err := DB.WithContext(ctx).Where("id = ?", id).Find(&res).Error; err != nil {
+		return nil, err
+	}
+	return res, nil
+}

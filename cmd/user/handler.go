@@ -50,3 +50,23 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 
 	return resp, nil
 }
+
+func (s *UserServiceImpl) QueryUser(ctx context.Context, req *user.QueryUserRequest) (resp *user.QueryUserResponse, err error) {
+	resp = new(user.QueryUserResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	username, err := service.NewQueryUserService(ctx).QueryUser(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.Username = username
+
+	return resp, nil
+}
