@@ -14,11 +14,6 @@ import (
 	"time"
 )
 
-type User struct {
-	UserId   int
-	Username string
-}
-
 var JwtMiddleware *jwt.HertzJWTMiddleware
 
 func InitJWT() {
@@ -31,10 +26,16 @@ func InitJWT() {
 		MaxRefresh:    time.Hour,
 		IdentityKey:   consts.IdentityKey,
 		// TODO: add IdentityHandler
+		IdentityHandler: func(ctx context.Context, c *app.RequestContext) interface{} {
+			claims := jwt.ExtractClaims(ctx, c)
+			return &User{
+				UserId: int64(claims["user_id"].(float64)), // get user id from payload
+			}
+		},
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(int64); ok {
 				return jwt.MapClaims{
-					consts.IdentityKey: v,
+					"user_id": v, // save user id in payload
 				}
 			}
 			return jwt.MapClaims{}

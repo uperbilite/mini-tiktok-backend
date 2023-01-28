@@ -62,6 +62,8 @@ func QueryUser(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.QueryUserResponse)
 	resp.User = new(api.User)
+	u, _ := c.Get("id") // TODO: change "id" to consts.IdentityKey
+	resp.User.ID = u.(*mw.User).UserId
 
 	c.JSON(consts.StatusOK, resp)
 }

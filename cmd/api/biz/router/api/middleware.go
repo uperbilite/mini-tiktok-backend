@@ -4,6 +4,7 @@ package Api
 
 import (
 	"github.com/cloudwego/hertz/pkg/app"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 )
 
 func rootMw() []app.HandlerFunc {
@@ -43,5 +44,8 @@ func _createuserMw() []app.HandlerFunc {
 
 func _queryuserMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
