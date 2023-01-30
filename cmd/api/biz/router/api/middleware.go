@@ -27,7 +27,7 @@ func _loginMw() []app.HandlerFunc {
 	return nil
 }
 
-func _userloginMw() []app.HandlerFunc {
+func _douyinuserloginMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
@@ -37,12 +37,12 @@ func _registerMw() []app.HandlerFunc {
 	return nil
 }
 
-func _createuserMw() []app.HandlerFunc {
+func _douyinuserregisterMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
 
-func _queryuserMw() []app.HandlerFunc {
+func _douyinuserMw() []app.HandlerFunc {
 	// your code...
 	return []app.HandlerFunc{
 		// use jwt mw

@@ -16,22 +16,22 @@ import (
 
 // UserLogin .
 // @router /douyin/user/login/ [POST]
-func UserLogin(ctx context.Context, c *app.RequestContext) {
+func DouyinUserLogin(ctx context.Context, c *app.RequestContext) {
 	mw.JwtMiddleware.LoginHandler(ctx, c)
 }
 
-// CreateUser .
+// DouyinUserRegister .
 // @router /douyin/user/register/ [POST]
-func CreateUser(ctx context.Context, c *app.RequestContext) {
+func DouyinUserRegister(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req api.CreateUserRequest
+	var req api.DouyinUserRegisterRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
-	resp := new(api.CreateUserResponse)
+	resp := new(api.DouyinUserRegisterResponse)
 	err = rpc.CreateUser(context.Background(), &user.CreateUserRequest{
 		Username: req.Username,
 		Password: req.Password,
@@ -49,18 +49,18 @@ func CreateUser(ctx context.Context, c *app.RequestContext) {
 	mw.JwtMiddleware.LoginHandler(ctx, c)
 }
 
-// QueryUser .
+// DouyinUser .
 // @router /douyin/user/ [GET]
-func QueryUser(ctx context.Context, c *app.RequestContext) {
+func DouyinUser(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req api.QueryUserRequest
+	var req api.DouyinUserRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
-	resp := new(api.QueryUserResponse)
+	resp := new(api.DouyinUserResponse)
 	resp.User = new(api.User)
 
 	id, err := strconv.ParseInt(req.UserID, 10, 64)
