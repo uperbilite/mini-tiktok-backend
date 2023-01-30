@@ -14,9 +14,9 @@ import (
 	"strconv"
 )
 
-// CheckUser .
+// UserLogin .
 // @router /douyin/user/login/ [POST]
-func CheckUser(ctx context.Context, c *app.RequestContext) {
+func UserLogin(ctx context.Context, c *app.RequestContext) {
 	mw.JwtMiddleware.LoginHandler(ctx, c)
 }
 

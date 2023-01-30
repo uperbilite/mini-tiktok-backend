@@ -27,7 +27,7 @@ func _loginMw() []app.HandlerFunc {
 	return nil
 }
 
-func _checkuserMw() []app.HandlerFunc {
+func _userloginMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
