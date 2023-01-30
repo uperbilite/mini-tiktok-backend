@@ -6,12 +6,12 @@ struct User {
     // TODO: add follow and follow count, is follow status
 }
 
-struct CheckUserRequest {
+struct DouyinUserLoginRequest {
     1: required string username (api.query="username")
     2: required string password (api.query="password")
 }
 
-struct CheckUserResponse {
+struct DouyinUserLoginResponse {
     1: required i64 status_code
     2: required string status_msg
     3: required i64 user_id
@@ -42,7 +42,7 @@ struct QueryUserResponse {
 }
 
 service ApiService {
-    CheckUserResponse CheckUser(1: CheckUserRequest req) (api.post="/douyin/user/login/")
+    DouyinUserLoginResponse UserLogin(1: DouyinUserLoginRequest req) (api.post="/douyin/user/login/")
     CreateUserResponse CreateUser(1: CreateUserRequest req) (api.post="/douyin/user/register/")
     QueryUserResponse QueryUser(1: QueryUserRequest req) (api.get="/douyin/user/")
 }
