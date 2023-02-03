@@ -33,7 +33,7 @@ func DouyinUserRegister(ctx context.Context, c *app.RequestContext) {
 
 	if err != nil {
 		Err := errno.ConvertErr(err)
-		resp.StatusCode = Err.ErrCode
+		resp.StatusCode = int32(Err.ErrCode)
 		resp.StatusMsg = Err.ErrMsg
 		c.JSON(consts.StatusOK, resp)
 		return

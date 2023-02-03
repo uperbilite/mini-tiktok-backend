@@ -13,7 +13,7 @@ struct DouyinUserLoginRequest {
 
 struct DouyinUserLoginResponse {
     1: required i32 status_code
-    2: optional string status_msg
+    2: required string status_msg
     3: required i64 user_id
     4: required string token
 }
@@ -25,7 +25,7 @@ struct DouyinUserRegisterRequest {
 
 struct DouyinUserRegisterResponse {
     1: required i32 status_code
-    2: optional string status_msg
+    2: required string status_msg
     3: required i64 user_id
     4: required string token
 }
@@ -37,7 +37,7 @@ struct DouyinUserRequest {
 
 struct DouyinUserResponse {
     1: required i32 status_code
-    2: optional string status_msg
+    2: required string status_msg
     3: required User user
 }
 

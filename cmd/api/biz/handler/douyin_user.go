@@ -9,7 +9,6 @@ import (
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
-	"strconv"
 
 	"github.com/cloudwego/hertz/pkg/app"
 )
@@ -28,25 +27,19 @@ func DouyinUser(ctx context.Context, c *app.RequestContext) {
 	resp := new(api_user.DouyinUserResponse)
 	resp.User = new(api_user.User)
 
-	id, err := strconv.ParseInt(req.UserID, 10, 64)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
 	username, err := rpc.QueryUser(ctx, &user.QueryUserRequest{
-		UserId: id,
+		UserId: req.UserID,
 	})
 
 	if err != nil {
 		Err := errno.ConvertErr(err)
-		resp.StatusCode = Err.ErrCode
+		resp.StatusCode = int32(Err.ErrCode)
 		resp.StatusMsg = Err.ErrMsg
 		c.JSON(consts.StatusOK, resp)
 		return
 	}
 
-	resp.User.ID = id
+	resp.User.ID = req.UserID
 	resp.User.Name = username
 
 	c.JSON(consts.StatusOK, resp)
