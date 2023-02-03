@@ -12,8 +12,8 @@ struct DouyinUserLoginRequest {
 }
 
 struct DouyinUserLoginResponse {
-    1: required i64 status_code
-    2: required string status_msg
+    1: required i32 status_code
+    2: optional string status_msg
     3: required i64 user_id
     4: required string token
 }
@@ -24,20 +24,20 @@ struct DouyinUserRegisterRequest {
 }
 
 struct DouyinUserRegisterResponse {
-    1: required i64 status_code
-    2: required string status_msg
+    1: required i32 status_code
+    2: optional string status_msg
     3: required i64 user_id
     4: required string token
 }
 
 struct DouyinUserRequest {
-    1: required string user_id (api.query="user_id") // TODO: string ?
+    1: required i64 user_id (api.query="user_id")
     2: required string token (api.query="token")
 }
 
 struct DouyinUserResponse {
-    1: required i64 status_code
-    2: required string status_msg
+    1: required i32 status_code
+    2: optional string status_msg
     3: required User user
 }
 
