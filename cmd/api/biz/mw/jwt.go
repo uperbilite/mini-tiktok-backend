@@ -5,7 +5,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/hertz-contrib/jwt"
-	"mini-tiktok-backend/cmd/api/biz/model/api"
+	api_user "mini-tiktok-backend/cmd/api/biz/model/api/user"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/consts"
@@ -42,7 +42,7 @@ func InitJWT() {
 		},
 		Authenticator: func(ctx context.Context, c *app.RequestContext) (interface{}, error) {
 			var err error
-			var req api.DouyinUserLoginRequest
+			var req api_user.DouyinUserLoginRequest
 			if err = c.BindAndValidate(&req); err != nil {
 				return "", jwt.ErrMissingLoginValues
 			}

@@ -1,4 +1,4 @@
-namespace go api
+namespace go api.user
 
 struct User {
     1: required i64 id
@@ -41,7 +41,7 @@ struct DouyinUserResponse {
     3: required User user
 }
 
-service ApiService {
+service ApiUserService {
     DouyinUserLoginResponse DouyinUserLogin(1: DouyinUserLoginRequest req) (api.post="/douyin/user/login/")
     DouyinUserRegisterResponse DouyinUserRegister(1: DouyinUserRegisterRequest req) (api.post="/douyin/user/register/")
     DouyinUserResponse DouyinUser(1: DouyinUserRequest req) (api.get="/douyin/user/")
