@@ -16,7 +16,8 @@ func Init() {
 func main() {
 	Init()
 
-	h := server.Default(server.WithHostPorts("127.0.0.1:8080"))
+	// 设置 127.0.0.1:8080 用于本地df
+	h := server.Default(server.WithHostPorts("0.0.0.0:8080"))
 
 	register(h)
 	h.Spin()
