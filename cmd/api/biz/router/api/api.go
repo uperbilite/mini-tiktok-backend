@@ -4,7 +4,7 @@ package Api
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	api "mini-tiktok-backend/cmd/api/biz/handler/api"
+	handler "mini-tiktok-backend/cmd/api/biz/handler"
 )
 
 /*
@@ -21,14 +21,14 @@ func Register(r *server.Hertz) {
 		_douyin := root.Group("/douyin", _douyinMw()...)
 		{
 			_user := _douyin.Group("/user", _userMw()...)
-			_user.GET("/", append(_douyinuserMw(), api.DouyinUser)...)
+			_user.GET("/", append(_douyinuserMw(), handler.DouyinUser)...)
 			{
 				_login := _user.Group("/login", _loginMw()...)
-				_login.POST("/", append(_douyinuserloginMw(), api.DouyinUserLogin)...)
+				_login.POST("/", append(_douyinuserloginMw(), handler.DouyinUserLogin)...)
 			}
 			{
 				_register := _user.Group("/register", _registerMw()...)
-				_register.POST("/", append(_douyinuserregisterMw(), api.DouyinUserRegister)...)
+				_register.POST("/", append(_douyinuserregisterMw(), handler.DouyinUserRegister)...)
 			}
 		}
 	}
