@@ -8,6 +8,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"mime/multipart"
 	api_publish "mini-tiktok-backend/cmd/api/biz/model/api/publish"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/publish"
 )
@@ -43,8 +44,10 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
+	user, _ := c.Get("id")
+
 	err = rpc.PublishVideo(ctx, &publish.PublishVideoRequest{
-		UserId: 1, // TODO: Get user id from token
+		UserId: user.(*mw.User).UserId,
 		Data:   fileContent,
 		Title:  req.title,
 	})
@@ -59,21 +62,21 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 }
 
 func ReadFileContent(file multipart.File) ([]byte, error) {
-	const fileChunk = 1 * (1 << 20) // read 1MB each time.
-	fileContent := make([]byte, fileChunk)
+	const fileChunkSize = 1 * (1 << 20) // read 1MB each time.
+	fileContent := make([]byte, 0, 0)
 
 	for {
-		n, err := file.Read(fileContent)
+		fileChunk := make([]byte, fileChunkSize)
+		n, err := file.Read(fileChunk)
 		if n == 0 {
 			break
 		}
 		if err != nil {
 			return nil, err
 		}
-		fileContent = append(fileContent, make([]byte, fileChunk)...)
+		fileChunk = fileChunk[:n]
+		fileContent = append(fileContent, fileChunk...)
 	}
-
-	fileContent = fileContent[:len(fileContent):len(fileContent)] // trim file content
 
 	return fileContent, nil
 }

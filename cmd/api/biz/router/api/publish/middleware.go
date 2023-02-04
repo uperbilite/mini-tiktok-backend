@@ -4,6 +4,7 @@ package Publish
 
 import (
 	"github.com/cloudwego/hertz/pkg/app"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 )
 
 func rootMw() []app.HandlerFunc {
@@ -18,8 +19,10 @@ func _douyinMw() []app.HandlerFunc {
 
 func _publishMw() []app.HandlerFunc {
 	// your code...
-	// TODO: register jwt middleware
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(), // TODO: get token from form-data, need to define a middleware
+	}
 }
 
 func _actionMw() []app.HandlerFunc {
