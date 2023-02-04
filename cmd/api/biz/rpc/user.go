@@ -12,7 +12,7 @@ var userClient userservice.Client
 
 func initUser() {
 	// TODO: get user service from etcd
-	client, err := userservice.NewClient("user", client2.WithHostPorts("127.0.0.1:8888"))
+	client, err := userservice.NewClient("user", client2.WithHostPorts("127.0.0.1:8081"))
 	if err != nil {
 		panic(err)
 	}

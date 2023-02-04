@@ -18,6 +18,7 @@ func _douyinMw() []app.HandlerFunc {
 
 func _publishMw() []app.HandlerFunc {
 	// your code...
+	// TODO: register jwt middleware
 	return nil
 }
 
