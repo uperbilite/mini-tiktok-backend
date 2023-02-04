@@ -1,4 +1,4 @@
-CREATE TABLE `user`
+CREATE TABLE `users`
 (
     `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `username`   varchar(128) NOT NULL DEFAULT '' COMMENT 'Username',

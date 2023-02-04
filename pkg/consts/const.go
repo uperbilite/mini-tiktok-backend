@@ -1,7 +1,7 @@
 package consts
 
 const (
-	UserTableName   = "user" // TODO: rename table to users
+	UserTableName   = "users"
 	VideoTableName  = "videos"
 	SecretKey       = "secret key"
 	IdentityKey     = "id"
