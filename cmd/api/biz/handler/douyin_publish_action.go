@@ -6,11 +6,13 @@ import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/golang-jwt/jwt/v4"
 	"mime/multipart"
 	api_publish "mini-tiktok-backend/cmd/api/biz/model/api/publish"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/publish"
+	pkg_consts "mini-tiktok-backend/pkg/consts"
 )
 
 // Paras 文件类型的参数接收单独定义
@@ -44,10 +46,10 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	user, _ := c.Get("id")
+	claims, err := GetClaimsFromTokenString(req.token)
 
 	err = rpc.PublishVideo(ctx, &publish.PublishVideoRequest{
-		UserId: user.(*mw.User).UserId,
+		UserId: int64(claims[pkg_consts.UserIdKey].(float64)),
 		Data:   fileContent,
 		Title:  req.title,
 	})
@@ -59,6 +61,18 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api_publish.DouyinPublishActionResponse)
 	c.JSON(consts.StatusOK, resp)
+}
+
+func GetClaimsFromTokenString(token string) (map[string]interface{}, error) {
+	t, err := mw.JwtMiddleware.ParseTokenString(token)
+	if err != nil {
+		return nil, err
+	}
+	claims := jwt.MapClaims{}
+	for key, value := range t.Claims.(jwt.MapClaims) {
+		claims[key] = value
+	}
+	return claims, nil
 }
 
 func ReadFileContent(file multipart.File) ([]byte, error) {

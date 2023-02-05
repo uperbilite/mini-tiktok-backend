@@ -5,6 +5,7 @@ const (
 	VideoTableName  = "videos"
 	SecretKey       = "secret key"
 	IdentityKey     = "id"
+	UserIdKey       = "user_id"
 	MySQLDefaultDSN = "gorm:gorm@tcp(localhost:9910)/gorm?charset=utf8&parseTime=True&loc=Local"
 	OSSEndPoint     = "oss-cn-beijing.aliyuncs.com"
 	AccessKeyId     = "LTAI5tBQzy3pKUKA1juX68Mq"
