@@ -4,14 +4,13 @@ package handler
 
 import (
 	"context"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	api_user "mini-tiktok-backend/cmd/api/biz/model/api/user"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
-	"mini-tiktok-backend/pkg/errno"
 )
 
 // DouyinUserRegister .
@@ -21,21 +20,17 @@ func DouyinUserRegister(ctx context.Context, c *app.RequestContext) {
 	var req api_user.DouyinUserRegisterRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp := new(api_user.DouyinUserRegisterResponse)
 	err = rpc.CreateUser(context.Background(), &user.CreateUserRequest{
 		Username: req.Username,
 		Password: req.Password,
 	})
 
 	if err != nil {
-		Err := errno.ConvertErr(err)
-		resp.StatusCode = int32(Err.ErrCode)
-		resp.StatusMsg = Err.ErrMsg
-		c.JSON(consts.StatusOK, resp)
+		SendResponse(c, err, utils.H{})
 		return
 	}
 

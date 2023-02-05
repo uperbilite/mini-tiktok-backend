@@ -4,13 +4,12 @@ package handler
 
 import (
 	"context"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 	api_user "mini-tiktok-backend/cmd/api/biz/model/api/user"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
-
-	"github.com/cloudwego/hertz/pkg/app"
 )
 
 // DouyinUser .
@@ -20,27 +19,24 @@ func DouyinUser(ctx context.Context, c *app.RequestContext) {
 	var req api_user.DouyinUserRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp := new(api_user.DouyinUserResponse)
-	resp.User = new(api_user.User)
-
-	username, err := rpc.QueryUser(ctx, &user.QueryUserRequest{
+	username, err := rpc.QueryUser(ctx, &user.QueryUserRequest{ // TODO: return username should be change
 		UserId: req.UserID,
 	})
 
 	if err != nil {
-		Err := errno.ConvertErr(err)
-		resp.StatusCode = int32(Err.ErrCode)
-		resp.StatusMsg = Err.ErrMsg
-		c.JSON(consts.StatusOK, resp)
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp.User.ID = req.UserID
-	resp.User.Name = username
-
-	c.JSON(consts.StatusOK, resp)
+	SendResponse(c, errno.Success, utils.H{
+		"user": utils.H{
+			"id":   req.UserID,
+			"name": username,
+			// TODO: add follow and follower count and is followed.
+		},
+	})
 }
