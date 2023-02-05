@@ -4,12 +4,12 @@ package handler
 
 import (
 	"context"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	api_publish "mini-tiktok-backend/cmd/api/biz/model/api/publish"
 	"mini-tiktok-backend/kitex_gen/publish"
 	pkg_consts "mini-tiktok-backend/pkg/consts"
@@ -22,28 +22,25 @@ func DouyinPublishList(ctx context.Context, c *app.RequestContext) {
 	var req api_publish.DouyinPublishListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp := new(api_publish.DouyinPublishListResponse)
 	user, _ := c.Get(pkg_consts.IdentityKey)
 
 	videos, err := rpc.GetPublishList(ctx, &publish.GetPublishListRequest{
 		UserId:       user.(*mw.User).UserId,
 		TargetUserId: req.UserID,
 	})
+
 	if err != nil {
-		Err := errno.ConvertErr(err)
-		resp.StatusCode = int32(Err.ErrCode)
-		resp.StatusMsg = Err.ErrMsg
-		c.JSON(consts.StatusOK, resp)
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp.VideoList = Videos(videos)
-
-	c.JSON(consts.StatusOK, resp)
+	SendResponse(c, errno.Success, utils.H{
+		"video_list": Videos(videos),
+	})
 }
 
 func Videos(videos []*publish.Video) []*api_publish.Video {

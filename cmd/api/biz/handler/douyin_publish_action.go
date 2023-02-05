@@ -5,14 +5,14 @@ package handler
 import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/golang-jwt/jwt/v4"
 	"mime/multipart"
-	api_publish "mini-tiktok-backend/cmd/api/biz/model/api/publish"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/publish"
 	pkg_consts "mini-tiktok-backend/pkg/consts"
+	"mini-tiktok-backend/pkg/errno"
 )
 
 // Paras 文件类型的参数接收单独定义
@@ -29,7 +29,7 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 	var req Paras
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
@@ -38,6 +38,7 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 	fileContent, _ := ReadFileContent(file)
 
 	claims, _ := GetClaimsFromTokenString(req.token)
+	// TODO: register jwt middleware
 
 	err = rpc.PublishVideo(ctx, &publish.PublishVideoRequest{
 		UserId: int64(claims[pkg_consts.UserIdKey].(float64)),
@@ -46,12 +47,11 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 	})
 
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp := new(api_publish.DouyinPublishActionResponse)
-	c.JSON(consts.StatusOK, resp)
+	SendResponse(c, errno.Success, utils.H{})
 }
 
 func GetClaimsFromTokenString(token string) (map[string]interface{}, error) {
