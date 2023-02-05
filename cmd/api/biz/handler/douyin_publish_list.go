@@ -6,6 +6,7 @@ import (
 	"context"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
+	"mini-tiktok-backend/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -25,38 +26,45 @@ func DouyinPublishList(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
+	resp := new(api_publish.DouyinPublishListResponse)
 	user, _ := c.Get(pkg_consts.IdentityKey)
 
-	resp, err := rpc.GetPublishList(ctx, &publish.GetPublishListRequest{
+	videos, err := rpc.GetPublishList(ctx, &publish.GetPublishListRequest{
 		UserId:       user.(*mw.User).UserId,
 		TargetUserId: req.UserID,
 	})
+	if err != nil {
+		Err := errno.ConvertErr(err)
+		resp.StatusCode = int32(Err.ErrCode)
+		resp.StatusMsg = Err.ErrMsg
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
 
-	// TODO: convert publish service video to api publish video, and then send response
-	// TODO: optimize response setting
-	videos := make([]*api_publish.Video, 0)
-	for _, v := range resp {
-		videos = append(videos, &api_publish.Video{
+	resp.VideoList = Videos(videos)
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+func Videos(videos []*publish.Video) []*api_publish.Video {
+	res := make([]*api_publish.Video, 0)
+	for _, v := range videos {
+		res = append(res, &api_publish.Video{
 			ID: v.Id,
 			Author: &api_publish.User{
 				ID:            v.Author.Id,
 				Name:          v.Author.Name,
 				FollowCount:   v.Author.FollowerCount,
 				FollowerCount: v.Author.FollowCount,
-				IsFollow:      false,
+				IsFollow:      v.Author.IsFollow,
 			},
 			PlayURL:       v.PlayUrl,
 			CoverURL:      v.CoverUrl,
 			FavoriteCount: v.FavoriteCount,
 			CommentCount:  v.CommentCount,
-			IsFavorite:    false,
+			IsFavorite:    v.IsFavorite,
 			Title:         v.Title,
 		})
 	}
-
-	c.JSON(consts.StatusOK, api_publish.DouyinPublishListResponse{
-		StatusCode: 0,
-		StatusMsg:  "",
-		VideoList:  videos,
-	})
+	return res
 }
