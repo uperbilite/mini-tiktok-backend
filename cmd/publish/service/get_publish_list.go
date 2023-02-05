@@ -21,7 +21,7 @@ func (s *GetPublishListService) GetPublishList(req *publish.GetPublishListReques
 	if err != nil {
 		return nil, err
 	}
-	// TODO: get user info from video author id
+	// TODO: get user info from video author id, using UserId and TargetUserId
 	// TODO: get favourite status of each video
 	return pack.Videos(videos), nil
 }

@@ -39,4 +39,6 @@ func DouyinUser(ctx context.Context, c *app.RequestContext) {
 			// TODO: add follow and follower count and is followed.
 		},
 	})
+
+	// TODO: add User method pack user from publish service like Video method dose.
 }
