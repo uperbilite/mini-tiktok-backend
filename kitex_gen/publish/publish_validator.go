@@ -52,3 +52,20 @@ func (p *PublishVideoResponse) IsValid() error {
 	}
 	return nil
 }
+func (p *GetPublishListRequest) IsValid() error {
+	if p.UserId <= int64(0) {
+		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)
+	}
+	if p.TargetUserId <= int64(0) {
+		return fmt.Errorf("field TargetUserId gt rule failed, current value: %v", p.TargetUserId)
+	}
+	return nil
+}
+func (p *GetPublishListResponse) IsValid() error {
+	if p.BaseResp != nil {
+		if err := p.BaseResp.IsValid(); err != nil {
+			return fmt.Errorf("filed BaseResp not valid, %w", err)
+		}
+	}
+	return nil
+}

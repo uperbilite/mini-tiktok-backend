@@ -19,7 +19,8 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "PublishService"
 	handlerType := (*publish.PublishService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"PublishVideo": kitex.NewMethodInfo(publishVideoHandler, newPublishServicePublishVideoArgs, newPublishServicePublishVideoResult, false),
+		"PublishVideo":   kitex.NewMethodInfo(publishVideoHandler, newPublishServicePublishVideoArgs, newPublishServicePublishVideoResult, false),
+		"GetPublishList": kitex.NewMethodInfo(getPublishListHandler, newPublishServiceGetPublishListArgs, newPublishServiceGetPublishListResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "publish",
@@ -53,6 +54,24 @@ func newPublishServicePublishVideoResult() interface{} {
 	return publish.NewPublishServicePublishVideoResult()
 }
 
+func getPublishListHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*publish.PublishServiceGetPublishListArgs)
+	realResult := result.(*publish.PublishServiceGetPublishListResult)
+	success, err := handler.(publish.PublishService).GetPublishList(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPublishServiceGetPublishListArgs() interface{} {
+	return publish.NewPublishServiceGetPublishListArgs()
+}
+
+func newPublishServiceGetPublishListResult() interface{} {
+	return publish.NewPublishServiceGetPublishListResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -68,6 +87,16 @@ func (p *kClient) PublishVideo(ctx context.Context, req *publish.PublishVideoReq
 	_args.Req = req
 	var _result publish.PublishServicePublishVideoResult
 	if err = p.c.Call(ctx, "PublishVideo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetPublishList(ctx context.Context, req *publish.GetPublishListRequest) (r *publish.GetPublishListResponse, err error) {
+	var _args publish.PublishServiceGetPublishListArgs
+	_args.Req = req
+	var _result publish.PublishServiceGetPublishListResult
+	if err = p.c.Call(ctx, "GetPublishList", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

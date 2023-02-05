@@ -35,6 +35,17 @@ struct PublishVideoResponse {
     1: required BaseResp base_resp
 }
 
+struct GetPublishListRequest {
+    1: required i64 user_id (vt.gt = "0")
+    2: required i64 target_user_id (vt.gt = "0")
+}
+
+struct GetPublishListResponse {
+    1: required BaseResp base_resp
+    2: required list<Video> video_list
+}
+
 service PublishService {
     PublishVideoResponse PublishVideo(1: PublishVideoRequest req)
+    GetPublishListResponse GetPublishList(1: GetPublishListRequest req)
 }
