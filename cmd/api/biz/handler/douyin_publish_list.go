@@ -4,24 +4,59 @@ package handler
 
 import (
 	"context"
+	"mini-tiktok-backend/cmd/api/biz/mw"
+	"mini-tiktok-backend/cmd/api/biz/rpc"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	publish "mini-tiktok-backend/cmd/api/biz/model/api/publish"
+	api_publish "mini-tiktok-backend/cmd/api/biz/model/api/publish"
+	"mini-tiktok-backend/kitex_gen/publish"
+	pkg_consts "mini-tiktok-backend/pkg/consts"
 )
 
 // DouyinPublishList .
 // @router /douyin/publish/list/ [GET]
 func DouyinPublishList(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req publish.DouyinPublishListRequest
+	var req api_publish.DouyinPublishListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
-	resp := new(publish.DouyinPublishListResponse)
+	user, _ := c.Get(pkg_consts.IdentityKey)
 
-	c.JSON(consts.StatusOK, resp)
+	resp, err := rpc.GetPublishList(ctx, &publish.GetPublishListRequest{
+		UserId:       user.(*mw.User).UserId,
+		TargetUserId: req.UserID,
+	})
+
+	// TODO: convert publish service video to api publish video, and then send response
+	// TODO: optimize response setting
+	videos := make([]*api_publish.Video, 0)
+	for _, v := range resp {
+		videos = append(videos, &api_publish.Video{
+			ID: v.Id,
+			Author: &api_publish.User{
+				ID:            v.Author.Id,
+				Name:          v.Author.Name,
+				FollowCount:   v.Author.FollowerCount,
+				FollowerCount: v.Author.FollowCount,
+				IsFollow:      false,
+			},
+			PlayURL:       v.PlayUrl,
+			CoverURL:      v.CoverUrl,
+			FavoriteCount: v.FavoriteCount,
+			CommentCount:  v.CommentCount,
+			IsFavorite:    false,
+			Title:         v.Title,
+		})
+	}
+
+	c.JSON(consts.StatusOK, api_publish.DouyinPublishListResponse{
+		StatusCode: 0,
+		StatusMsg:  "",
+		VideoList:  videos,
+	})
 }

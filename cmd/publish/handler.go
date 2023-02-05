@@ -30,3 +30,23 @@ func (s *PublishServiceImpl) PublishVideo(ctx context.Context, req *publish.Publ
 
 	return resp, nil
 }
+
+func (s *PublishServiceImpl) GetPublishList(ctx context.Context, req *publish.GetPublishListRequest) (resp *publish.GetPublishListResponse, err error) {
+	resp = new(publish.GetPublishListResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	videoList, err := service.NewGetPublishListService(ctx).GetPublishList(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.VideoList = videoList
+
+	return resp, nil
+}

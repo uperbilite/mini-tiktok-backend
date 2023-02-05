@@ -28,3 +28,14 @@ func PublishVideo(ctx context.Context, req *publish.PublishVideoRequest) error {
 	}
 	return err
 }
+
+func GetPublishList(ctx context.Context, req *publish.GetPublishListRequest) ([]*publish.Video, error) {
+	resp, err := publishClient.GetPublishList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 { // unpack err message from resp
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+	}
+	return resp.VideoList, nil
+}
