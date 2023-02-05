@@ -24,6 +24,9 @@ var (
 func (p *BaseResp) IsValid() error {
 	return nil
 }
+func (p *User) IsValid() error {
+	return nil
+}
 func (p *CheckUserRequest) IsValid() error {
 	if len(p.Username) < int(1) {
 		return fmt.Errorf("field Username min_len rule failed, current value: %d", len(p.Username))
@@ -62,12 +65,20 @@ func (p *QueryUserRequest) IsValid() error {
 	if p.UserId <= int64(0) {
 		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)
 	}
+	if p.TargetUserId <= int64(0) {
+		return fmt.Errorf("field TargetUserId gt rule failed, current value: %v", p.TargetUserId)
+	}
 	return nil
 }
 func (p *QueryUserResponse) IsValid() error {
 	if p.BaseResp != nil {
 		if err := p.BaseResp.IsValid(); err != nil {
 			return fmt.Errorf("filed BaseResp not valid, %w", err)
+		}
+	}
+	if p.User != nil {
+		if err := p.User.IsValid(); err != nil {
+			return fmt.Errorf("filed User not valid, %w", err)
 		}
 	}
 	return nil
