@@ -34,7 +34,7 @@ CREATE TABLE `relations`
     `created_at`    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Relation create time',
     `updated_at`    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Relation update time',
     `deleted_at`    timestamp NULL DEFAULT NULL COMMENT 'Relation delete time',
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Relation table';
 
 CREATE TABLE `favourites`

@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"mini-tiktok-backend/cmd/user/dal/db"
+	"mini-tiktok-backend/cmd/user/pack"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
 )
@@ -17,19 +18,17 @@ func NewQueryUserService(ctx context.Context) *QueryUserService {
 	}
 }
 
-func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (string, error) {
-	id := req.UserId
-	users, err := db.QueryUserById(s.ctx, id)
+func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, error) {
+	users, err := db.QueryUserById(s.ctx, req.TargetUserId)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	if len(users) == 0 {
-		return "", errno.AuthorizationFailedErr // TODO: id not exist error
+		return nil, errno.AuthorizationFailedErr // TODO: id not exist error
 	}
 
-	u := users[0]
-	username := u.Username
+	// TODO: Get follow and follower count and is_followed from relation service
 
-	return username, nil
+	return pack.User(users[0]), nil
 }

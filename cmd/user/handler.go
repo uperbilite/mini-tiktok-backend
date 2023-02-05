@@ -4,7 +4,7 @@ import (
 	"context"
 	"mini-tiktok-backend/cmd/user/pack"
 	"mini-tiktok-backend/cmd/user/service"
-	user "mini-tiktok-backend/kitex_gen/user"
+	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
 )
 
@@ -59,14 +59,14 @@ func (s *UserServiceImpl) QueryUser(ctx context.Context, req *user.QueryUserRequ
 		return resp, nil
 	}
 
-	username, err := service.NewQueryUserService(ctx).QueryUser(req)
+	respUser, err := service.NewQueryUserService(ctx).QueryUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.Username = username
+	resp.User = respUser
 
 	return resp, nil
 }

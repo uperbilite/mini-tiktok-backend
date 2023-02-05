@@ -7,8 +7,10 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	api_user "mini-tiktok-backend/cmd/api/biz/model/api/user"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/user"
+	pkg_consts "mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
 )
 
@@ -23,8 +25,11 @@ func DouyinUser(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	username, err := rpc.QueryUser(ctx, &user.QueryUserRequest{ // TODO: return username should be change
-		UserId: req.UserID,
+	identityUser, _ := c.Get(pkg_consts.IdentityKey)
+
+	resp, err := rpc.QueryUser(ctx, &user.QueryUserRequest{
+		UserId:       identityUser.(*mw.User).UserId,
+		TargetUserId: req.UserID,
 	})
 
 	if err != nil {
@@ -33,12 +38,17 @@ func DouyinUser(ctx context.Context, c *app.RequestContext) {
 	}
 
 	SendResponse(c, errno.Success, utils.H{
-		"user": utils.H{
-			"id":   req.UserID,
-			"name": username,
-			// TODO: add follow and follower count and is followed.
-		},
+		"user": User(resp),
 	})
 
-	// TODO: add User method pack user from publish service like Video method dose.
+}
+
+func User(user *user.User) *api_user.User {
+	return &api_user.User{
+		ID:            user.Id,
+		Name:          user.Name,
+		FollowCount:   user.FollowCount,
+		FollowerCount: user.FollowCount,
+		IsFollow:      user.IsFollow,
+	}
 }
