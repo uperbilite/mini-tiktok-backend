@@ -33,20 +33,11 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	file, err := req.data.Open()
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
+	file, _ := req.data.Open()
 	defer file.Close()
+	fileContent, _ := ReadFileContent(file)
 
-	var fileContent []byte
-	if fileContent, err = ReadFileContent(file); err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	claims, err := GetClaimsFromTokenString(req.token)
+	claims, _ := GetClaimsFromTokenString(req.token)
 
 	err = rpc.PublishVideo(ctx, &publish.PublishVideoRequest{
 		UserId: int64(claims[pkg_consts.UserIdKey].(float64)),

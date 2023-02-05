@@ -26,7 +26,7 @@ func (s *PublishServiceImpl) PublishVideo(ctx context.Context, req *publish.Publ
 		return resp, nil
 	}
 
-	resp.BaseResp = new(publish.BaseResp)
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 
 	return resp, nil
 }

@@ -25,7 +25,6 @@ func InitJWT() {
 		Timeout:       time.Hour,
 		MaxRefresh:    time.Hour,
 		IdentityKey:   consts.IdentityKey,
-		// TODO: add IdentityHandler
 		IdentityHandler: func(ctx context.Context, c *app.RequestContext) interface{} {
 			claims := jwt.ExtractClaims(ctx, c)
 			return &User{
