@@ -62,9 +62,6 @@ func (p *CreateUserResponse) IsValid() error {
 	return nil
 }
 func (p *QueryUserRequest) IsValid() error {
-	if p.UserId <= int64(0) {
-		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)
-	}
 	if p.TargetUserId <= int64(0) {
 		return fmt.Errorf("field TargetUserId gt rule failed, current value: %v", p.TargetUserId)
 	}

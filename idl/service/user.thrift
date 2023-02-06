@@ -42,13 +42,13 @@ struct CreateUserResponse {
 }
 
 struct QueryUserRequest {
-    1: required i64 user_id (vt.gt = "0")
+    1: required i64 user_id // 0表示用户未登录
     2: required i64 target_user_id (vt.gt = "0")
 }
 
 struct QueryUserResponse {
     1: required BaseResp base_resp
-    2: required User user
+    2: required User user // user_id为0不获取is_followed
 }
 
 service UserService {
