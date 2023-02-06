@@ -28,7 +28,9 @@ func CreateVideo(ctx context.Context, video *Video) error {
 // MGetVideo Get all videos by same author.
 func MGetVideo(ctx context.Context, id int64) ([]*Video, error) {
 	res := make([]*Video, 0)
-	if err := DB.WithContext(ctx).Where("author_id = ?", id).Find(&res).Error; err != nil {
+	if err := DB.WithContext(ctx).
+		Where("author_id = ?", id).
+		Find(&res).Error; err != nil {
 		return nil, err
 	}
 	return res, nil
@@ -36,7 +38,11 @@ func MGetVideo(ctx context.Context, id int64) ([]*Video, error) {
 
 func GetVideoFeed(ctx context.Context, latestTime int64) ([]*Video, error) {
 	res := make([]*Video, 0)
-	if err := DB.WithContext(ctx).Where("unix_timestamp(created_at) < ?", latestTime).Limit(30).Order("created_at desc").Find(&res).Error; err != nil {
+	if err := DB.WithContext(ctx).
+		Where("unix_timestamp(created_at) < ?", latestTime).
+		Limit(30).
+		Order("created_at desc").
+		Find(&res).Error; err != nil {
 		return nil, err
 	}
 	return res, nil

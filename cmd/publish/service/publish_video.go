@@ -4,16 +4,15 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+	"github.com/gofrs/uuid"
+	ffmpeg "github.com/u2takey/ffmpeg-go"
 	"image"
 	"image/jpeg"
 	"mini-tiktok-backend/cmd/publish/dal/db"
 	"mini-tiktok-backend/kitex_gen/publish"
 	"mini-tiktok-backend/pkg/consts"
 	"os"
-
-	"github.com/aliyun/aliyun-oss-go-sdk/oss"
-	"github.com/gofrs/uuid"
-	ffmpeg "github.com/u2takey/ffmpeg-go"
 )
 
 type PublishVideoService struct {
@@ -60,21 +59,17 @@ func (s *PublishVideoService) PublishVideo(req *publish.PublishVideoRequest) err
 
 func GetCoverFromVideo(videoUrl string) ([]byte, error) {
 	reader := bytes.NewBuffer(nil)
-	err := ffmpeg.Input(videoUrl).
+
+	_ = ffmpeg.Input(videoUrl).
 		Filter("select", ffmpeg.Args{fmt.Sprintf("gte(n,%d)", 1)}).
 		Output("pipe:", ffmpeg.KwArgs{"vframes": 1, "format": "image2", "vcodec": "mjpeg"}).
 		WithOutput(reader, os.Stdout).
 		Run()
-	if err != nil {
-		return nil, err
-	}
-	img, _, err := image.Decode(reader)
-	if err != nil {
-		return nil, err
-	}
+
+	img, _, _ := image.Decode(reader)
 
 	buf := new(bytes.Buffer)
 	jpeg.Encode(buf, img, nil)
 
-	return buf.Bytes(), err
+	return buf.Bytes(), nil
 }

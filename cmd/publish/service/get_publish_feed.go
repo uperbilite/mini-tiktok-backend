@@ -7,7 +7,7 @@ import (
 	"mini-tiktok-backend/cmd/publish/rpc"
 	"mini-tiktok-backend/kitex_gen/publish"
 	"mini-tiktok-backend/kitex_gen/user"
-	"mini-tiktok-backend/pkg/errno"
+	"time"
 )
 
 type GetPublishFeedService struct {
@@ -24,11 +24,12 @@ func (s *GetPublishFeedService) GetPublishFeed(req *publish.GetPublishFeedReques
 		return nil, 0, err
 	}
 
-	if len(vs) == 0 {
-		return nil, 0, errno.AuthorizationFailedErr // TODO: set errno msg
-	}
-
 	videos := make([]*publish.Video, 0)
+
+	if len(vs) == 0 {
+		// No video feed will return current timestamp.
+		return videos, time.Now().UnixMilli(), nil
+	}
 
 	// TODO: get user info from video author id, using UserId and TargetUserId
 	for _, v := range vs {
@@ -37,6 +38,7 @@ func (s *GetPublishFeedService) GetPublishFeed(req *publish.GetPublishFeedReques
 			UserId:       req.UserId,
 			TargetUserId: v.AuthorId,
 		})
+		// TODO: error handle
 		video.Author = pack.User(resp)
 		videos = append(videos, video)
 		// TODO: get favourite status of each video
