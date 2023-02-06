@@ -3,13 +3,22 @@
 package main
 
 import (
+	"context"
+	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 	handler "mini-tiktok-backend/cmd/api/biz/handler"
+	"mini-tiktok-backend/pkg/errno"
 )
 
 // customizeRegister registers customize routers.
 func customizedRegister(r *server.Hertz) {
 	r.GET("/ping", handler.Ping)
 
-	// your code ...
+	r.NoRoute(func(ctx context.Context, c *app.RequestContext) { // used for HTTP 404
+		handler.SendResponse(c, errno.ServiceErr, utils.H{})
+	})
+	r.NoMethod(func(ctx context.Context, c *app.RequestContext) { // used for HTTP 405
+		handler.SendResponse(c, errno.ServiceErr, utils.H{})
+	})
 }

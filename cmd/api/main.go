@@ -18,7 +18,9 @@ func main() {
 	Init()
 
 	// 设置127.0.0.1:8080用于本地运行，设置0.0.0.0:8080用于服务器运行
-	h := server.Default(server.WithHostPorts(consts.ApiServiceAddr))
+	h := server.Default(server.WithHostPorts(consts.ApiServiceAddr),
+		server.WithHandleMethodNotAllowed(true),
+	)
 
 	register(h)
 	h.Spin()

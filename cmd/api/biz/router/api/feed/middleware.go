@@ -4,11 +4,14 @@ package Feed
 
 import (
 	"github.com/cloudwego/hertz/pkg/app"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 )
 
 func rootMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		mw.AccessLog(),
+	}
 }
 
 func _douyinMw() []app.HandlerFunc {
