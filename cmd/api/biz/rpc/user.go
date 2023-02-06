@@ -37,7 +37,7 @@ func CheckUser(ctx context.Context, req *user.CheckUserRequest) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	if resp.BaseResp.StatusCode != 0 { // unpack err message from resp
+	if resp.BaseResp.StatusCode != 0 {
 		return 0, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
 	return resp.UserId, nil

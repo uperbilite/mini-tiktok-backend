@@ -28,11 +28,10 @@ func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, er
 		return nil, errno.UserNotExistErr
 	}
 
-	// TODO: Get follow and follower count and is_followed from relation service
 	if req.UserId == 0 {
-
+		// TODO: Get follow and follower count
 	} else {
-
+		// TODO: Get follow and follower count and is_followed
 	}
 
 	return pack.User(users[0]), nil

@@ -34,7 +34,7 @@ func GetPublishList(ctx context.Context, req *publish.GetPublishListRequest) ([]
 	if err != nil {
 		return nil, err
 	}
-	if resp.BaseResp.StatusCode != 0 { // unpack err message from resp
+	if resp.BaseResp.StatusCode != 0 {
 		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
 	return resp.VideoList, nil
@@ -45,7 +45,7 @@ func GetPublishFeed(ctx context.Context, req *publish.GetPublishFeedRequest) ([]
 	if err != nil {
 		return nil, 0, err
 	}
-	if resp.BaseResp.StatusCode != 0 { // unpack err message from resp
+	if resp.BaseResp.StatusCode != 0 {
 		return nil, 0, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
 	return resp.VideoList, resp.NextTime, nil
