@@ -55,10 +55,7 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 }
 
 func GetClaimsFromTokenString(token string) (map[string]interface{}, error) {
-	t, err := mw.JwtMiddleware.ParseTokenString(token)
-	if err != nil {
-		return nil, err
-	}
+	t, _ := mw.JwtMiddleware.ParseTokenString(token)
 	claims := jwt.MapClaims{}
 	for key, value := range t.Claims.(jwt.MapClaims) {
 		claims[key] = value
@@ -72,12 +69,9 @@ func ReadFileContent(file multipart.File) ([]byte, error) {
 
 	for {
 		fileChunk := make([]byte, fileChunkSize)
-		n, err := file.Read(fileChunk)
+		n, _ := file.Read(fileChunk)
 		if n == 0 {
 			break
-		}
-		if err != nil {
-			return nil, err
 		}
 		fileChunk = fileChunk[:n]
 		fileContent = append(fileContent, fileChunk...)
