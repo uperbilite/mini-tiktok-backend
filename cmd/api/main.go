@@ -6,6 +6,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
+	"mini-tiktok-backend/pkg/consts"
 )
 
 func Init() {
@@ -16,8 +17,8 @@ func Init() {
 func main() {
 	Init()
 
-	// 设置 127.0.0.1:8080 用于本地df
-	h := server.Default(server.WithHostPorts("0.0.0.0:8080"))
+	// 设置127.0.0.1:8080用于本地运行，设置0.0.0.0:8080用于服务器运行
+	h := server.Default(server.WithHostPorts(consts.ApiServiceAddr))
 
 	register(h)
 	h.Spin()
