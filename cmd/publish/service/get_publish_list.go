@@ -31,6 +31,7 @@ func (s *GetPublishListService) GetPublishList(req *publish.GetPublishListReques
 
 	// TODO: get user info from video author id, using UserId and TargetUserId
 	videos := make([]*publish.Video, 0)
+
 	for _, v := range vs {
 		video := pack.Video(v)
 		resp, err := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
@@ -44,5 +45,6 @@ func (s *GetPublishListService) GetPublishList(req *publish.GetPublishListReques
 		videos = append(videos, video)
 		// TODO: get favourite status of each video
 	}
+
 	return videos, nil
 }

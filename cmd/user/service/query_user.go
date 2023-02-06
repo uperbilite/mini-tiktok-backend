@@ -29,6 +29,11 @@ func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, er
 	}
 
 	// TODO: Get follow and follower count and is_followed from relation service
+	if req.UserId == 0 {
+
+	} else {
+
+	}
 
 	return pack.User(users[0]), nil
 }

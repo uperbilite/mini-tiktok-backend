@@ -32,13 +32,10 @@ func DouyinFeed(ctx context.Context, c *app.RequestContext) {
 	}
 	latestTime = req.GetLatestTime()
 
-	videos, nextTime, err := rpc.GetPublishFeed(ctx, &publish.GetPublishFeedRequest{
+	videos, nextTime, _ := rpc.GetPublishFeed(ctx, &publish.GetPublishFeedRequest{
 		UserId:     userId,
 		LatestTime: latestTime,
 	})
-	if err != nil {
-		SendResponse(c, err, utils.H{})
-	}
 
 	SendResponse(c, errno.Success, utils.H{
 		"video_list": videos,

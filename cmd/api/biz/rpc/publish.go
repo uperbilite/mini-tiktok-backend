@@ -39,3 +39,14 @@ func GetPublishList(ctx context.Context, req *publish.GetPublishListRequest) ([]
 	}
 	return resp.VideoList, nil
 }
+
+func GetPublishFeed(ctx context.Context, req *publish.GetPublishFeedRequest) ([]*publish.Video, int64, error) {
+	resp, err := publishClient.GetPublishFeed(ctx, req)
+	if err != nil {
+		return nil, 0, err
+	}
+	if resp.BaseResp.StatusCode != 0 { // unpack err message from resp
+		return nil, 0, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+	}
+	return resp.VideoList, resp.NextTime, nil
+}

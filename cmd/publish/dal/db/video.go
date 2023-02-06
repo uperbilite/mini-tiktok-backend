@@ -33,3 +33,11 @@ func MGetVideo(ctx context.Context, id int64) ([]*Video, error) {
 	}
 	return res, nil
 }
+
+func GetVideoFeed(ctx context.Context, latestTime int64) ([]*Video, error) {
+	res := make([]*Video, 0)
+	if err := DB.WithContext(ctx).Where("unix_timestamp(created_at) < ?", latestTime).Limit(30).Order("created_at desc").Find(&res).Error; err != nil {
+		return nil, err
+	}
+	return res, nil
+}

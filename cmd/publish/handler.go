@@ -50,3 +50,24 @@ func (s *PublishServiceImpl) GetPublishList(ctx context.Context, req *publish.Ge
 
 	return resp, nil
 }
+
+func (s *PublishServiceImpl) GetPublishFeed(ctx context.Context, req *publish.GetPublishFeedRequest) (resp *publish.GetPublishFeedResponse, err error) {
+	resp = new(publish.GetPublishFeedResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	videoList, nextTime, err := service.NewGetPublishFeedService(ctx).GetPublishFeed(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.VideoList = videoList
+	resp.NextTime = nextTime
+
+	return resp, nil
+}
