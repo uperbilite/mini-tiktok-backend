@@ -2,20 +2,31 @@ package rpc
 
 import (
 	"context"
-	client2 "github.com/cloudwego/kitex/client"
+	client "github.com/cloudwego/kitex/client"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	etcd "github.com/kitex-contrib/registry-etcd"
 	"mini-tiktok-backend/kitex_gen/publish"
 	"mini-tiktok-backend/kitex_gen/publish/publishservice"
+	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
 )
 
 var publishClient publishservice.Client
 
 func initPublish() {
-	client, err := publishservice.NewClient("publish", client2.WithHostPorts("127.0.0.1:8082"))
+	r, err := etcd.NewEtcdResolver([]string{consts.ETCDAddress})
 	if err != nil {
 		panic(err)
 	}
-	publishClient = client
+	c, err := publishservice.NewClient(
+		consts.PublishServiceName,
+		client.WithResolver(r),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.ApiServiceName}),
+	)
+	if err != nil {
+		panic(err)
+	}
+	publishClient = c
 }
 
 func PublishVideo(ctx context.Context, req *publish.PublishVideoRequest) error {

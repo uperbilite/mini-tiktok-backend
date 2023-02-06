@@ -2,20 +2,31 @@ package rpc
 
 import (
 	"context"
-	client2 "github.com/cloudwego/kitex/client"
+	client "github.com/cloudwego/kitex/client"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	etcd "github.com/kitex-contrib/registry-etcd"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/kitex_gen/user/userservice"
+	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
 )
 
 var userClient userservice.Client
 
 func initUser() {
-	client, err := userservice.NewClient("user", client2.WithHostPorts("127.0.0.1:8081"))
+	r, err := etcd.NewEtcdResolver([]string{consts.ETCDAddress})
 	if err != nil {
 		panic(err)
 	}
-	userClient = client
+	c, err := userservice.NewClient(
+		consts.UserServiceName,
+		client.WithResolver(r),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PublishServiceName}),
+	)
+	if err != nil {
+		panic(err)
+	}
+	userClient = c
 }
 
 func QueryUser(ctx context.Context, req *user.QueryUserRequest) (*user.User, error) {

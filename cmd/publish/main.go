@@ -1,11 +1,14 @@
 package main
 
 import (
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	etcd "github.com/kitex-contrib/registry-etcd"
 	"log"
 	"mini-tiktok-backend/cmd/publish/dal"
 	"mini-tiktok-backend/cmd/publish/rpc"
-	publish "mini-tiktok-backend/kitex_gen/publish/publishservice"
+	"mini-tiktok-backend/kitex_gen/publish/publishservice"
+	"mini-tiktok-backend/pkg/consts"
 	"net"
 )
 
@@ -15,12 +18,24 @@ func Init() {
 }
 
 func main() {
+	r, err := etcd.NewEtcdRegistry([]string{consts.ETCDAddress})
+	if err != nil {
+		panic(err)
+	}
+	addr, err := net.ResolveTCPAddr(consts.TCP, consts.PublishServiceAddr)
+	if err != nil {
+		panic(err)
+	}
+
 	Init()
 
-	addr, _ := net.ResolveTCPAddr("tcp", "127.0.0.1:8082") // TODO: Connect by url directly.
-	svr := publish.NewServer(new(PublishServiceImpl), server.WithServiceAddr(addr))
+	svr := publishservice.NewServer(new(PublishServiceImpl),
+		server.WithServiceAddr(addr),
+		server.WithRegistry(r),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PublishServiceName}),
+	)
 
-	err := svr.Run()
+	err = svr.Run()
 
 	if err != nil {
 		log.Println(err.Error())
