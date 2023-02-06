@@ -39,7 +39,7 @@ func DouyinPublishList(ctx context.Context, c *app.RequestContext) {
 	}
 
 	SendResponse(c, errno.Success, utils.H{
-		"video_list": Videos(videos),
+		"video_list": videos,
 	})
 }
 

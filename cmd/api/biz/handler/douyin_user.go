@@ -31,16 +31,14 @@ func DouyinUser(ctx context.Context, c *app.RequestContext) {
 		UserId:       identityUser.(*mw.User).UserId,
 		TargetUserId: req.UserID,
 	})
-
 	if err != nil {
 		SendResponse(c, err, utils.H{})
 		return
 	}
 
 	SendResponse(c, errno.Success, utils.H{
-		"user": User(resp),
+		"user": resp,
 	})
-
 }
 
 func User(user *user.User) *api_user.User {
