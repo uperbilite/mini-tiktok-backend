@@ -30,7 +30,7 @@ func (s *CheckUserService) CheckUser(req *user.CheckUserRequest) (int64, error) 
 		return 0, err
 	}
 	if len(users) == 0 {
-		return 0, errno.AuthorizationFailedErr
+		return 0, errno.UserAuthorizationFailedErr // Username not exist.
 	}
 
 	h := md5.New()
@@ -40,7 +40,7 @@ func (s *CheckUserService) CheckUser(req *user.CheckUserRequest) (int64, error) 
 	password := fmt.Sprintf("%x", h.Sum(nil))
 	u := users[0]
 	if u.Password != password {
-		return 0, errno.AuthorizationFailedErr
+		return 0, errno.UserAuthorizationFailedErr // Password error.
 	}
 
 	id := u.ID

@@ -70,7 +70,7 @@ func InitJWT() {
 		},
 		Unauthorized: func(ctx context.Context, c *app.RequestContext, code int, message string) {
 			c.JSON(http.StatusOK, utils.H{
-				"status_code": errno.AuthorizationFailedErr.ErrCode,
+				"status_code": errno.UserAuthorizationFailedErr.ErrCode,
 				"status_msg":  message,
 			})
 		},

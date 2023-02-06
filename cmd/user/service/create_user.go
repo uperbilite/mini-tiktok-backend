@@ -16,7 +16,9 @@ type CreateUserService struct {
 
 // NewCreateUserService new CreateUserService
 func NewCreateUserService(ctx context.Context) *CreateUserService {
-	return &CreateUserService{ctx: ctx}
+	return &CreateUserService{
+		ctx: ctx,
+	}
 }
 
 // CreateUser create user info.

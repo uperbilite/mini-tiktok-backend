@@ -42,7 +42,7 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 
 	err = service.NewCreateUserService(ctx).CreateUser(req)
 	if err != nil {
-		resp.BaseResp = pack.BuildBaseResp(err) // pack err message
+		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 

@@ -25,7 +25,7 @@ func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, er
 		return nil, err
 	}
 	if len(users) == 0 {
-		return nil, errno.AuthorizationFailedErr // TODO: id not exist error
+		return nil, errno.UserNotExistErr
 	}
 
 	// TODO: Get follow and follower count and is_followed from relation service

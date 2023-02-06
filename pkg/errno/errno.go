@@ -28,11 +28,14 @@ func (e ErrNo) WithMessage(msg string) ErrNo {
 }
 
 var (
-	Success                = NewErrNo(int32(user.ErrCode_SuccessCode), "Success")
-	ServiceErr             = NewErrNo(int32(user.ErrCode_ServiceErrCode), "Service is unable to start successfully")
-	ParamErr               = NewErrNo(int32(user.ErrCode_ParamErrCode), "Wrong Parameter has been given")
-	UserAlreadyExistErr    = NewErrNo(int32(user.ErrCode_UserAlreadyExistErrCode), "User already exists")
-	AuthorizationFailedErr = NewErrNo(int32(user.ErrCode_AuthorizationFailedErrCode), "Authorization failed")
+	Success    = NewErrNo(0, "Success")
+	ServiceErr = NewErrNo(5000, "Service is unable to start successfully")
+	ParamErr   = NewErrNo(5001, "Wrong parameters has been given")
+
+	UserNotExistErr            = NewErrNo(int32(user.ErrCode_UserNotExistErrCode), "User not exist")
+	UserAlreadyExistErr        = NewErrNo(int32(user.ErrCode_UserAlreadyExistErrCode), "User already exists")
+	UserAuthorizationFailedErr = NewErrNo(int32(user.ErrCode_AuthorizationFailedErrCode), "User authorization failed")
+
 	// TODO: add more error code, including publish error and user error
 )
 

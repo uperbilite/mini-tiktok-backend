@@ -14,21 +14,15 @@ import (
 type ErrCode int64
 
 const (
-	ErrCode_SuccessCode                ErrCode = 0
-	ErrCode_ServiceErrCode             ErrCode = 10001
-	ErrCode_ParamErrCode               ErrCode = 10002
-	ErrCode_UserAlreadyExistErrCode    ErrCode = 10003
-	ErrCode_AuthorizationFailedErrCode ErrCode = 10004
+	ErrCode_UserNotExistErrCode        ErrCode = 10001
+	ErrCode_UserAlreadyExistErrCode    ErrCode = 10002
+	ErrCode_AuthorizationFailedErrCode ErrCode = 10003
 )
 
 func (p ErrCode) String() string {
 	switch p {
-	case ErrCode_SuccessCode:
-		return "SuccessCode"
-	case ErrCode_ServiceErrCode:
-		return "ServiceErrCode"
-	case ErrCode_ParamErrCode:
-		return "ParamErrCode"
+	case ErrCode_UserNotExistErrCode:
+		return "UserNotExistErrCode"
 	case ErrCode_UserAlreadyExistErrCode:
 		return "UserAlreadyExistErrCode"
 	case ErrCode_AuthorizationFailedErrCode:
@@ -39,12 +33,8 @@ func (p ErrCode) String() string {
 
 func ErrCodeFromString(s string) (ErrCode, error) {
 	switch s {
-	case "SuccessCode":
-		return ErrCode_SuccessCode, nil
-	case "ServiceErrCode":
-		return ErrCode_ServiceErrCode, nil
-	case "ParamErrCode":
-		return ErrCode_ParamErrCode, nil
+	case "UserNotExistErrCode":
+		return ErrCode_UserNotExistErrCode, nil
 	case "UserAlreadyExistErrCode":
 		return ErrCode_UserAlreadyExistErrCode, nil
 	case "AuthorizationFailedErrCode":

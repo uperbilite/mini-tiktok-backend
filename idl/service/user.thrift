@@ -1,11 +1,9 @@
 namespace go user
 
 enum ErrCode {
-    SuccessCode                = 0
-    ServiceErrCode             = 10001
-    ParamErrCode               = 10002
-    UserAlreadyExistErrCode    = 10003
-    AuthorizationFailedErrCode = 10004
+    UserNotExistErrCode        = 10001
+    UserAlreadyExistErrCode    = 10002
+    AuthorizationFailedErrCode = 10003
 }
 
 struct BaseResp {
