@@ -21,6 +21,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	methods := map[string]kitex.MethodInfo{
 		"PublishVideo":   kitex.NewMethodInfo(publishVideoHandler, newPublishServicePublishVideoArgs, newPublishServicePublishVideoResult, false),
 		"GetPublishList": kitex.NewMethodInfo(getPublishListHandler, newPublishServiceGetPublishListArgs, newPublishServiceGetPublishListResult, false),
+		"GetPublishFeed": kitex.NewMethodInfo(getPublishFeedHandler, newPublishServiceGetPublishFeedArgs, newPublishServiceGetPublishFeedResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "publish",
@@ -72,6 +73,24 @@ func newPublishServiceGetPublishListResult() interface{} {
 	return publish.NewPublishServiceGetPublishListResult()
 }
 
+func getPublishFeedHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*publish.PublishServiceGetPublishFeedArgs)
+	realResult := result.(*publish.PublishServiceGetPublishFeedResult)
+	success, err := handler.(publish.PublishService).GetPublishFeed(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPublishServiceGetPublishFeedArgs() interface{} {
+	return publish.NewPublishServiceGetPublishFeedArgs()
+}
+
+func newPublishServiceGetPublishFeedResult() interface{} {
+	return publish.NewPublishServiceGetPublishFeedResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -97,6 +116,16 @@ func (p *kClient) GetPublishList(ctx context.Context, req *publish.GetPublishLis
 	_args.Req = req
 	var _result publish.PublishServiceGetPublishListResult
 	if err = p.c.Call(ctx, "GetPublishList", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetPublishFeed(ctx context.Context, req *publish.GetPublishFeedRequest) (r *publish.GetPublishFeedResponse, err error) {
+	var _args publish.PublishServiceGetPublishFeedArgs
+	_args.Req = req
+	var _result publish.PublishServiceGetPublishFeedResult
+	if err = p.c.Call(ctx, "GetPublishFeed", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

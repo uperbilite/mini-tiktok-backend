@@ -69,3 +69,14 @@ func (p *GetPublishListResponse) IsValid() error {
 	}
 	return nil
 }
+func (p *GetPublishFeedRequest) IsValid() error {
+	return nil
+}
+func (p *GetPublishFeedResponse) IsValid() error {
+	if p.BaseResp != nil {
+		if err := p.BaseResp.IsValid(); err != nil {
+			return fmt.Errorf("filed BaseResp not valid, %w", err)
+		}
+	}
+	return nil
+}

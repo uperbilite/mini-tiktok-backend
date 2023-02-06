@@ -45,7 +45,19 @@ struct GetPublishListResponse {
     2: required list<Video> video_list
 }
 
+struct GetPublishFeedRequest {
+    1: required i64 user_id // 0表示用户没有登录
+    2: required i64 latest_time
+}
+
+struct GetPublishFeedResponse {
+    1: required BaseResp base_resp
+    2: required i64 next_time
+    3: required list<Video> video_list // user_id为0不获取is_followed和is_favorite
+}
+
 service PublishService {
     PublishVideoResponse PublishVideo(1: PublishVideoRequest req)
     GetPublishListResponse GetPublishList(1: GetPublishListRequest req)
+    GetPublishFeedResponse GetPublishFeed(1: GetPublishFeedRequest req)
 }

@@ -2385,10 +2385,587 @@ func (p *GetPublishListResponse) Field2DeepEqual(src []*Video) bool {
 	return true
 }
 
+type GetPublishFeedRequest struct {
+	UserId     int64 `thrift:"user_id,1,required" frugal:"1,required,i64" json:"user_id"`
+	LatestTime int64 `thrift:"latest_time,2,required" frugal:"2,required,i64" json:"latest_time"`
+}
+
+func NewGetPublishFeedRequest() *GetPublishFeedRequest {
+	return &GetPublishFeedRequest{}
+}
+
+func (p *GetPublishFeedRequest) InitDefault() {
+	*p = GetPublishFeedRequest{}
+}
+
+func (p *GetPublishFeedRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *GetPublishFeedRequest) GetLatestTime() (v int64) {
+	return p.LatestTime
+}
+func (p *GetPublishFeedRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *GetPublishFeedRequest) SetLatestTime(val int64) {
+	p.LatestTime = val
+}
+
+var fieldIDToName_GetPublishFeedRequest = map[int16]string{
+	1: "user_id",
+	2: "latest_time",
+}
+
+func (p *GetPublishFeedRequest) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	var issetUserId bool = false
+	var issetLatestTime bool = false
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetUserId = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetLatestTime = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	if !issetUserId {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetLatestTime {
+		fieldId = 2
+		goto RequiredFieldNotSetError
+	}
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetPublishFeedRequest[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetPublishFeedRequest[fieldId]))
+}
+
+func (p *GetPublishFeedRequest) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.UserId = v
+	}
+	return nil
+}
+
+func (p *GetPublishFeedRequest) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.LatestTime = v
+	}
+	return nil
+}
+
+func (p *GetPublishFeedRequest) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetPublishFeedRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetPublishFeedRequest) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetPublishFeedRequest) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("latest_time", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.LatestTime); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetPublishFeedRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetPublishFeedRequest(%+v)", *p)
+}
+
+func (p *GetPublishFeedRequest) DeepEqual(ano *GetPublishFeedRequest) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.UserId) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.LatestTime) {
+		return false
+	}
+	return true
+}
+
+func (p *GetPublishFeedRequest) Field1DeepEqual(src int64) bool {
+
+	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *GetPublishFeedRequest) Field2DeepEqual(src int64) bool {
+
+	if p.LatestTime != src {
+		return false
+	}
+	return true
+}
+
+type GetPublishFeedResponse struct {
+	BaseResp  *BaseResp `thrift:"base_resp,1,required" frugal:"1,required,BaseResp" json:"base_resp"`
+	NextTime  int64     `thrift:"next_time,2,required" frugal:"2,required,i64" json:"next_time"`
+	VideoList []*Video  `thrift:"video_list,3,required" frugal:"3,required,list<Video>" json:"video_list"`
+}
+
+func NewGetPublishFeedResponse() *GetPublishFeedResponse {
+	return &GetPublishFeedResponse{}
+}
+
+func (p *GetPublishFeedResponse) InitDefault() {
+	*p = GetPublishFeedResponse{}
+}
+
+var GetPublishFeedResponse_BaseResp_DEFAULT *BaseResp
+
+func (p *GetPublishFeedResponse) GetBaseResp() (v *BaseResp) {
+	if !p.IsSetBaseResp() {
+		return GetPublishFeedResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *GetPublishFeedResponse) GetNextTime() (v int64) {
+	return p.NextTime
+}
+
+func (p *GetPublishFeedResponse) GetVideoList() (v []*Video) {
+	return p.VideoList
+}
+func (p *GetPublishFeedResponse) SetBaseResp(val *BaseResp) {
+	p.BaseResp = val
+}
+func (p *GetPublishFeedResponse) SetNextTime(val int64) {
+	p.NextTime = val
+}
+func (p *GetPublishFeedResponse) SetVideoList(val []*Video) {
+	p.VideoList = val
+}
+
+var fieldIDToName_GetPublishFeedResponse = map[int16]string{
+	1: "base_resp",
+	2: "next_time",
+	3: "video_list",
+}
+
+func (p *GetPublishFeedResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetPublishFeedResponse) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	var issetBaseResp bool = false
+	var issetNextTime bool = false
+	var issetVideoList bool = false
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetBaseResp = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetNextTime = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 3:
+			if fieldTypeId == thrift.LIST {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetVideoList = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	if !issetBaseResp {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetNextTime {
+		fieldId = 2
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetVideoList {
+		fieldId = 3
+		goto RequiredFieldNotSetError
+	}
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetPublishFeedResponse[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetPublishFeedResponse[fieldId]))
+}
+
+func (p *GetPublishFeedResponse) ReadField1(iprot thrift.TProtocol) error {
+	p.BaseResp = NewBaseResp()
+	if err := p.BaseResp.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *GetPublishFeedResponse) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.NextTime = v
+	}
+	return nil
+}
+
+func (p *GetPublishFeedResponse) ReadField3(iprot thrift.TProtocol) error {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
+		return err
+	}
+	p.VideoList = make([]*Video, 0, size)
+	for i := 0; i < size; i++ {
+		_elem := NewVideo()
+		if err := _elem.Read(iprot); err != nil {
+			return err
+		}
+
+		p.VideoList = append(p.VideoList, _elem)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *GetPublishFeedResponse) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetPublishFeedResponse"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetPublishFeedResponse) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("base_resp", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.BaseResp.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetPublishFeedResponse) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("next_time", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.NextTime); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetPublishFeedResponse) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("video_list", thrift.LIST, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.VideoList)); err != nil {
+		return err
+	}
+	for _, v := range p.VideoList {
+		if err := v.Write(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteListEnd(); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *GetPublishFeedResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetPublishFeedResponse(%+v)", *p)
+}
+
+func (p *GetPublishFeedResponse) DeepEqual(ano *GetPublishFeedResponse) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.BaseResp) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.NextTime) {
+		return false
+	}
+	if !p.Field3DeepEqual(ano.VideoList) {
+		return false
+	}
+	return true
+}
+
+func (p *GetPublishFeedResponse) Field1DeepEqual(src *BaseResp) bool {
+
+	if !p.BaseResp.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+func (p *GetPublishFeedResponse) Field2DeepEqual(src int64) bool {
+
+	if p.NextTime != src {
+		return false
+	}
+	return true
+}
+func (p *GetPublishFeedResponse) Field3DeepEqual(src []*Video) bool {
+
+	if len(p.VideoList) != len(src) {
+		return false
+	}
+	for i, v := range p.VideoList {
+		_src := src[i]
+		if !v.DeepEqual(_src) {
+			return false
+		}
+	}
+	return true
+}
+
 type PublishService interface {
 	PublishVideo(ctx context.Context, req *PublishVideoRequest) (r *PublishVideoResponse, err error)
 
 	GetPublishList(ctx context.Context, req *GetPublishListRequest) (r *GetPublishListResponse, err error)
+
+	GetPublishFeed(ctx context.Context, req *GetPublishFeedRequest) (r *GetPublishFeedResponse, err error)
 }
 
 type PublishServiceClient struct {
@@ -2435,6 +3012,15 @@ func (p *PublishServiceClient) GetPublishList(ctx context.Context, req *GetPubli
 	}
 	return _result.GetSuccess(), nil
 }
+func (p *PublishServiceClient) GetPublishFeed(ctx context.Context, req *GetPublishFeedRequest) (r *GetPublishFeedResponse, err error) {
+	var _args PublishServiceGetPublishFeedArgs
+	_args.Req = req
+	var _result PublishServiceGetPublishFeedResult
+	if err = p.Client_().Call(ctx, "GetPublishFeed", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
 
 type PublishServiceProcessor struct {
 	processorMap map[string]thrift.TProcessorFunction
@@ -2458,6 +3044,7 @@ func NewPublishServiceProcessor(handler PublishService) *PublishServiceProcessor
 	self := &PublishServiceProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
 	self.AddToProcessorMap("PublishVideo", &publishServiceProcessorPublishVideo{handler: handler})
 	self.AddToProcessorMap("GetPublishList", &publishServiceProcessorGetPublishList{handler: handler})
+	self.AddToProcessorMap("GetPublishFeed", &publishServiceProcessorGetPublishFeed{handler: handler})
 	return self
 }
 func (p *PublishServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -2557,6 +3144,54 @@ func (p *publishServiceProcessorGetPublishList) Process(ctx context.Context, seq
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("GetPublishList", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type publishServiceProcessorGetPublishFeed struct {
+	handler PublishService
+}
+
+func (p *publishServiceProcessorGetPublishFeed) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := PublishServiceGetPublishFeedArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetPublishFeed", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := PublishServiceGetPublishFeedResult{}
+	var retval *GetPublishFeedResponse
+	if retval, err2 = p.handler.GetPublishFeed(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetPublishFeed: "+err2.Error())
+		oprot.WriteMessageBegin("GetPublishFeed", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetPublishFeed", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -3259,6 +3894,352 @@ func (p *PublishServiceGetPublishListResult) DeepEqual(ano *PublishServiceGetPub
 }
 
 func (p *PublishServiceGetPublishListResult) Field0DeepEqual(src *GetPublishListResponse) bool {
+
+	if !p.Success.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type PublishServiceGetPublishFeedArgs struct {
+	Req *GetPublishFeedRequest `thrift:"req,1" frugal:"1,default,GetPublishFeedRequest" json:"req"`
+}
+
+func NewPublishServiceGetPublishFeedArgs() *PublishServiceGetPublishFeedArgs {
+	return &PublishServiceGetPublishFeedArgs{}
+}
+
+func (p *PublishServiceGetPublishFeedArgs) InitDefault() {
+	*p = PublishServiceGetPublishFeedArgs{}
+}
+
+var PublishServiceGetPublishFeedArgs_Req_DEFAULT *GetPublishFeedRequest
+
+func (p *PublishServiceGetPublishFeedArgs) GetReq() (v *GetPublishFeedRequest) {
+	if !p.IsSetReq() {
+		return PublishServiceGetPublishFeedArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *PublishServiceGetPublishFeedArgs) SetReq(val *GetPublishFeedRequest) {
+	p.Req = val
+}
+
+var fieldIDToName_PublishServiceGetPublishFeedArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *PublishServiceGetPublishFeedArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *PublishServiceGetPublishFeedArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_PublishServiceGetPublishFeedArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *PublishServiceGetPublishFeedArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewGetPublishFeedRequest()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *PublishServiceGetPublishFeedArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetPublishFeed_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *PublishServiceGetPublishFeedArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *PublishServiceGetPublishFeedArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("PublishServiceGetPublishFeedArgs(%+v)", *p)
+}
+
+func (p *PublishServiceGetPublishFeedArgs) DeepEqual(ano *PublishServiceGetPublishFeedArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Req) {
+		return false
+	}
+	return true
+}
+
+func (p *PublishServiceGetPublishFeedArgs) Field1DeepEqual(src *GetPublishFeedRequest) bool {
+
+	if !p.Req.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type PublishServiceGetPublishFeedResult struct {
+	Success *GetPublishFeedResponse `thrift:"success,0,optional" frugal:"0,optional,GetPublishFeedResponse" json:"success,omitempty"`
+}
+
+func NewPublishServiceGetPublishFeedResult() *PublishServiceGetPublishFeedResult {
+	return &PublishServiceGetPublishFeedResult{}
+}
+
+func (p *PublishServiceGetPublishFeedResult) InitDefault() {
+	*p = PublishServiceGetPublishFeedResult{}
+}
+
+var PublishServiceGetPublishFeedResult_Success_DEFAULT *GetPublishFeedResponse
+
+func (p *PublishServiceGetPublishFeedResult) GetSuccess() (v *GetPublishFeedResponse) {
+	if !p.IsSetSuccess() {
+		return PublishServiceGetPublishFeedResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *PublishServiceGetPublishFeedResult) SetSuccess(x interface{}) {
+	p.Success = x.(*GetPublishFeedResponse)
+}
+
+var fieldIDToName_PublishServiceGetPublishFeedResult = map[int16]string{
+	0: "success",
+}
+
+func (p *PublishServiceGetPublishFeedResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *PublishServiceGetPublishFeedResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_PublishServiceGetPublishFeedResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *PublishServiceGetPublishFeedResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewGetPublishFeedResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *PublishServiceGetPublishFeedResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetPublishFeed_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *PublishServiceGetPublishFeedResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *PublishServiceGetPublishFeedResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("PublishServiceGetPublishFeedResult(%+v)", *p)
+}
+
+func (p *PublishServiceGetPublishFeedResult) DeepEqual(ano *PublishServiceGetPublishFeedResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *PublishServiceGetPublishFeedResult) Field0DeepEqual(src *GetPublishFeedResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false
