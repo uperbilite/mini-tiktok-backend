@@ -4,12 +4,14 @@ import (
 	"github.com/cloudwego/kitex/server"
 	"log"
 	"mini-tiktok-backend/cmd/publish/dal"
+	"mini-tiktok-backend/cmd/publish/rpc"
 	publish "mini-tiktok-backend/kitex_gen/publish/publishservice"
 	"net"
 )
 
 func Init() {
 	dal.Init()
+	rpc.Init()
 }
 
 func main() {
