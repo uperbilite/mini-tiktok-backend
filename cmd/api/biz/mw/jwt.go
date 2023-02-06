@@ -52,6 +52,9 @@ func InitJWT() {
 				Username: req.Username,
 				Password: req.Password,
 			})
+			if err != nil {
+				return "", err
+			}
 			c.Set("USER_ID", userId)
 			return userId, err
 		},

@@ -9,7 +9,7 @@ enum ErrCode {
 }
 
 struct BaseResp {
-    1: required i64 status_code
+    1: required i32 status_code
     2: required string status_msg
     3: required i64 service_time
 }

@@ -28,7 +28,6 @@ func DouyinUserRegister(ctx context.Context, c *app.RequestContext) {
 		Username: req.Username,
 		Password: req.Password,
 	})
-
 	if err != nil {
 		SendResponse(c, err, utils.H{})
 		return
