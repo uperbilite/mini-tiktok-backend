@@ -42,26 +42,3 @@ func DouyinPublishList(ctx context.Context, c *app.RequestContext) {
 		"video_list": videos,
 	})
 }
-
-func Videos(videos []*publish.Video) []*api_publish.Video {
-	res := make([]*api_publish.Video, 0)
-	for _, v := range videos {
-		res = append(res, &api_publish.Video{
-			ID: v.Id,
-			Author: &api_publish.User{
-				ID:            v.Author.Id,
-				Name:          v.Author.Name,
-				FollowCount:   v.Author.FollowerCount,
-				FollowerCount: v.Author.FollowCount,
-				IsFollow:      v.Author.IsFollow,
-			},
-			PlayURL:       v.PlayUrl,
-			CoverURL:      v.CoverUrl,
-			FavoriteCount: v.FavoriteCount,
-			CommentCount:  v.CommentCount,
-			IsFavorite:    v.IsFavorite,
-			Title:         v.Title,
-		})
-	}
-	return res
-}

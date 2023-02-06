@@ -40,13 +40,3 @@ func DouyinUser(ctx context.Context, c *app.RequestContext) {
 		"user": resp,
 	})
 }
-
-func User(user *user.User) *api_user.User {
-	return &api_user.User{
-		ID:            user.Id,
-		Name:          user.Name,
-		FollowCount:   user.FollowCount,
-		FollowerCount: user.FollowCount,
-		IsFollow:      user.IsFollow,
-	}
-}
