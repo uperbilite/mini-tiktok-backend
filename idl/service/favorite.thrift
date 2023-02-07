@@ -36,5 +36,5 @@ struct FavoriteActionResponse {
 }
 
 service FavoriteService {
-    FavoriteActionRequest FavoriteAction(1: FavoriteActionRequest req)
+    FavoriteActionResponse FavoriteAction(1: FavoriteActionRequest req)
 }

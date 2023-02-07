@@ -1876,7 +1876,7 @@ func (p *FavoriteActionResponse) Field1DeepEqual(src *BaseResp) bool {
 }
 
 type FavoriteService interface {
-	FavoriteAction(ctx context.Context, req *FavoriteActionRequest) (r *FavoriteActionRequest, err error)
+	FavoriteAction(ctx context.Context, req *FavoriteActionRequest) (r *FavoriteActionResponse, err error)
 }
 
 type FavoriteServiceClient struct {
@@ -1905,7 +1905,7 @@ func (p *FavoriteServiceClient) Client_() thrift.TClient {
 	return p.c
 }
 
-func (p *FavoriteServiceClient) FavoriteAction(ctx context.Context, req *FavoriteActionRequest) (r *FavoriteActionRequest, err error) {
+func (p *FavoriteServiceClient) FavoriteAction(ctx context.Context, req *FavoriteActionRequest) (r *FavoriteActionResponse, err error) {
 	var _args FavoriteServiceFavoriteActionArgs
 	_args.Req = req
 	var _result FavoriteServiceFavoriteActionResult
@@ -1975,7 +1975,7 @@ func (p *favoriteServiceProcessorFavoriteAction) Process(ctx context.Context, se
 	iprot.ReadMessageEnd()
 	var err2 error
 	result := FavoriteServiceFavoriteActionResult{}
-	var retval *FavoriteActionRequest
+	var retval *FavoriteActionResponse
 	if retval, err2 = p.handler.FavoriteAction(ctx, args.Req); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing FavoriteAction: "+err2.Error())
 		oprot.WriteMessageBegin("FavoriteAction", thrift.EXCEPTION, seqId)
@@ -2177,7 +2177,7 @@ func (p *FavoriteServiceFavoriteActionArgs) Field1DeepEqual(src *FavoriteActionR
 }
 
 type FavoriteServiceFavoriteActionResult struct {
-	Success *FavoriteActionRequest `thrift:"success,0,optional" frugal:"0,optional,FavoriteActionRequest" json:"success,omitempty"`
+	Success *FavoriteActionResponse `thrift:"success,0,optional" frugal:"0,optional,FavoriteActionResponse" json:"success,omitempty"`
 }
 
 func NewFavoriteServiceFavoriteActionResult() *FavoriteServiceFavoriteActionResult {
@@ -2188,16 +2188,16 @@ func (p *FavoriteServiceFavoriteActionResult) InitDefault() {
 	*p = FavoriteServiceFavoriteActionResult{}
 }
 
-var FavoriteServiceFavoriteActionResult_Success_DEFAULT *FavoriteActionRequest
+var FavoriteServiceFavoriteActionResult_Success_DEFAULT *FavoriteActionResponse
 
-func (p *FavoriteServiceFavoriteActionResult) GetSuccess() (v *FavoriteActionRequest) {
+func (p *FavoriteServiceFavoriteActionResult) GetSuccess() (v *FavoriteActionResponse) {
 	if !p.IsSetSuccess() {
 		return FavoriteServiceFavoriteActionResult_Success_DEFAULT
 	}
 	return p.Success
 }
 func (p *FavoriteServiceFavoriteActionResult) SetSuccess(x interface{}) {
-	p.Success = x.(*FavoriteActionRequest)
+	p.Success = x.(*FavoriteActionResponse)
 }
 
 var fieldIDToName_FavoriteServiceFavoriteActionResult = map[int16]string{
@@ -2268,7 +2268,7 @@ ReadStructEndError:
 }
 
 func (p *FavoriteServiceFavoriteActionResult) ReadField0(iprot thrift.TProtocol) error {
-	p.Success = NewFavoriteActionRequest()
+	p.Success = NewFavoriteActionResponse()
 	if err := p.Success.Read(iprot); err != nil {
 		return err
 	}
@@ -2342,7 +2342,7 @@ func (p *FavoriteServiceFavoriteActionResult) DeepEqual(ano *FavoriteServiceFavo
 	return true
 }
 
-func (p *FavoriteServiceFavoriteActionResult) Field0DeepEqual(src *FavoriteActionRequest) bool {
+func (p *FavoriteServiceFavoriteActionResult) Field0DeepEqual(src *FavoriteActionResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false

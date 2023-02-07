@@ -1733,7 +1733,7 @@ ReadStructEndError:
 func (p *FavoriteServiceFavoriteActionResult) FastReadField0(buf []byte) (int, error) {
 	offset := 0
 
-	tmp := NewFavoriteActionRequest()
+	tmp := NewFavoriteActionResponse()
 	if l, err := tmp.FastRead(buf[offset:]); err != nil {
 		return offset, err
 	} else {
