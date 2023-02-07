@@ -27,7 +27,7 @@ func CreateVideo(ctx context.Context, video *Video) error {
 func GetVideoIdsByAuthorId(ctx context.Context, id int64) ([]int64, error) {
 	res := make([]int64, 0)
 	if err := DB.WithContext(ctx).
-		Table("videos").
+		Model(&Video{}).
 		Select("id").
 		Where("author_id = ?", id).
 		Find(&res).Error; err != nil {
@@ -40,7 +40,7 @@ func GetVideoIdsByAuthorId(ctx context.Context, id int64) ([]int64, error) {
 func GetVideoIdsFeed(ctx context.Context, latestTime int64) ([]int64, error) {
 	res := make([]int64, 0)
 	if err := DB.WithContext(ctx).
-		Table("videos").
+		Model(&Video{}).
 		Select("id").
 		Where("unix_timestamp(created_at) < ?", latestTime).
 		Limit(30).
