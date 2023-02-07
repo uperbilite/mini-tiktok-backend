@@ -34,7 +34,7 @@ func (s *CheckUserService) CheckUser(req *user.CheckUserRequest) (int64, error) 
 	}
 
 	h := md5.New()
-	if _, err := io.WriteString(h, req.Password); err != nil {
+	if _, err = io.WriteString(h, req.Password); err != nil {
 		return 0, err
 	}
 	password := fmt.Sprintf("%x", h.Sum(nil))
