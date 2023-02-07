@@ -70,3 +70,23 @@ func (s *FavoriteServiceImpl) GetFavoriteCount(ctx context.Context, req *favorit
 
 	return resp, nil
 }
+
+func (s *FavoriteServiceImpl) GetFavoriteList(ctx context.Context, req *favorite.GetFavoriteListRequest) (resp *favorite.GetFavoriteListResponse, err error) {
+	resp = new(favorite.GetFavoriteListResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	videoList, err := service.NewGetFavoriteListService(ctx).GetFavoriteList(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.VideoList = videoList
+
+	return resp, nil
+}

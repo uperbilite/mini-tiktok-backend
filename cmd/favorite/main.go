@@ -6,6 +6,7 @@ import (
 	etcd "github.com/kitex-contrib/registry-etcd"
 	"log"
 	"mini-tiktok-backend/cmd/favorite/dal"
+	"mini-tiktok-backend/cmd/favorite/rpc"
 	"mini-tiktok-backend/kitex_gen/favorite/favoriteservice"
 	"mini-tiktok-backend/pkg/consts"
 	"net"
@@ -13,6 +14,7 @@ import (
 
 func Init() {
 	dal.Init()
+	rpc.Init()
 }
 
 func main() {

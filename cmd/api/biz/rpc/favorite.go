@@ -39,3 +39,14 @@ func FavoriteAction(ctx context.Context, req *favorite.FavoriteActionRequest) er
 	}
 	return nil
 }
+
+func GetFavoriteList(ctx context.Context, req *favorite.GetFavoriteListRequest) ([]*favorite.Video, error) {
+	resp, err := favoriteClient.GetFavoriteList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+	}
+	return resp.VideoList, nil
+}

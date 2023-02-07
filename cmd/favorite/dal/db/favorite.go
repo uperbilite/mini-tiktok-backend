@@ -47,3 +47,15 @@ func QueryFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
 	}
 	return res, nil
 }
+
+func GetVideoIdsByUserId(ctx context.Context, id int64) ([]int64, error) {
+	res := make([]int64, 0)
+	if err := DB.WithContext(ctx).
+		Model(&Favorite{}).
+		Select("video_id").
+		Where("user_id = ?", id).
+		Find(&res).Error; err != nil {
+		return nil, err
+	}
+	return res, nil
+}

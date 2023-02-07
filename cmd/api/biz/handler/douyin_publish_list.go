@@ -32,7 +32,6 @@ func DouyinPublishList(ctx context.Context, c *app.RequestContext) {
 		UserId:       user.(*mw.User).UserId,
 		TargetUserId: req.UserID,
 	})
-
 	if err != nil {
 		SendResponse(c, err, utils.H{})
 		return
