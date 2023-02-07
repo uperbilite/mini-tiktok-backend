@@ -45,7 +45,18 @@ struct GetIsFavoriteResponse {
     2: required bool is_favorite // 用户未登录时返回false
 }
 
+struct GetFavoriteCountRequest {
+    1: required i64 user_id // 0表示用户未登录
+    2: required i64 video_id (vt.gt = "0")
+}
+
+struct GetFavoriteCountResponse {
+    1: required BaseResp base_resp
+    2: required i64 favorite_count // 用户未登录时返回0
+}
+
 service FavoriteService {
     FavoriteActionResponse FavoriteAction(1: FavoriteActionRequest req)
     GetIsFavoriteResponse GetIsFavorite(1: GetIsFavoriteRequest req)
+    GetFavoriteCountResponse GetFavoriteCount(1: GetFavoriteCountRequest req)
 }
