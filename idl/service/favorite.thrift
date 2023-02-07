@@ -68,5 +68,5 @@ service FavoriteService {
     FavoriteActionResponse FavoriteAction(1: FavoriteActionRequest req)
     GetIsFavoriteResponse GetIsFavorite(1: GetIsFavoriteRequest req)
     GetFavoriteCountResponse GetFavoriteCount(1: GetFavoriteCountRequest req)
-    GetFavoriteListResponse GetFavoriteList(1: GetFavoriteCountRequest req)
+    GetFavoriteListResponse GetFavoriteList(1: GetFavoriteListRequest req)
 }

@@ -150,7 +150,7 @@ func (p *kClient) GetFavoriteCount(ctx context.Context, req *favorite.GetFavorit
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetFavoriteList(ctx context.Context, req *favorite.GetFavoriteCountRequest) (r *favorite.GetFavoriteListResponse, err error) {
+func (p *kClient) GetFavoriteList(ctx context.Context, req *favorite.GetFavoriteListRequest) (r *favorite.GetFavoriteListResponse, err error) {
 	var _args favorite.FavoriteServiceGetFavoriteListArgs
 	_args.Req = req
 	var _result favorite.FavoriteServiceGetFavoriteListResult

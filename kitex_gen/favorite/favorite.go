@@ -3293,7 +3293,7 @@ type FavoriteService interface {
 
 	GetFavoriteCount(ctx context.Context, req *GetFavoriteCountRequest) (r *GetFavoriteCountResponse, err error)
 
-	GetFavoriteList(ctx context.Context, req *GetFavoriteCountRequest) (r *GetFavoriteListResponse, err error)
+	GetFavoriteList(ctx context.Context, req *GetFavoriteListRequest) (r *GetFavoriteListResponse, err error)
 }
 
 type FavoriteServiceClient struct {
@@ -3349,7 +3349,7 @@ func (p *FavoriteServiceClient) GetFavoriteCount(ctx context.Context, req *GetFa
 	}
 	return _result.GetSuccess(), nil
 }
-func (p *FavoriteServiceClient) GetFavoriteList(ctx context.Context, req *GetFavoriteCountRequest) (r *GetFavoriteListResponse, err error) {
+func (p *FavoriteServiceClient) GetFavoriteList(ctx context.Context, req *GetFavoriteListRequest) (r *GetFavoriteListResponse, err error) {
 	var _args FavoriteServiceGetFavoriteListArgs
 	_args.Req = req
 	var _result FavoriteServiceGetFavoriteListResult
@@ -4634,7 +4634,7 @@ func (p *FavoriteServiceGetFavoriteCountResult) Field0DeepEqual(src *GetFavorite
 }
 
 type FavoriteServiceGetFavoriteListArgs struct {
-	Req *GetFavoriteCountRequest `thrift:"req,1" frugal:"1,default,GetFavoriteCountRequest" json:"req"`
+	Req *GetFavoriteListRequest `thrift:"req,1" frugal:"1,default,GetFavoriteListRequest" json:"req"`
 }
 
 func NewFavoriteServiceGetFavoriteListArgs() *FavoriteServiceGetFavoriteListArgs {
@@ -4645,15 +4645,15 @@ func (p *FavoriteServiceGetFavoriteListArgs) InitDefault() {
 	*p = FavoriteServiceGetFavoriteListArgs{}
 }
 
-var FavoriteServiceGetFavoriteListArgs_Req_DEFAULT *GetFavoriteCountRequest
+var FavoriteServiceGetFavoriteListArgs_Req_DEFAULT *GetFavoriteListRequest
 
-func (p *FavoriteServiceGetFavoriteListArgs) GetReq() (v *GetFavoriteCountRequest) {
+func (p *FavoriteServiceGetFavoriteListArgs) GetReq() (v *GetFavoriteListRequest) {
 	if !p.IsSetReq() {
 		return FavoriteServiceGetFavoriteListArgs_Req_DEFAULT
 	}
 	return p.Req
 }
-func (p *FavoriteServiceGetFavoriteListArgs) SetReq(val *GetFavoriteCountRequest) {
+func (p *FavoriteServiceGetFavoriteListArgs) SetReq(val *GetFavoriteListRequest) {
 	p.Req = val
 }
 
@@ -4725,7 +4725,7 @@ ReadStructEndError:
 }
 
 func (p *FavoriteServiceGetFavoriteListArgs) ReadField1(iprot thrift.TProtocol) error {
-	p.Req = NewGetFavoriteCountRequest()
+	p.Req = NewGetFavoriteListRequest()
 	if err := p.Req.Read(iprot); err != nil {
 		return err
 	}
@@ -4797,7 +4797,7 @@ func (p *FavoriteServiceGetFavoriteListArgs) DeepEqual(ano *FavoriteServiceGetFa
 	return true
 }
 
-func (p *FavoriteServiceGetFavoriteListArgs) Field1DeepEqual(src *GetFavoriteCountRequest) bool {
+func (p *FavoriteServiceGetFavoriteListArgs) Field1DeepEqual(src *GetFavoriteListRequest) bool {
 
 	if !p.Req.DeepEqual(src) {
 		return false
