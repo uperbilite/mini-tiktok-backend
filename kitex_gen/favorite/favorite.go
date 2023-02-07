@@ -2360,8 +2360,7 @@ func (p *GetIsFavoriteResponse) Field2DeepEqual(src bool) bool {
 }
 
 type GetFavoriteCountRequest struct {
-	UserId  int64 `thrift:"user_id,1,required" frugal:"1,required,i64" json:"user_id"`
-	VideoId int64 `thrift:"video_id,2,required" frugal:"2,required,i64" json:"video_id"`
+	VideoId int64 `thrift:"video_id,1,required" frugal:"1,required,i64" json:"video_id"`
 }
 
 func NewGetFavoriteCountRequest() *GetFavoriteCountRequest {
@@ -2372,30 +2371,21 @@ func (p *GetFavoriteCountRequest) InitDefault() {
 	*p = GetFavoriteCountRequest{}
 }
 
-func (p *GetFavoriteCountRequest) GetUserId() (v int64) {
-	return p.UserId
-}
-
 func (p *GetFavoriteCountRequest) GetVideoId() (v int64) {
 	return p.VideoId
-}
-func (p *GetFavoriteCountRequest) SetUserId(val int64) {
-	p.UserId = val
 }
 func (p *GetFavoriteCountRequest) SetVideoId(val int64) {
 	p.VideoId = val
 }
 
 var fieldIDToName_GetFavoriteCountRequest = map[int16]string{
-	1: "user_id",
-	2: "video_id",
+	1: "video_id",
 }
 
 func (p *GetFavoriteCountRequest) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
-	var issetUserId bool = false
 	var issetVideoId bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
@@ -2415,17 +2405,6 @@ func (p *GetFavoriteCountRequest) Read(iprot thrift.TProtocol) (err error) {
 		case 1:
 			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
-					goto ReadFieldError
-				}
-				issetUserId = true
-			} else {
-				if err = iprot.Skip(fieldTypeId); err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 2:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 				issetVideoId = true
@@ -2448,13 +2427,8 @@ func (p *GetFavoriteCountRequest) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
-	if !issetUserId {
-		fieldId = 1
-		goto RequiredFieldNotSetError
-	}
-
 	if !issetVideoId {
-		fieldId = 2
+		fieldId = 1
 		goto RequiredFieldNotSetError
 	}
 	return nil
@@ -2479,15 +2453,6 @@ func (p *GetFavoriteCountRequest) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
-		p.UserId = v
-	}
-	return nil
-}
-
-func (p *GetFavoriteCountRequest) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
 		p.VideoId = v
 	}
 	return nil
@@ -2501,10 +2466,6 @@ func (p *GetFavoriteCountRequest) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
-			goto WriteFieldError
-		}
-		if err = p.writeField2(oprot); err != nil {
-			fieldId = 2
 			goto WriteFieldError
 		}
 
@@ -2527,24 +2488,7 @@ WriteStructEndError:
 }
 
 func (p *GetFavoriteCountRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.UserId); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
-}
-
-func (p *GetFavoriteCountRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("video_id", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("video_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.VideoId); err != nil {
@@ -2555,9 +2499,9 @@ func (p *GetFavoriteCountRequest) writeField2(oprot thrift.TProtocol) (err error
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
 func (p *GetFavoriteCountRequest) String() string {
@@ -2573,23 +2517,13 @@ func (p *GetFavoriteCountRequest) DeepEqual(ano *GetFavoriteCountRequest) bool {
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.UserId) {
-		return false
-	}
-	if !p.Field2DeepEqual(ano.VideoId) {
+	if !p.Field1DeepEqual(ano.VideoId) {
 		return false
 	}
 	return true
 }
 
 func (p *GetFavoriteCountRequest) Field1DeepEqual(src int64) bool {
-
-	if p.UserId != src {
-		return false
-	}
-	return true
-}
-func (p *GetFavoriteCountRequest) Field2DeepEqual(src int64) bool {
 
 	if p.VideoId != src {
 		return false
