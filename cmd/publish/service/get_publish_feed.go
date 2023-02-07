@@ -37,5 +37,5 @@ func (s *GetPublishFeedService) GetPublishFeed(req *publish.GetPublishFeedReques
 		return nil, 0, err
 	}
 
-	return pack.Videos(videos), time.Now().UnixMilli(), nil // TODO: get next_time from latest video create time
+	return pack.Videos(videos), time.Now().UnixMilli(), nil // TODO: get next_time from the latest video create time
 }

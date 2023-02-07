@@ -54,8 +54,19 @@ struct GetFavoriteCountResponse {
     2: required i64 favorite_count
 }
 
+struct GetFavoriteListRequest {
+    1: required i64 user_id (vt.gt = "0")
+    2: required i64 target_user_id (vt.gt = "0")
+}
+
+struct GetFavoriteListResponse {
+    1: required BaseResp base_resp
+    2: required list<Video> video_list
+}
+
 service FavoriteService {
     FavoriteActionResponse FavoriteAction(1: FavoriteActionRequest req)
     GetIsFavoriteResponse GetIsFavorite(1: GetIsFavoriteRequest req)
     GetFavoriteCountResponse GetFavoriteCount(1: GetFavoriteCountRequest req)
+    GetFavoriteListResponse GetFavoriteList(1: GetFavoriteCountRequest req)
 }
