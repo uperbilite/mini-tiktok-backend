@@ -18,7 +18,7 @@ func NewGetPublishListService(ctx context.Context) *GetPublishListService {
 }
 
 func (s *GetPublishListService) GetPublishList(req *publish.GetPublishListRequest) ([]*publish.Video, error) {
-	vs, err := db.MGetVideo(s.ctx, req.TargetUserId)
+	vs, err := db.GetVideosByAuthorId(s.ctx, req.TargetUserId)
 	if err != nil {
 		return nil, err
 	}

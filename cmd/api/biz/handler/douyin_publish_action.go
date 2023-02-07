@@ -17,9 +17,9 @@ import (
 
 // Paras 文件类型的参数接收单独定义
 type Paras struct {
-	data  *multipart.FileHeader `form:"data"`
-	token string                `form:"token"`
-	title string                `form:"title"`
+	Data  *multipart.FileHeader `form:"data"`
+	Token string                `form:"token"`
+	Title string                `form:"title"`
 }
 
 // DouyinPublishAction .
@@ -33,17 +33,17 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	file, _ := req.data.Open()
+	file, _ := req.Data.Open()
 	defer file.Close()
 	fileContent, _ := ReadFileContent(file)
 
-	claims, _ := GetClaimsFromTokenString(req.token)
+	claims, _ := GetClaimsFromTokenString(req.Token)
 	// TODO: register jwt middleware
 
 	err = rpc.PublishVideo(ctx, &publish.PublishVideoRequest{
 		UserId: int64(claims[pkg_consts.UserIdKey].(float64)),
 		Data:   fileContent,
-		Title:  req.title,
+		Title:  req.Title,
 	})
 
 	if err != nil {

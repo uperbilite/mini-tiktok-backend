@@ -25,8 +25,19 @@ func CreateVideo(ctx context.Context, video *Video) error {
 	return DB.WithContext(ctx).Create(video).Error
 }
 
-// MGetVideo Get all videos by same author.
-func MGetVideo(ctx context.Context, id int64) ([]*Video, error) {
+// MGetVideos Multiple get list of videos.
+func MGetVideos(ctx context.Context, videoIds []int64) ([]*Video, error) {
+	res := make([]*Video, 0)
+	if err := DB.WithContext(ctx).
+		Where("id in ?", videoIds).
+		Find(&res).Error; err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+// GetVideosByAuthorId Get all videos by same author.
+func GetVideosByAuthorId(ctx context.Context, id int64) ([]*Video, error) {
 	res := make([]*Video, 0)
 	if err := DB.WithContext(ctx).
 		Where("author_id = ?", id).
