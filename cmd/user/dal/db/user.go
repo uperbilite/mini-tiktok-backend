@@ -24,7 +24,9 @@ func CreateUser(ctx context.Context, users []*User) error {
 // QueryUserByName query list of user info
 func QueryUserByName(ctx context.Context, userName string) ([]*User, error) {
 	res := make([]*User, 0)
-	if err := DB.WithContext(ctx).Where("username = ?", userName).Find(&res).Error; err != nil {
+	if err := DB.WithContext(ctx).
+		Where("username = ?", userName).
+		Find(&res).Error; err != nil {
 		return nil, err
 	}
 	return res, nil
@@ -32,7 +34,9 @@ func QueryUserByName(ctx context.Context, userName string) ([]*User, error) {
 
 func QueryUserById(ctx context.Context, id int64) ([]*User, error) {
 	res := make([]*User, 0)
-	if err := DB.WithContext(ctx).Where("id = ?", id).Find(&res).Error; err != nil {
+	if err := DB.WithContext(ctx).
+		Where("id = ?", id).
+		Find(&res).Error; err != nil {
 		return nil, err
 	}
 	return res, nil

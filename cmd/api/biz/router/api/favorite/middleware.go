@@ -31,7 +31,10 @@ func _actionMw() []app.HandlerFunc {
 
 func _douyinfavorite_ctionMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _listMw() []app.HandlerFunc {

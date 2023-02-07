@@ -37,7 +37,7 @@ CREATE TABLE `relations`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Relation table';
 
-CREATE TABLE `favourites`
+CREATE TABLE `favorites`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `user_id`       bigint unsigned NOT NULL COMMENT 'User id',

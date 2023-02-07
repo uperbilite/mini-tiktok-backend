@@ -4,24 +4,39 @@ package handler
 
 import (
 	"context"
+	"github.com/cloudwego/hertz/pkg/common/utils"
+	api_favorite "mini-tiktok-backend/cmd/api/biz/model/api/favorite"
+	"mini-tiktok-backend/cmd/api/biz/mw"
+	"mini-tiktok-backend/cmd/api/biz/rpc"
+	"mini-tiktok-backend/kitex_gen/favorite"
+	pkg_consts "mini-tiktok-backend/pkg/consts"
+	"mini-tiktok-backend/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	favorite "mini-tiktok-backend/cmd/api/biz/model/api/favorite"
 )
 
 // DouyinFavoriteAction .
 // @router /douyin/favorite/action/ [POST]
 func DouyinFavoriteAction(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req favorite.DouyinFavoriteActionRequest
+	var req api_favorite.DouyinFavoriteActionRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp := new(favorite.DouyinFavoriteActionResponse)
+	user, _ := c.Get(pkg_consts.IdentityKey)
 
-	c.JSON(consts.StatusOK, resp)
+	err = rpc.FavoriteAction(ctx, &favorite.FavoriteActionRequest{
+		VideoId:    req.VideoID,
+		UserId:     user.(*mw.User).UserId,
+		ActionType: req.ActionType,
+	})
+
+	if err != nil {
+		SendResponse(c, err, utils.H{})
+	}
+
+	SendResponse(c, errno.Success, utils.H{})
 }

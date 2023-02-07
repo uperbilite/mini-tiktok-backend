@@ -3,6 +3,7 @@ package consts
 const (
 	UserTableName      = "users"
 	VideoTableName     = "videos"
+	FavoriteTableName  = "favorites"
 	SecretKey          = "secret key"
 	IdentityKey        = "id"
 	UserIdKey          = "user_id"
