@@ -29,20 +29,29 @@ func (s *GetPublishListService) GetPublishList(req *publish.GetPublishListReques
 	// TODO: get user info from video author id, using UserId and TargetUserId
 	for _, v := range vs {
 		video := pack.Video(v)
+
 		resp, _ := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
 			UserId:       req.UserId,
 			TargetUserId: req.TargetUserId,
 		})
 		// TODO: err handle
 		video.Author = pack.User(resp)
-		// TODO: get favourite status of each video
+
+		// get is_favorite
 		isFavorite, _ := rpc.GetIsFavorite(s.ctx, &favorite.GetIsFavoriteRequest{
 			UserId:  req.UserId,
 			VideoId: int64(v.ID),
 		})
 		// TODO: err handle
 		video.IsFavorite = isFavorite
-		// TODO: get favorite count
+
+		// get favorite count
+		favoriteCount, _ := rpc.GetFavoriteCount(s.ctx, &favorite.GetFavoriteCountRequest{
+			VideoId: int64(v.ID),
+		})
+		// TODO: err handle
+		video.FavoriteCount = favoriteCount
+
 		videos = append(videos, video)
 	}
 

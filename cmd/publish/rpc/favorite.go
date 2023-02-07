@@ -28,3 +28,14 @@ func GetIsFavorite(ctx context.Context, req *favorite.GetIsFavoriteRequest) (boo
 	}
 	return resp.IsFavorite, nil
 }
+
+func GetFavoriteCount(ctx context.Context, req *favorite.GetFavoriteCountRequest) (int64, error) {
+	resp, err := favoriteClient.GetFavoriteCount(ctx, req)
+	if err != nil {
+		return 0, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return 0, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+	}
+	return resp.FavoriteCount, nil
+}
