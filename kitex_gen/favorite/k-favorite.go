@@ -1532,7 +1532,7 @@ func (p *FavoriteActionResponse) field1Length() int {
 	return l
 }
 
-func (p *GetFavoriteRequest) FastRead(buf []byte) (int, error) {
+func (p *GetIsFavoriteRequest) FastRead(buf []byte) (int, error) {
 	var err error
 	var offset int
 	var l int
@@ -1621,7 +1621,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetFavoriteRequest[fieldId]), err)
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetIsFavoriteRequest[fieldId]), err)
 SkipFieldError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 ReadFieldEndError:
@@ -1629,10 +1629,10 @@ ReadFieldEndError:
 ReadStructEndError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 RequiredFieldNotSetError:
-	return offset, thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetFavoriteRequest[fieldId]))
+	return offset, thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetIsFavoriteRequest[fieldId]))
 }
 
-func (p *GetFavoriteRequest) FastReadField1(buf []byte) (int, error) {
+func (p *GetIsFavoriteRequest) FastReadField1(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
@@ -1646,7 +1646,7 @@ func (p *GetFavoriteRequest) FastReadField1(buf []byte) (int, error) {
 	return offset, nil
 }
 
-func (p *GetFavoriteRequest) FastReadField2(buf []byte) (int, error) {
+func (p *GetIsFavoriteRequest) FastReadField2(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
@@ -1661,13 +1661,13 @@ func (p *GetFavoriteRequest) FastReadField2(buf []byte) (int, error) {
 }
 
 // for compatibility
-func (p *GetFavoriteRequest) FastWrite(buf []byte) int {
+func (p *GetIsFavoriteRequest) FastWrite(buf []byte) int {
 	return 0
 }
 
-func (p *GetFavoriteRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *GetIsFavoriteRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetFavoriteRequest")
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetIsFavoriteRequest")
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
@@ -1677,9 +1677,9 @@ func (p *GetFavoriteRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.Bi
 	return offset
 }
 
-func (p *GetFavoriteRequest) BLength() int {
+func (p *GetIsFavoriteRequest) BLength() int {
 	l := 0
-	l += bthrift.Binary.StructBeginLength("GetFavoriteRequest")
+	l += bthrift.Binary.StructBeginLength("GetIsFavoriteRequest")
 	if p != nil {
 		l += p.field1Length()
 		l += p.field2Length()
@@ -1689,7 +1689,7 @@ func (p *GetFavoriteRequest) BLength() int {
 	return l
 }
 
-func (p *GetFavoriteRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *GetIsFavoriteRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "user_id", thrift.I64, 1)
 	offset += bthrift.Binary.WriteI64(buf[offset:], p.UserId)
@@ -1698,7 +1698,7 @@ func (p *GetFavoriteRequest) fastWriteField1(buf []byte, binaryWriter bthrift.Bi
 	return offset
 }
 
-func (p *GetFavoriteRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *GetIsFavoriteRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "video_id", thrift.I64, 2)
 	offset += bthrift.Binary.WriteI64(buf[offset:], p.VideoId)
@@ -1707,7 +1707,7 @@ func (p *GetFavoriteRequest) fastWriteField2(buf []byte, binaryWriter bthrift.Bi
 	return offset
 }
 
-func (p *GetFavoriteRequest) field1Length() int {
+func (p *GetIsFavoriteRequest) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 1)
 	l += bthrift.Binary.I64Length(p.UserId)
@@ -1716,7 +1716,7 @@ func (p *GetFavoriteRequest) field1Length() int {
 	return l
 }
 
-func (p *GetFavoriteRequest) field2Length() int {
+func (p *GetIsFavoriteRequest) field2Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("video_id", thrift.I64, 2)
 	l += bthrift.Binary.I64Length(p.VideoId)
@@ -1725,7 +1725,7 @@ func (p *GetFavoriteRequest) field2Length() int {
 	return l
 }
 
-func (p *GetFavoriteResponse) FastRead(buf []byte) (int, error) {
+func (p *GetIsFavoriteResponse) FastRead(buf []byte) (int, error) {
 	var err error
 	var offset int
 	var l int
@@ -1814,7 +1814,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetFavoriteResponse[fieldId]), err)
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetIsFavoriteResponse[fieldId]), err)
 SkipFieldError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 ReadFieldEndError:
@@ -1822,10 +1822,10 @@ ReadFieldEndError:
 ReadStructEndError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 RequiredFieldNotSetError:
-	return offset, thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetFavoriteResponse[fieldId]))
+	return offset, thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetIsFavoriteResponse[fieldId]))
 }
 
-func (p *GetFavoriteResponse) FastReadField1(buf []byte) (int, error) {
+func (p *GetIsFavoriteResponse) FastReadField1(buf []byte) (int, error) {
 	offset := 0
 
 	tmp := NewBaseResp()
@@ -1838,7 +1838,7 @@ func (p *GetFavoriteResponse) FastReadField1(buf []byte) (int, error) {
 	return offset, nil
 }
 
-func (p *GetFavoriteResponse) FastReadField2(buf []byte) (int, error) {
+func (p *GetIsFavoriteResponse) FastReadField2(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadBool(buf[offset:]); err != nil {
@@ -1853,13 +1853,13 @@ func (p *GetFavoriteResponse) FastReadField2(buf []byte) (int, error) {
 }
 
 // for compatibility
-func (p *GetFavoriteResponse) FastWrite(buf []byte) int {
+func (p *GetIsFavoriteResponse) FastWrite(buf []byte) int {
 	return 0
 }
 
-func (p *GetFavoriteResponse) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *GetIsFavoriteResponse) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetFavoriteResponse")
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetIsFavoriteResponse")
 	if p != nil {
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
@@ -1869,9 +1869,9 @@ func (p *GetFavoriteResponse) FastWriteNocopy(buf []byte, binaryWriter bthrift.B
 	return offset
 }
 
-func (p *GetFavoriteResponse) BLength() int {
+func (p *GetIsFavoriteResponse) BLength() int {
 	l := 0
-	l += bthrift.Binary.StructBeginLength("GetFavoriteResponse")
+	l += bthrift.Binary.StructBeginLength("GetIsFavoriteResponse")
 	if p != nil {
 		l += p.field1Length()
 		l += p.field2Length()
@@ -1881,7 +1881,7 @@ func (p *GetFavoriteResponse) BLength() int {
 	return l
 }
 
-func (p *GetFavoriteResponse) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *GetIsFavoriteResponse) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "base_resp", thrift.STRUCT, 1)
 	offset += p.BaseResp.FastWriteNocopy(buf[offset:], binaryWriter)
@@ -1889,7 +1889,7 @@ func (p *GetFavoriteResponse) fastWriteField1(buf []byte, binaryWriter bthrift.B
 	return offset
 }
 
-func (p *GetFavoriteResponse) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *GetIsFavoriteResponse) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "is_favorite", thrift.BOOL, 2)
 	offset += bthrift.Binary.WriteBool(buf[offset:], p.IsFavorite)
@@ -1898,7 +1898,7 @@ func (p *GetFavoriteResponse) fastWriteField2(buf []byte, binaryWriter bthrift.B
 	return offset
 }
 
-func (p *GetFavoriteResponse) field1Length() int {
+func (p *GetIsFavoriteResponse) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("base_resp", thrift.STRUCT, 1)
 	l += p.BaseResp.BLength()
@@ -1906,7 +1906,7 @@ func (p *GetFavoriteResponse) field1Length() int {
 	return l
 }
 
-func (p *GetFavoriteResponse) field2Length() int {
+func (p *GetIsFavoriteResponse) field2Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("is_favorite", thrift.BOOL, 2)
 	l += bthrift.Binary.BoolLength(p.IsFavorite)
@@ -2173,7 +2173,7 @@ func (p *FavoriteServiceFavoriteActionResult) field0Length() int {
 	return l
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) FastRead(buf []byte) (int, error) {
+func (p *FavoriteServiceGetIsFavoriteArgs) FastRead(buf []byte) (int, error) {
 	var err error
 	var offset int
 	var l int
@@ -2235,7 +2235,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetFavoriteArgs[fieldId]), err)
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetIsFavoriteArgs[fieldId]), err)
 SkipFieldError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 ReadFieldEndError:
@@ -2244,10 +2244,10 @@ ReadStructEndError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) FastReadField1(buf []byte) (int, error) {
+func (p *FavoriteServiceGetIsFavoriteArgs) FastReadField1(buf []byte) (int, error) {
 	offset := 0
 
-	tmp := NewGetFavoriteRequest()
+	tmp := NewGetIsFavoriteRequest()
 	if l, err := tmp.FastRead(buf[offset:]); err != nil {
 		return offset, err
 	} else {
@@ -2258,13 +2258,13 @@ func (p *FavoriteServiceGetFavoriteArgs) FastReadField1(buf []byte) (int, error)
 }
 
 // for compatibility
-func (p *FavoriteServiceGetFavoriteArgs) FastWrite(buf []byte) int {
+func (p *FavoriteServiceGetIsFavoriteArgs) FastWrite(buf []byte) int {
 	return 0
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *FavoriteServiceGetIsFavoriteArgs) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetFavorite_args")
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetIsFavorite_args")
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 	}
@@ -2273,9 +2273,9 @@ func (p *FavoriteServiceGetFavoriteArgs) FastWriteNocopy(buf []byte, binaryWrite
 	return offset
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) BLength() int {
+func (p *FavoriteServiceGetIsFavoriteArgs) BLength() int {
 	l := 0
-	l += bthrift.Binary.StructBeginLength("GetFavorite_args")
+	l += bthrift.Binary.StructBeginLength("GetIsFavorite_args")
 	if p != nil {
 		l += p.field1Length()
 	}
@@ -2284,7 +2284,7 @@ func (p *FavoriteServiceGetFavoriteArgs) BLength() int {
 	return l
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *FavoriteServiceGetIsFavoriteArgs) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "req", thrift.STRUCT, 1)
 	offset += p.Req.FastWriteNocopy(buf[offset:], binaryWriter)
@@ -2292,7 +2292,7 @@ func (p *FavoriteServiceGetFavoriteArgs) fastWriteField1(buf []byte, binaryWrite
 	return offset
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) field1Length() int {
+func (p *FavoriteServiceGetIsFavoriteArgs) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("req", thrift.STRUCT, 1)
 	l += p.Req.BLength()
@@ -2300,7 +2300,7 @@ func (p *FavoriteServiceGetFavoriteArgs) field1Length() int {
 	return l
 }
 
-func (p *FavoriteServiceGetFavoriteResult) FastRead(buf []byte) (int, error) {
+func (p *FavoriteServiceGetIsFavoriteResult) FastRead(buf []byte) (int, error) {
 	var err error
 	var offset int
 	var l int
@@ -2362,7 +2362,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetFavoriteResult[fieldId]), err)
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetIsFavoriteResult[fieldId]), err)
 SkipFieldError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 ReadFieldEndError:
@@ -2371,10 +2371,10 @@ ReadStructEndError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteResult) FastReadField0(buf []byte) (int, error) {
+func (p *FavoriteServiceGetIsFavoriteResult) FastReadField0(buf []byte) (int, error) {
 	offset := 0
 
-	tmp := NewGetFavoriteResponse()
+	tmp := NewGetIsFavoriteResponse()
 	if l, err := tmp.FastRead(buf[offset:]); err != nil {
 		return offset, err
 	} else {
@@ -2385,13 +2385,13 @@ func (p *FavoriteServiceGetFavoriteResult) FastReadField0(buf []byte) (int, erro
 }
 
 // for compatibility
-func (p *FavoriteServiceGetFavoriteResult) FastWrite(buf []byte) int {
+func (p *FavoriteServiceGetIsFavoriteResult) FastWrite(buf []byte) int {
 	return 0
 }
 
-func (p *FavoriteServiceGetFavoriteResult) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *FavoriteServiceGetIsFavoriteResult) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetFavorite_result")
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetIsFavorite_result")
 	if p != nil {
 		offset += p.fastWriteField0(buf[offset:], binaryWriter)
 	}
@@ -2400,9 +2400,9 @@ func (p *FavoriteServiceGetFavoriteResult) FastWriteNocopy(buf []byte, binaryWri
 	return offset
 }
 
-func (p *FavoriteServiceGetFavoriteResult) BLength() int {
+func (p *FavoriteServiceGetIsFavoriteResult) BLength() int {
 	l := 0
-	l += bthrift.Binary.StructBeginLength("GetFavorite_result")
+	l += bthrift.Binary.StructBeginLength("GetIsFavorite_result")
 	if p != nil {
 		l += p.field0Length()
 	}
@@ -2411,7 +2411,7 @@ func (p *FavoriteServiceGetFavoriteResult) BLength() int {
 	return l
 }
 
-func (p *FavoriteServiceGetFavoriteResult) fastWriteField0(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *FavoriteServiceGetIsFavoriteResult) fastWriteField0(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	if p.IsSetSuccess() {
 		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "success", thrift.STRUCT, 0)
@@ -2421,7 +2421,7 @@ func (p *FavoriteServiceGetFavoriteResult) fastWriteField0(buf []byte, binaryWri
 	return offset
 }
 
-func (p *FavoriteServiceGetFavoriteResult) field0Length() int {
+func (p *FavoriteServiceGetIsFavoriteResult) field0Length() int {
 	l := 0
 	if p.IsSetSuccess() {
 		l += bthrift.Binary.FieldBeginLength("success", thrift.STRUCT, 0)
@@ -2439,10 +2439,10 @@ func (p *FavoriteServiceFavoriteActionResult) GetResult() interface{} {
 	return p.Success
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) GetFirstArgument() interface{} {
+func (p *FavoriteServiceGetIsFavoriteArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-func (p *FavoriteServiceGetFavoriteResult) GetResult() interface{} {
+func (p *FavoriteServiceGetIsFavoriteResult) GetResult() interface{} {
 	return p.Success
 }

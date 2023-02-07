@@ -35,17 +35,17 @@ struct FavoriteActionResponse {
     1: required BaseResp base_resp
 }
 
-struct GetFavoriteRequest {
+struct GetIsFavoriteRequest {
     1: required i64 user_id // 0表示用户未登录
     2: required i64 video_id (vt.gt = "0")
 }
 
-struct GetFavoriteResponse {
+struct GetIsFavoriteResponse {
     1: required BaseResp base_resp
     2: required bool is_favorite // 用户未登录时返回false
 }
 
 service FavoriteService {
     FavoriteActionResponse FavoriteAction(1: FavoriteActionRequest req)
-    GetFavoriteResponse GetFavorite(1: GetFavoriteRequest req)
+    GetIsFavoriteResponse GetIsFavorite(1: GetIsFavoriteRequest req)
 }

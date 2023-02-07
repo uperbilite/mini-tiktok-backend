@@ -63,13 +63,13 @@ func (p *FavoriteActionResponse) IsValid() error {
 	}
 	return nil
 }
-func (p *GetFavoriteRequest) IsValid() error {
+func (p *GetIsFavoriteRequest) IsValid() error {
 	if p.VideoId <= int64(0) {
 		return fmt.Errorf("field VideoId gt rule failed, current value: %v", p.VideoId)
 	}
 	return nil
 }
-func (p *GetFavoriteResponse) IsValid() error {
+func (p *GetIsFavoriteResponse) IsValid() error {
 	if p.BaseResp != nil {
 		if err := p.BaseResp.IsValid(); err != nil {
 			return fmt.Errorf("filed BaseResp not valid, %w", err)

@@ -1875,39 +1875,39 @@ func (p *FavoriteActionResponse) Field1DeepEqual(src *BaseResp) bool {
 	return true
 }
 
-type GetFavoriteRequest struct {
+type GetIsFavoriteRequest struct {
 	UserId  int64 `thrift:"user_id,1,required" frugal:"1,required,i64" json:"user_id"`
 	VideoId int64 `thrift:"video_id,2,required" frugal:"2,required,i64" json:"video_id"`
 }
 
-func NewGetFavoriteRequest() *GetFavoriteRequest {
-	return &GetFavoriteRequest{}
+func NewGetIsFavoriteRequest() *GetIsFavoriteRequest {
+	return &GetIsFavoriteRequest{}
 }
 
-func (p *GetFavoriteRequest) InitDefault() {
-	*p = GetFavoriteRequest{}
+func (p *GetIsFavoriteRequest) InitDefault() {
+	*p = GetIsFavoriteRequest{}
 }
 
-func (p *GetFavoriteRequest) GetUserId() (v int64) {
+func (p *GetIsFavoriteRequest) GetUserId() (v int64) {
 	return p.UserId
 }
 
-func (p *GetFavoriteRequest) GetVideoId() (v int64) {
+func (p *GetIsFavoriteRequest) GetVideoId() (v int64) {
 	return p.VideoId
 }
-func (p *GetFavoriteRequest) SetUserId(val int64) {
+func (p *GetIsFavoriteRequest) SetUserId(val int64) {
 	p.UserId = val
 }
-func (p *GetFavoriteRequest) SetVideoId(val int64) {
+func (p *GetIsFavoriteRequest) SetVideoId(val int64) {
 	p.VideoId = val
 }
 
-var fieldIDToName_GetFavoriteRequest = map[int16]string{
+var fieldIDToName_GetIsFavoriteRequest = map[int16]string{
 	1: "user_id",
 	2: "video_id",
 }
 
-func (p *GetFavoriteRequest) Read(iprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteRequest) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -1979,7 +1979,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetFavoriteRequest[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetIsFavoriteRequest[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -1988,10 +1988,10 @@ ReadFieldEndError:
 ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 RequiredFieldNotSetError:
-	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetFavoriteRequest[fieldId]))
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetIsFavoriteRequest[fieldId]))
 }
 
-func (p *GetFavoriteRequest) ReadField1(iprot thrift.TProtocol) error {
+func (p *GetIsFavoriteRequest) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -2000,7 +2000,7 @@ func (p *GetFavoriteRequest) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *GetFavoriteRequest) ReadField2(iprot thrift.TProtocol) error {
+func (p *GetIsFavoriteRequest) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -2009,9 +2009,9 @@ func (p *GetFavoriteRequest) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *GetFavoriteRequest) Write(oprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteRequest) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("GetFavoriteRequest"); err != nil {
+	if err = oprot.WriteStructBegin("GetIsFavoriteRequest"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -2042,7 +2042,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *GetFavoriteRequest) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteRequest) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -2059,7 +2059,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *GetFavoriteRequest) writeField2(oprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteRequest) writeField2(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("video_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -2076,14 +2076,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
-func (p *GetFavoriteRequest) String() string {
+func (p *GetIsFavoriteRequest) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("GetFavoriteRequest(%+v)", *p)
+	return fmt.Sprintf("GetIsFavoriteRequest(%+v)", *p)
 }
 
-func (p *GetFavoriteRequest) DeepEqual(ano *GetFavoriteRequest) bool {
+func (p *GetIsFavoriteRequest) DeepEqual(ano *GetIsFavoriteRequest) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -2098,14 +2098,14 @@ func (p *GetFavoriteRequest) DeepEqual(ano *GetFavoriteRequest) bool {
 	return true
 }
 
-func (p *GetFavoriteRequest) Field1DeepEqual(src int64) bool {
+func (p *GetIsFavoriteRequest) Field1DeepEqual(src int64) bool {
 
 	if p.UserId != src {
 		return false
 	}
 	return true
 }
-func (p *GetFavoriteRequest) Field2DeepEqual(src int64) bool {
+func (p *GetIsFavoriteRequest) Field2DeepEqual(src int64) bool {
 
 	if p.VideoId != src {
 		return false
@@ -2113,48 +2113,48 @@ func (p *GetFavoriteRequest) Field2DeepEqual(src int64) bool {
 	return true
 }
 
-type GetFavoriteResponse struct {
+type GetIsFavoriteResponse struct {
 	BaseResp   *BaseResp `thrift:"base_resp,1,required" frugal:"1,required,BaseResp" json:"base_resp"`
 	IsFavorite bool      `thrift:"is_favorite,2,required" frugal:"2,required,bool" json:"is_favorite"`
 }
 
-func NewGetFavoriteResponse() *GetFavoriteResponse {
-	return &GetFavoriteResponse{}
+func NewGetIsFavoriteResponse() *GetIsFavoriteResponse {
+	return &GetIsFavoriteResponse{}
 }
 
-func (p *GetFavoriteResponse) InitDefault() {
-	*p = GetFavoriteResponse{}
+func (p *GetIsFavoriteResponse) InitDefault() {
+	*p = GetIsFavoriteResponse{}
 }
 
-var GetFavoriteResponse_BaseResp_DEFAULT *BaseResp
+var GetIsFavoriteResponse_BaseResp_DEFAULT *BaseResp
 
-func (p *GetFavoriteResponse) GetBaseResp() (v *BaseResp) {
+func (p *GetIsFavoriteResponse) GetBaseResp() (v *BaseResp) {
 	if !p.IsSetBaseResp() {
-		return GetFavoriteResponse_BaseResp_DEFAULT
+		return GetIsFavoriteResponse_BaseResp_DEFAULT
 	}
 	return p.BaseResp
 }
 
-func (p *GetFavoriteResponse) GetIsFavorite() (v bool) {
+func (p *GetIsFavoriteResponse) GetIsFavorite() (v bool) {
 	return p.IsFavorite
 }
-func (p *GetFavoriteResponse) SetBaseResp(val *BaseResp) {
+func (p *GetIsFavoriteResponse) SetBaseResp(val *BaseResp) {
 	p.BaseResp = val
 }
-func (p *GetFavoriteResponse) SetIsFavorite(val bool) {
+func (p *GetIsFavoriteResponse) SetIsFavorite(val bool) {
 	p.IsFavorite = val
 }
 
-var fieldIDToName_GetFavoriteResponse = map[int16]string{
+var fieldIDToName_GetIsFavoriteResponse = map[int16]string{
 	1: "base_resp",
 	2: "is_favorite",
 }
 
-func (p *GetFavoriteResponse) IsSetBaseResp() bool {
+func (p *GetIsFavoriteResponse) IsSetBaseResp() bool {
 	return p.BaseResp != nil
 }
 
-func (p *GetFavoriteResponse) Read(iprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteResponse) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -2226,7 +2226,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetFavoriteResponse[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetIsFavoriteResponse[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -2235,10 +2235,10 @@ ReadFieldEndError:
 ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 RequiredFieldNotSetError:
-	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetFavoriteResponse[fieldId]))
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_GetIsFavoriteResponse[fieldId]))
 }
 
-func (p *GetFavoriteResponse) ReadField1(iprot thrift.TProtocol) error {
+func (p *GetIsFavoriteResponse) ReadField1(iprot thrift.TProtocol) error {
 	p.BaseResp = NewBaseResp()
 	if err := p.BaseResp.Read(iprot); err != nil {
 		return err
@@ -2246,7 +2246,7 @@ func (p *GetFavoriteResponse) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *GetFavoriteResponse) ReadField2(iprot thrift.TProtocol) error {
+func (p *GetIsFavoriteResponse) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadBool(); err != nil {
 		return err
 	} else {
@@ -2255,9 +2255,9 @@ func (p *GetFavoriteResponse) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *GetFavoriteResponse) Write(oprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteResponse) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("GetFavoriteResponse"); err != nil {
+	if err = oprot.WriteStructBegin("GetIsFavoriteResponse"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -2288,7 +2288,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *GetFavoriteResponse) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteResponse) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("base_resp", thrift.STRUCT, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -2305,7 +2305,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *GetFavoriteResponse) writeField2(oprot thrift.TProtocol) (err error) {
+func (p *GetIsFavoriteResponse) writeField2(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("is_favorite", thrift.BOOL, 2); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -2322,14 +2322,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
-func (p *GetFavoriteResponse) String() string {
+func (p *GetIsFavoriteResponse) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("GetFavoriteResponse(%+v)", *p)
+	return fmt.Sprintf("GetIsFavoriteResponse(%+v)", *p)
 }
 
-func (p *GetFavoriteResponse) DeepEqual(ano *GetFavoriteResponse) bool {
+func (p *GetIsFavoriteResponse) DeepEqual(ano *GetIsFavoriteResponse) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -2344,14 +2344,14 @@ func (p *GetFavoriteResponse) DeepEqual(ano *GetFavoriteResponse) bool {
 	return true
 }
 
-func (p *GetFavoriteResponse) Field1DeepEqual(src *BaseResp) bool {
+func (p *GetIsFavoriteResponse) Field1DeepEqual(src *BaseResp) bool {
 
 	if !p.BaseResp.DeepEqual(src) {
 		return false
 	}
 	return true
 }
-func (p *GetFavoriteResponse) Field2DeepEqual(src bool) bool {
+func (p *GetIsFavoriteResponse) Field2DeepEqual(src bool) bool {
 
 	if p.IsFavorite != src {
 		return false
@@ -2362,7 +2362,7 @@ func (p *GetFavoriteResponse) Field2DeepEqual(src bool) bool {
 type FavoriteService interface {
 	FavoriteAction(ctx context.Context, req *FavoriteActionRequest) (r *FavoriteActionResponse, err error)
 
-	GetFavorite(ctx context.Context, req *GetFavoriteRequest) (r *GetFavoriteResponse, err error)
+	GetIsFavorite(ctx context.Context, req *GetIsFavoriteRequest) (r *GetIsFavoriteResponse, err error)
 }
 
 type FavoriteServiceClient struct {
@@ -2400,11 +2400,11 @@ func (p *FavoriteServiceClient) FavoriteAction(ctx context.Context, req *Favorit
 	}
 	return _result.GetSuccess(), nil
 }
-func (p *FavoriteServiceClient) GetFavorite(ctx context.Context, req *GetFavoriteRequest) (r *GetFavoriteResponse, err error) {
-	var _args FavoriteServiceGetFavoriteArgs
+func (p *FavoriteServiceClient) GetIsFavorite(ctx context.Context, req *GetIsFavoriteRequest) (r *GetIsFavoriteResponse, err error) {
+	var _args FavoriteServiceGetIsFavoriteArgs
 	_args.Req = req
-	var _result FavoriteServiceGetFavoriteResult
-	if err = p.Client_().Call(ctx, "GetFavorite", &_args, &_result); err != nil {
+	var _result FavoriteServiceGetIsFavoriteResult
+	if err = p.Client_().Call(ctx, "GetIsFavorite", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -2431,7 +2431,7 @@ func (p *FavoriteServiceProcessor) ProcessorMap() map[string]thrift.TProcessorFu
 func NewFavoriteServiceProcessor(handler FavoriteService) *FavoriteServiceProcessor {
 	self := &FavoriteServiceProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
 	self.AddToProcessorMap("FavoriteAction", &favoriteServiceProcessorFavoriteAction{handler: handler})
-	self.AddToProcessorMap("GetFavorite", &favoriteServiceProcessorGetFavorite{handler: handler})
+	self.AddToProcessorMap("GetIsFavorite", &favoriteServiceProcessorGetIsFavorite{handler: handler})
 	return self
 }
 func (p *FavoriteServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -2500,16 +2500,16 @@ func (p *favoriteServiceProcessorFavoriteAction) Process(ctx context.Context, se
 	return true, err
 }
 
-type favoriteServiceProcessorGetFavorite struct {
+type favoriteServiceProcessorGetIsFavorite struct {
 	handler FavoriteService
 }
 
-func (p *favoriteServiceProcessorGetFavorite) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-	args := FavoriteServiceGetFavoriteArgs{}
+func (p *favoriteServiceProcessorGetIsFavorite) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := FavoriteServiceGetIsFavoriteArgs{}
 	if err = args.Read(iprot); err != nil {
 		iprot.ReadMessageEnd()
 		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-		oprot.WriteMessageBegin("GetFavorite", thrift.EXCEPTION, seqId)
+		oprot.WriteMessageBegin("GetIsFavorite", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -2518,11 +2518,11 @@ func (p *favoriteServiceProcessorGetFavorite) Process(ctx context.Context, seqId
 
 	iprot.ReadMessageEnd()
 	var err2 error
-	result := FavoriteServiceGetFavoriteResult{}
-	var retval *GetFavoriteResponse
-	if retval, err2 = p.handler.GetFavorite(ctx, args.Req); err2 != nil {
-		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetFavorite: "+err2.Error())
-		oprot.WriteMessageBegin("GetFavorite", thrift.EXCEPTION, seqId)
+	result := FavoriteServiceGetIsFavoriteResult{}
+	var retval *GetIsFavoriteResponse
+	if retval, err2 = p.handler.GetIsFavorite(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetIsFavorite: "+err2.Error())
+		oprot.WriteMessageBegin("GetIsFavorite", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -2530,7 +2530,7 @@ func (p *favoriteServiceProcessorGetFavorite) Process(ctx context.Context, seqId
 	} else {
 		result.Success = retval
 	}
-	if err2 = oprot.WriteMessageBegin("GetFavorite", thrift.REPLY, seqId); err2 != nil {
+	if err2 = oprot.WriteMessageBegin("GetIsFavorite", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -2894,39 +2894,39 @@ func (p *FavoriteServiceFavoriteActionResult) Field0DeepEqual(src *FavoriteActio
 	return true
 }
 
-type FavoriteServiceGetFavoriteArgs struct {
-	Req *GetFavoriteRequest `thrift:"req,1" frugal:"1,default,GetFavoriteRequest" json:"req"`
+type FavoriteServiceGetIsFavoriteArgs struct {
+	Req *GetIsFavoriteRequest `thrift:"req,1" frugal:"1,default,GetIsFavoriteRequest" json:"req"`
 }
 
-func NewFavoriteServiceGetFavoriteArgs() *FavoriteServiceGetFavoriteArgs {
-	return &FavoriteServiceGetFavoriteArgs{}
+func NewFavoriteServiceGetIsFavoriteArgs() *FavoriteServiceGetIsFavoriteArgs {
+	return &FavoriteServiceGetIsFavoriteArgs{}
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) InitDefault() {
-	*p = FavoriteServiceGetFavoriteArgs{}
+func (p *FavoriteServiceGetIsFavoriteArgs) InitDefault() {
+	*p = FavoriteServiceGetIsFavoriteArgs{}
 }
 
-var FavoriteServiceGetFavoriteArgs_Req_DEFAULT *GetFavoriteRequest
+var FavoriteServiceGetIsFavoriteArgs_Req_DEFAULT *GetIsFavoriteRequest
 
-func (p *FavoriteServiceGetFavoriteArgs) GetReq() (v *GetFavoriteRequest) {
+func (p *FavoriteServiceGetIsFavoriteArgs) GetReq() (v *GetIsFavoriteRequest) {
 	if !p.IsSetReq() {
-		return FavoriteServiceGetFavoriteArgs_Req_DEFAULT
+		return FavoriteServiceGetIsFavoriteArgs_Req_DEFAULT
 	}
 	return p.Req
 }
-func (p *FavoriteServiceGetFavoriteArgs) SetReq(val *GetFavoriteRequest) {
+func (p *FavoriteServiceGetIsFavoriteArgs) SetReq(val *GetIsFavoriteRequest) {
 	p.Req = val
 }
 
-var fieldIDToName_FavoriteServiceGetFavoriteArgs = map[int16]string{
+var fieldIDToName_FavoriteServiceGetIsFavoriteArgs = map[int16]string{
 	1: "req",
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) IsSetReq() bool {
+func (p *FavoriteServiceGetIsFavoriteArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) Read(iprot thrift.TProtocol) (err error) {
+func (p *FavoriteServiceGetIsFavoriteArgs) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -2975,7 +2975,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetFavoriteArgs[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetIsFavoriteArgs[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -2985,17 +2985,17 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) ReadField1(iprot thrift.TProtocol) error {
-	p.Req = NewGetFavoriteRequest()
+func (p *FavoriteServiceGetIsFavoriteArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewGetIsFavoriteRequest()
 	if err := p.Req.Read(iprot); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) Write(oprot thrift.TProtocol) (err error) {
+func (p *FavoriteServiceGetIsFavoriteArgs) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("GetFavorite_args"); err != nil {
+	if err = oprot.WriteStructBegin("GetIsFavorite_args"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -3022,7 +3022,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *FavoriteServiceGetIsFavoriteArgs) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -3039,14 +3039,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) String() string {
+func (p *FavoriteServiceGetIsFavoriteArgs) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("FavoriteServiceGetFavoriteArgs(%+v)", *p)
+	return fmt.Sprintf("FavoriteServiceGetIsFavoriteArgs(%+v)", *p)
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) DeepEqual(ano *FavoriteServiceGetFavoriteArgs) bool {
+func (p *FavoriteServiceGetIsFavoriteArgs) DeepEqual(ano *FavoriteServiceGetIsFavoriteArgs) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -3058,7 +3058,7 @@ func (p *FavoriteServiceGetFavoriteArgs) DeepEqual(ano *FavoriteServiceGetFavori
 	return true
 }
 
-func (p *FavoriteServiceGetFavoriteArgs) Field1DeepEqual(src *GetFavoriteRequest) bool {
+func (p *FavoriteServiceGetIsFavoriteArgs) Field1DeepEqual(src *GetIsFavoriteRequest) bool {
 
 	if !p.Req.DeepEqual(src) {
 		return false
@@ -3066,39 +3066,39 @@ func (p *FavoriteServiceGetFavoriteArgs) Field1DeepEqual(src *GetFavoriteRequest
 	return true
 }
 
-type FavoriteServiceGetFavoriteResult struct {
-	Success *GetFavoriteResponse `thrift:"success,0,optional" frugal:"0,optional,GetFavoriteResponse" json:"success,omitempty"`
+type FavoriteServiceGetIsFavoriteResult struct {
+	Success *GetIsFavoriteResponse `thrift:"success,0,optional" frugal:"0,optional,GetIsFavoriteResponse" json:"success,omitempty"`
 }
 
-func NewFavoriteServiceGetFavoriteResult() *FavoriteServiceGetFavoriteResult {
-	return &FavoriteServiceGetFavoriteResult{}
+func NewFavoriteServiceGetIsFavoriteResult() *FavoriteServiceGetIsFavoriteResult {
+	return &FavoriteServiceGetIsFavoriteResult{}
 }
 
-func (p *FavoriteServiceGetFavoriteResult) InitDefault() {
-	*p = FavoriteServiceGetFavoriteResult{}
+func (p *FavoriteServiceGetIsFavoriteResult) InitDefault() {
+	*p = FavoriteServiceGetIsFavoriteResult{}
 }
 
-var FavoriteServiceGetFavoriteResult_Success_DEFAULT *GetFavoriteResponse
+var FavoriteServiceGetIsFavoriteResult_Success_DEFAULT *GetIsFavoriteResponse
 
-func (p *FavoriteServiceGetFavoriteResult) GetSuccess() (v *GetFavoriteResponse) {
+func (p *FavoriteServiceGetIsFavoriteResult) GetSuccess() (v *GetIsFavoriteResponse) {
 	if !p.IsSetSuccess() {
-		return FavoriteServiceGetFavoriteResult_Success_DEFAULT
+		return FavoriteServiceGetIsFavoriteResult_Success_DEFAULT
 	}
 	return p.Success
 }
-func (p *FavoriteServiceGetFavoriteResult) SetSuccess(x interface{}) {
-	p.Success = x.(*GetFavoriteResponse)
+func (p *FavoriteServiceGetIsFavoriteResult) SetSuccess(x interface{}) {
+	p.Success = x.(*GetIsFavoriteResponse)
 }
 
-var fieldIDToName_FavoriteServiceGetFavoriteResult = map[int16]string{
+var fieldIDToName_FavoriteServiceGetIsFavoriteResult = map[int16]string{
 	0: "success",
 }
 
-func (p *FavoriteServiceGetFavoriteResult) IsSetSuccess() bool {
+func (p *FavoriteServiceGetIsFavoriteResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *FavoriteServiceGetFavoriteResult) Read(iprot thrift.TProtocol) (err error) {
+func (p *FavoriteServiceGetIsFavoriteResult) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -3147,7 +3147,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetFavoriteResult[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_FavoriteServiceGetIsFavoriteResult[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -3157,17 +3157,17 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteResult) ReadField0(iprot thrift.TProtocol) error {
-	p.Success = NewGetFavoriteResponse()
+func (p *FavoriteServiceGetIsFavoriteResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewGetIsFavoriteResponse()
 	if err := p.Success.Read(iprot); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p *FavoriteServiceGetFavoriteResult) Write(oprot thrift.TProtocol) (err error) {
+func (p *FavoriteServiceGetIsFavoriteResult) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("GetFavorite_result"); err != nil {
+	if err = oprot.WriteStructBegin("GetIsFavorite_result"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -3194,7 +3194,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteResult) writeField0(oprot thrift.TProtocol) (err error) {
+func (p *FavoriteServiceGetIsFavoriteResult) writeField0(oprot thrift.TProtocol) (err error) {
 	if p.IsSetSuccess() {
 		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
 			goto WriteFieldBeginError
@@ -3213,14 +3213,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
 }
 
-func (p *FavoriteServiceGetFavoriteResult) String() string {
+func (p *FavoriteServiceGetIsFavoriteResult) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("FavoriteServiceGetFavoriteResult(%+v)", *p)
+	return fmt.Sprintf("FavoriteServiceGetIsFavoriteResult(%+v)", *p)
 }
 
-func (p *FavoriteServiceGetFavoriteResult) DeepEqual(ano *FavoriteServiceGetFavoriteResult) bool {
+func (p *FavoriteServiceGetIsFavoriteResult) DeepEqual(ano *FavoriteServiceGetIsFavoriteResult) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -3232,7 +3232,7 @@ func (p *FavoriteServiceGetFavoriteResult) DeepEqual(ano *FavoriteServiceGetFavo
 	return true
 }
 
-func (p *FavoriteServiceGetFavoriteResult) Field0DeepEqual(src *GetFavoriteResponse) bool {
+func (p *FavoriteServiceGetIsFavoriteResult) Field0DeepEqual(src *GetIsFavoriteResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false
