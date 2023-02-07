@@ -23,11 +23,13 @@ func (s *GetPublishListService) GetPublishList(req *publish.GetPublishListReques
 		return nil, err
 	}
 
-	videos, _ := rpc.GetVideos(s.ctx, &video.GetVideosRequest{
+	videos, err := rpc.GetVideos(s.ctx, &video.GetVideosRequest{
 		UserId:   req.UserId,
 		VideoIds: videoIds,
 	})
-	// TODO: error handle
+	if err != nil {
+		return nil, err
+	}
 
 	return pack.Videos(videos), nil
 }

@@ -6,9 +6,7 @@ import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
-	"github.com/golang-jwt/jwt/v4"
 	"mime/multipart"
-	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/publish"
 	pkg_consts "mini-tiktok-backend/pkg/consts"
@@ -52,15 +50,6 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 	}
 
 	SendResponse(c, errno.Success, utils.H{})
-}
-
-func GetClaimsFromTokenString(token string) (map[string]interface{}, error) {
-	t, _ := mw.JwtMiddleware.ParseTokenString(token)
-	claims := jwt.MapClaims{}
-	for key, value := range t.Claims.(jwt.MapClaims) {
-		claims[key] = value
-	}
-	return claims, nil
 }
 
 func ReadFileContent(file multipart.File) ([]byte, error) {

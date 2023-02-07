@@ -11,12 +11,12 @@ func Video(v *video2.Video) *publish.Video {
 	}
 	return &publish.Video{
 		Id:            v.Id,
-		Author:        User(v.Author), // TODO: Get author info from user service
+		Author:        User(v.Author),
 		PlayUrl:       v.PlayUrl,
 		CoverUrl:      v.CoverUrl,
-		FavoriteCount: v.FavoriteCount, // TODO: Get favorite count from favorite service
-		CommentCount:  v.CommentCount,  // TODO: Get comment count from comment service
-		IsFavorite:    v.IsFavorite,    // TODO: Get is favourite from favorite service
+		FavoriteCount: v.FavoriteCount,
+		CommentCount:  v.CommentCount,
+		IsFavorite:    v.IsFavorite,
 		Title:         v.Title,
 	}
 }

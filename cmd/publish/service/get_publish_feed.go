@@ -29,11 +29,13 @@ func (s *GetPublishFeedService) GetPublishFeed(req *publish.GetPublishFeedReques
 		return make([]*publish.Video, 0), time.Now().UnixMilli(), nil
 	}
 
-	videos, _ := rpc.GetVideos(s.ctx, &video.GetVideosRequest{
+	videos, err := rpc.GetVideos(s.ctx, &video.GetVideosRequest{
 		UserId:   req.UserId,
 		VideoIds: videoIds,
 	})
-	// TODO: error handle
+	if err != nil {
+		return nil, 0, err
+	}
 
 	return pack.Videos(videos), time.Now().UnixMilli(), nil // TODO: get next_time from latest video create time
 }
