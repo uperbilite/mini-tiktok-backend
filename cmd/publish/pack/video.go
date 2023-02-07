@@ -14,9 +14,9 @@ func Video(v *db.Video) *publish.Video {
 		Author:        nil, // TODO: Get author info from user service
 		PlayUrl:       v.PlayURL,
 		CoverUrl:      v.CoverURL,
-		FavoriteCount: int64(v.FavouriteCount),
-		CommentCount:  int64(v.CommentCount),
-		IsFavorite:    false, // TODO: Get is favourite from favourite service
+		FavoriteCount: 0,     // TODO: Get favorite count from favorite service
+		CommentCount:  0,     // TODO: Get comment count from comment service
+		IsFavorite:    false, // TODO: Get is favourite from favorite service
 		Title:         v.Title,
 	}
 }

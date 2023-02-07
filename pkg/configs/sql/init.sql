@@ -16,8 +16,6 @@ CREATE TABLE `videos`
     `author_id`       bigint unsigned NOT NULL COMMENT 'Author id',
     `play_url`        varchar(255) NOT NULL DEFAULT '' COMMENT 'Play video url',
     `cover_url`       varchar(255) NOT NULL DEFAULT '' COMMENT 'Video cover url',
-    `favourite_count` int(64) unsigned NOT NULL DEFAULT 0 COMMENT 'Favourite count',
-    `comment_count`   int(64) unsigned NOT NULL DEFAULT 0 COMMENT 'Comment count',
     `title`           varchar(255) NOT NULL DEFAULT '' COMMENT 'Video title',
     `created_at`      timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'Video create time',
     `updated_at`      timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'Video update time',

@@ -8,12 +8,10 @@ import (
 
 type Video struct {
 	gorm.Model
-	AuthorId       int64  `json:"author_id"`
-	PlayURL        string `json:"play_url"`
-	CoverURL       string `json:"cover_url"`
-	FavouriteCount int    `json:"favourite_count"`
-	CommentCount   int    `json:"comment_count"`
-	Title          string `json:"title"`
+	AuthorId int64  `json:"author_id"`
+	PlayURL  string `json:"play_url"`
+	CoverURL string `json:"cover_url"`
+	Title    string `json:"title"`
 }
 
 func (v *Video) TableName() string {
