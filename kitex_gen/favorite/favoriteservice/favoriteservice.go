@@ -20,6 +20,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	handlerType := (*favorite.FavoriteService)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"FavoriteAction": kitex.NewMethodInfo(favoriteActionHandler, newFavoriteServiceFavoriteActionArgs, newFavoriteServiceFavoriteActionResult, false),
+		"GetFavorite":    kitex.NewMethodInfo(getFavoriteHandler, newFavoriteServiceGetFavoriteArgs, newFavoriteServiceGetFavoriteResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "favorite",
@@ -53,6 +54,24 @@ func newFavoriteServiceFavoriteActionResult() interface{} {
 	return favorite.NewFavoriteServiceFavoriteActionResult()
 }
 
+func getFavoriteHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*favorite.FavoriteServiceGetFavoriteArgs)
+	realResult := result.(*favorite.FavoriteServiceGetFavoriteResult)
+	success, err := handler.(favorite.FavoriteService).GetFavorite(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newFavoriteServiceGetFavoriteArgs() interface{} {
+	return favorite.NewFavoriteServiceGetFavoriteArgs()
+}
+
+func newFavoriteServiceGetFavoriteResult() interface{} {
+	return favorite.NewFavoriteServiceGetFavoriteResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -68,6 +87,16 @@ func (p *kClient) FavoriteAction(ctx context.Context, req *favorite.FavoriteActi
 	_args.Req = req
 	var _result favorite.FavoriteServiceFavoriteActionResult
 	if err = p.c.Call(ctx, "FavoriteAction", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetFavorite(ctx context.Context, req *favorite.GetFavoriteRequest) (r *favorite.GetFavoriteResponse, err error) {
+	var _args favorite.FavoriteServiceGetFavoriteArgs
+	_args.Req = req
+	var _result favorite.FavoriteServiceGetFavoriteResult
+	if err = p.c.Call(ctx, "GetFavorite", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

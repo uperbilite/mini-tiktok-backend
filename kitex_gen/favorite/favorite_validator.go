@@ -36,11 +36,11 @@ func (p *Video) IsValid() error {
 	return nil
 }
 func (p *FavoriteActionRequest) IsValid() error {
-	if p.VideoId <= int64(0) {
-		return fmt.Errorf("field VideoId gt rule failed, current value: %v", p.VideoId)
-	}
 	if p.UserId <= int64(0) {
 		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)
+	}
+	if p.VideoId <= int64(0) {
+		return fmt.Errorf("field VideoId gt rule failed, current value: %v", p.VideoId)
 	}
 	_src := []int32{int32(1), int32(2)}
 	var _exist bool
@@ -56,6 +56,20 @@ func (p *FavoriteActionRequest) IsValid() error {
 	return nil
 }
 func (p *FavoriteActionResponse) IsValid() error {
+	if p.BaseResp != nil {
+		if err := p.BaseResp.IsValid(); err != nil {
+			return fmt.Errorf("filed BaseResp not valid, %w", err)
+		}
+	}
+	return nil
+}
+func (p *GetFavoriteRequest) IsValid() error {
+	if p.VideoId <= int64(0) {
+		return fmt.Errorf("field VideoId gt rule failed, current value: %v", p.VideoId)
+	}
+	return nil
+}
+func (p *GetFavoriteResponse) IsValid() error {
 	if p.BaseResp != nil {
 		if err := p.BaseResp.IsValid(); err != nil {
 			return fmt.Errorf("filed BaseResp not valid, %w", err)
