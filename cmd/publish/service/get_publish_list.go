@@ -5,6 +5,7 @@ import (
 	"mini-tiktok-backend/cmd/publish/dal/db"
 	"mini-tiktok-backend/cmd/publish/pack"
 	"mini-tiktok-backend/cmd/publish/rpc"
+	"mini-tiktok-backend/kitex_gen/favorite"
 	"mini-tiktok-backend/kitex_gen/publish"
 	"mini-tiktok-backend/kitex_gen/user"
 )
@@ -34,8 +35,15 @@ func (s *GetPublishListService) GetPublishList(req *publish.GetPublishListReques
 		})
 		// TODO: err handle
 		video.Author = pack.User(resp)
-		videos = append(videos, video)
 		// TODO: get favourite status of each video
+		isFavorite, _ := rpc.GetIsFavorite(s.ctx, &favorite.GetIsFavoriteRequest{
+			UserId:  req.UserId,
+			VideoId: int64(v.ID),
+		})
+		// TODO: err handle
+		video.IsFavorite = isFavorite
+		// TODO: get favorite count
+		videos = append(videos, video)
 	}
 
 	return videos, nil

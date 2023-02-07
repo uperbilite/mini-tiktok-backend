@@ -30,3 +30,23 @@ func (s *FavoriteServiceImpl) FavoriteAction(ctx context.Context, req *favorite.
 
 	return resp, nil
 }
+
+func (s *FavoriteServiceImpl) GetIsFavorite(ctx context.Context, req *favorite.GetIsFavoriteRequest) (resp *favorite.GetIsFavoriteResponse, err error) {
+	resp = new(favorite.GetIsFavoriteResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	isFavorite, err := service.NewGetFavoriteService(ctx).GetIsFavorite(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.IsFavorite = isFavorite
+
+	return resp, nil
+}
