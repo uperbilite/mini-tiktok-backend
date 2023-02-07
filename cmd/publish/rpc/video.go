@@ -3,15 +3,26 @@ package rpc
 import (
 	"context"
 	"github.com/cloudwego/kitex/client"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	etcd "github.com/kitex-contrib/registry-etcd"
 	"mini-tiktok-backend/kitex_gen/video"
 	"mini-tiktok-backend/kitex_gen/video/videoservice"
+	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
 )
 
 var videoClient videoservice.Client
 
 func initVideo() {
-	c, err := videoservice.NewClient("video", client.WithHostPorts("127.0.0.1:8888"))
+	r, err := etcd.NewEtcdResolver([]string{consts.ETCDAddress})
+	if err != nil {
+		panic(err)
+	}
+	c, err := videoservice.NewClient(
+		consts.VideoServiceName,
+		client.WithResolver(r),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.ApiServiceName}),
+	)
 	if err != nil {
 		panic(err)
 	}

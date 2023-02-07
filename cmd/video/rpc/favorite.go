@@ -3,15 +3,26 @@ package rpc
 import (
 	"context"
 	"github.com/cloudwego/kitex/client"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	etcd "github.com/kitex-contrib/registry-etcd"
 	"mini-tiktok-backend/kitex_gen/favorite"
 	"mini-tiktok-backend/kitex_gen/favorite/favoriteservice"
+	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
 )
 
 var favoriteClient favoriteservice.Client
 
 func initFavorite() {
-	c, err := favoriteservice.NewClient("favorite", client.WithHostPorts("127.0.0.1:9999"))
+	r, err := etcd.NewEtcdResolver([]string{consts.ETCDAddress})
+	if err != nil {
+		panic(err)
+	}
+	c, err := favoriteservice.NewClient(
+		consts.FavoriteServiceName,
+		client.WithResolver(r),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.VideoServiceName}),
+	)
 	if err != nil {
 		panic(err)
 	}
