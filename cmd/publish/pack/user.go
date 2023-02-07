@@ -2,10 +2,10 @@ package pack
 
 import (
 	"mini-tiktok-backend/kitex_gen/publish"
-	"mini-tiktok-backend/kitex_gen/user"
+	"mini-tiktok-backend/kitex_gen/video"
 )
 
-func User(u *user.User) *publish.User {
+func User(u *video.User) *publish.User {
 	if u == nil {
 		return nil
 	}

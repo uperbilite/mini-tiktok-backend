@@ -23,10 +23,12 @@ func CreateVideo(ctx context.Context, video *Video) error {
 	return DB.WithContext(ctx).Create(video).Error
 }
 
-// GetVideosByAuthorId Get all videos by same author.
-func GetVideosByAuthorId(ctx context.Context, id int64) ([]*Video, error) {
-	res := make([]*Video, 0)
+// GetVideoIdsByAuthorId Get all videos' id by same author.
+func GetVideoIdsByAuthorId(ctx context.Context, id int64) ([]int64, error) {
+	res := make([]int64, 0)
 	if err := DB.WithContext(ctx).
+		Table("videos").
+		Select("id").
 		Where("author_id = ?", id).
 		Find(&res).Error; err != nil {
 		return nil, err
@@ -34,9 +36,12 @@ func GetVideosByAuthorId(ctx context.Context, id int64) ([]*Video, error) {
 	return res, nil
 }
 
-func GetVideoFeed(ctx context.Context, latestTime int64) ([]*Video, error) {
-	res := make([]*Video, 0)
+// GetVideoIdsFeed Get video's id feed.
+func GetVideoIdsFeed(ctx context.Context, latestTime int64) ([]int64, error) {
+	res := make([]int64, 0)
 	if err := DB.WithContext(ctx).
+		Table("videos").
+		Select("id").
 		Where("unix_timestamp(created_at) < ?", latestTime).
 		Limit(30).
 		Order("created_at desc").

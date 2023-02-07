@@ -21,10 +21,14 @@ func (v *Video) TableName() string {
 // MGetVideos Multiple get list of videos.
 func MGetVideos(ctx context.Context, videoIds []int64) ([]*Video, error) {
 	res := make([]*Video, 0)
-	if err := DB.WithContext(ctx).
-		Where("id in ?", videoIds).
-		Find(&res).Error; err != nil {
-		return nil, err
+	for _, id := range videoIds {
+		var v Video
+		if err := DB.WithContext(ctx).
+			Where("id = ?", id).
+			Find(&v).Error; err != nil {
+			return nil, err
+		}
+		res = append(res, &v)
 	}
 	return res, nil
 }

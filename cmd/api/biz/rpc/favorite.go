@@ -11,7 +11,7 @@ import (
 var favoriteClient favoriteservice.Client
 
 func initFavorite() {
-	c, err := favoriteservice.NewClient("favorite", client.WithHostPorts("127.0.0.1:8888"))
+	c, err := favoriteservice.NewClient("favorite", client.WithHostPorts("127.0.0.1:9999"))
 	if err != nil {
 		panic(err)
 	}

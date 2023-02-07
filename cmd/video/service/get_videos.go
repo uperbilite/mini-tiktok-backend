@@ -7,7 +7,7 @@ import (
 	"mini-tiktok-backend/cmd/video/rpc"
 	"mini-tiktok-backend/kitex_gen/favorite"
 	"mini-tiktok-backend/kitex_gen/user"
-	"mini-tiktok-backend/kitex_gen/video"
+	video2 "mini-tiktok-backend/kitex_gen/video"
 )
 
 type GetVideosService struct {
@@ -18,13 +18,13 @@ func NewGetVideosService(ctx context.Context) *GetVideosService {
 	return &GetVideosService{ctx: ctx}
 }
 
-func (s *GetVideosService) GetVideos(req *video.GetVideosRequest) ([]*video.Video, error) {
+func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Video, error) {
 	vs, err := db.MGetVideos(s.ctx, req.VideoIds)
 	if err != nil {
 		return nil, err
 	}
 
-	videos := make([]*video.Video, 0)
+	videos := make([]*video2.Video, 0)
 
 	for _, v := range vs {
 		video := pack.Video(v)
