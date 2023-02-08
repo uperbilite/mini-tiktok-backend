@@ -21,7 +21,7 @@ func initVideo() {
 	c, err := videoservice.NewClient(
 		consts.VideoServiceName,
 		client.WithResolver(r),
-		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.ApiServiceName}),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PublishServiceName}),
 	)
 	if err != nil {
 		panic(err)

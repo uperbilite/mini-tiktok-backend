@@ -21,7 +21,7 @@ func initUser() {
 	c, err := userservice.NewClient(
 		consts.UserServiceName,
 		client.WithResolver(r),
-		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PublishServiceName}),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.VideoServiceName}),
 	)
 	if err != nil {
 		panic(err)
