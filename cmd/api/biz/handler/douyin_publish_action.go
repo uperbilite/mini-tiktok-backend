@@ -7,6 +7,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"mime/multipart"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/kitex_gen/publish"
 	pkg_consts "mini-tiktok-backend/pkg/consts"
@@ -35,15 +36,10 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 	defer file.Close()
 	fileContent, _ := ReadFileContent(file)
 
-	claims, err := GetClaimsFromTokenString(req.Token)
-	if err != nil {
-		SendResponse(c, err, utils.H{})
-		return
-	}
-	// TODO: register jwt middleware
+	user, _ := c.Get(pkg_consts.IdentityKey)
 
 	err = rpc.PublishVideo(ctx, &publish.PublishVideoRequest{
-		UserId: int64(claims[pkg_consts.UserIdKey].(float64)),
+		UserId: user.(*mw.User).UserId,
 		Data:   fileContent,
 		Title:  req.Title,
 	})
