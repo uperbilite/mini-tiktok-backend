@@ -46,3 +46,18 @@ CREATE TABLE `favorites`
     PRIMARY KEY (`id`),
     KEY             `idx_user_id` (`user_id`) COMMENT 'User id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Favourite table';
+
+CREATE TABLE `comments`
+(
+    `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
+    `user_id`       bigint unsigned NOT NULL COMMENT 'User id',
+    `video_id`      bigint unsigned NOT NULL COMMENT 'Video id',
+    `content`       text NOT NULL COMMENT 'Comment context',
+    `create_date`   date NOT NULL DEFAULT (DATE(NOW())) COMMENT 'Comment create date',
+    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'Comment create time',
+    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'Comment update time',
+    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'Comment delete time',
+    PRIMARY KEY (`id`),
+    KEY             `idx_video_id` (`video_id`) COMMENT 'Video id index'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Comment table';
+
