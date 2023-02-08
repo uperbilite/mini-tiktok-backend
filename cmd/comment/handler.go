@@ -51,3 +51,27 @@ func (s *CommentServiceImpl) DeleteComment(ctx context.Context, req *comment.Del
 
 	return resp, nil
 }
+
+func (s *CommentServiceImpl) GetCommentList(ctx context.Context, req *comment.GetCommentListRequest) (resp *comment.GetCommentListResponse, err error) {
+	resp = new(comment.GetCommentListResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	commentList, err := service.NewGetCommentListService(ctx).GetCommentList(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.CommentList = commentList
+
+	return resp, nil
+}
+
+func (s *CommentServiceImpl) GetCommentCount(ctx context.Context, req *comment.GetCommentCountRequest) (resp *comment.GetCommentCountResponse, err error) {
+	return nil, nil
+}

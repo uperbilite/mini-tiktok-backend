@@ -19,7 +19,8 @@ func (c *Comment) TableName() string {
 }
 
 func CreateComment(ctx context.Context, comment *Comment) (*Comment, error) {
-	if err := DB.WithContext(ctx).Create(comment).Error; err != nil {
+	if err := DB.WithContext(ctx).
+		Create(comment).Error; err != nil {
 		return nil, err
 	}
 	return comment, nil
@@ -29,4 +30,14 @@ func DeleteComment(ctx context.Context, id int64) error {
 	return DB.WithContext(ctx).
 		Where("id = ?", id).
 		Delete(&Comment{}).Error
+}
+
+func GetCommentsByVideoId(ctx context.Context, videoId int64) ([]*Comment, error) {
+	res := make([]*Comment, 0)
+	if err := DB.WithContext(ctx).
+		Where("video_id = ?", videoId).
+		Find(&res).Error; err != nil {
+		return res, err
+	}
+	return res, nil
 }

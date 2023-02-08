@@ -50,3 +50,14 @@ func DeleteComment(ctx context.Context, req *comment.DeleteCommentRequest) error
 	}
 	return nil
 }
+
+func GetCommentList(ctx context.Context, req *comment.GetCommentListRequest) ([]*comment.Comment, error) {
+	resp, err := commentClient.GetCommentList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+	}
+	return resp.CommentList, nil
+}
