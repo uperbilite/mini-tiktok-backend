@@ -17,7 +17,10 @@ func SendResponse(c *app.RequestContext, err error, data map[string]interface{})
 }
 
 func GetClaimsFromTokenString(token string) (map[string]interface{}, error) {
-	t, _ := mw.JwtMiddleware.ParseTokenString(token)
+	t, err := mw.JwtMiddleware.ParseTokenString(token)
+	if err != nil {
+		return nil, err
+	}
 	claims := jwt.MapClaims{}
 	for key, value := range t.Claims.(jwt.MapClaims) {
 		claims[key] = value

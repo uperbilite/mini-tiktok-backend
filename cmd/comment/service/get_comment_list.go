@@ -26,16 +26,18 @@ func (s *GetCommentListService) GetCommentList(req *comment.GetCommentListReques
 	comments := make([]*comment.Comment, 0)
 
 	for _, c := range cs {
-		comment := pack.Comment(c)
+		m := pack.Comment(c)
 
-		u, _ := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
+		u, err := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
 			UserId:       req.UserId,
 			TargetUserId: c.UserId, // The relation between current user and comment user
 		})
-		// TODO: err handle
-		comment.User = pack.User(u)
+		if err != nil {
+			return nil, err
+		}
+		m.User = pack.User(u)
 
-		comments = append(comments, comment)
+		comments = append(comments, m)
 	}
 
 	return comments, nil

@@ -27,7 +27,11 @@ func DouyinFeed(ctx context.Context, c *app.RequestContext) {
 	var latestTime int64
 
 	if req.IsSetToken() {
-		claims, _ := GetClaimsFromTokenString(req.GetToken())
+		claims, err := GetClaimsFromTokenString(req.GetToken())
+		if err != nil {
+			SendResponse(c, err, utils.H{})
+			return
+		}
 		userId = int64(claims[pkg_consts.UserIdKey].(float64))
 	}
 	latestTime = req.GetLatestTime()

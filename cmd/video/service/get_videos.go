@@ -27,7 +27,6 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 
 	videos := make([]*video2.Video, 0)
 
-	// TODO: err handler
 	for _, v := range vs {
 		video := pack.Video(v)
 		if video == nil {
@@ -35,29 +34,41 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 		}
 
 		// get user info
-		resp, _ := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
+		resp, err := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
 			UserId:       req.UserId,
 			TargetUserId: v.AuthorId,
 		})
+		if err != nil {
+			return nil, err
+		}
 		video.Author = pack.User(resp)
 
 		// get is_favorite
-		isFavorite, _ := rpc.GetIsFavorite(s.ctx, &favorite.GetIsFavoriteRequest{
+		isFavorite, err := rpc.GetIsFavorite(s.ctx, &favorite.GetIsFavoriteRequest{
 			UserId:  req.UserId,
 			VideoId: int64(v.ID),
 		})
+		if err != nil {
+			return nil, err
+		}
 		video.IsFavorite = isFavorite
 
 		// get favorite count
-		favoriteCount, _ := rpc.GetFavoriteCount(s.ctx, &favorite.GetFavoriteCountRequest{
+		favoriteCount, err := rpc.GetFavoriteCount(s.ctx, &favorite.GetFavoriteCountRequest{
 			VideoId: int64(v.ID),
 		})
+		if err != nil {
+			return nil, err
+		}
 		video.FavoriteCount = favoriteCount
 
 		// get comment count
-		commentCount, _ := rpc.GetCommentCount(s.ctx, &comment.GetCommentCountRequest{
+		commentCount, err := rpc.GetCommentCount(s.ctx, &comment.GetCommentCountRequest{
 			VideoId: int64(v.ID),
 		})
+		if err != nil {
+			return nil, err
+		}
 		video.CommentCount = commentCount
 
 		videos = append(videos, video)

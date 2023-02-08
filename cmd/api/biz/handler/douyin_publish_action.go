@@ -35,7 +35,11 @@ func DouyinPublishAction(ctx context.Context, c *app.RequestContext) {
 	defer file.Close()
 	fileContent, _ := ReadFileContent(file)
 
-	claims, _ := GetClaimsFromTokenString(req.Token)
+	claims, err := GetClaimsFromTokenString(req.Token)
+	if err != nil {
+		SendResponse(c, err, utils.H{})
+		return
+	}
 	// TODO: register jwt middleware
 
 	err = rpc.PublishVideo(ctx, &publish.PublishVideoRequest{
