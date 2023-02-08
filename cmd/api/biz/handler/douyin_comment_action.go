@@ -4,24 +4,56 @@ package handler
 
 import (
 	"context"
+	"github.com/cloudwego/hertz/pkg/common/utils"
+	"mini-tiktok-backend/cmd/api/biz/mw"
+	"mini-tiktok-backend/cmd/api/biz/rpc"
+	"mini-tiktok-backend/kitex_gen/comment"
+	pkg_consts "mini-tiktok-backend/pkg/consts"
+	"mini-tiktok-backend/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	comment "mini-tiktok-backend/cmd/api/biz/model/api/comment"
+	api_comment "mini-tiktok-backend/cmd/api/biz/model/api/comment"
 )
 
 // DouyinCommentAction .
 // @router /douyin/comment/action/ [POST]
 func DouyinCommentAction(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req comment.DouyinCommentActionRequest
+	var req api_comment.DouyinCommentActionRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp := new(comment.DouyinCommentActionResponse)
+	user, _ := c.Get(pkg_consts.IdentityKey)
 
-	c.JSON(consts.StatusOK, resp)
+	if req.ActionType == 1 {
+		resp, err := rpc.CreateComment(ctx, &comment.CreateCommentRequest{
+			UserId:  user.(*mw.User).UserId,
+			VideoId: req.VideoID,
+			Content: req.GetCommentText(),
+		})
+		if err != nil {
+			SendResponse(c, err, utils.H{})
+			return
+		}
+		SendResponse(c, errno.Success, utils.H{
+			"comment": resp,
+		})
+		return
+	}
+	if req.ActionType == 2 {
+		err := rpc.DeleteComment(ctx, &comment.DeleteCommentRequest{
+			CommentId: req.GetCommentID(),
+		})
+		if err != nil {
+			SendResponse(c, err, utils.H{})
+			return
+		}
+		SendResponse(c, errno.Success, utils.H{})
+		return
+	}
+
+	SendResponse(c, errno.ParamErr, utils.H{})
 }

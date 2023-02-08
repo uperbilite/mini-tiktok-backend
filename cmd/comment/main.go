@@ -5,13 +5,16 @@ import (
 	"github.com/cloudwego/kitex/server"
 	etcd "github.com/kitex-contrib/registry-etcd"
 	"log"
+	"mini-tiktok-backend/cmd/comment/dal"
+	"mini-tiktok-backend/cmd/comment/rpc"
 	"mini-tiktok-backend/kitex_gen/comment/commentservice"
 	"mini-tiktok-backend/pkg/consts"
 	"net"
 )
 
 func Init() {
-
+	dal.Init()
+	rpc.Init()
 }
 
 func main() {
