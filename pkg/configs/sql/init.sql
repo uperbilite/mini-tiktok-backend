@@ -53,7 +53,7 @@ CREATE TABLE `comments`
     `user_id`       bigint unsigned NOT NULL COMMENT 'User id',
     `video_id`      bigint unsigned NOT NULL COMMENT 'Video id',
     `content`       text NOT NULL COMMENT 'Comment context',
-    `create_date`   date NOT NULL DEFAULT (DATE(NOW())) COMMENT 'Comment create date',
+    `create_date`   varchar(16) NOT NULL DEFAULT (DATE_FORMAT(NOW(), '%m-%d')) COMMENT 'Comment create date',
     `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'Comment create time',
     `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'Comment update time',
     `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'Comment delete time',

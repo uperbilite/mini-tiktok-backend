@@ -4,6 +4,7 @@ const (
 	UserTableName       = "users"
 	VideoTableName      = "videos"
 	FavoriteTableName   = "favorites"
+	CommentTableName    = "comments"
 	RelationTableName   = "relations"
 	SecretKey           = "secret key"
 	IdentityKey         = "id"
