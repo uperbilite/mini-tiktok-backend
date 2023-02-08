@@ -16,9 +16,7 @@ type CreateUserService struct {
 
 // NewCreateUserService new CreateUserService
 func NewCreateUserService(ctx context.Context) *CreateUserService {
-	return &CreateUserService{
-		ctx: ctx,
-	}
+	return &CreateUserService{ctx: ctx}
 }
 
 // CreateUser create user info.
@@ -36,8 +34,8 @@ func (s *CreateUserService) CreateUser(req *user.CreateUserRequest) error {
 		return err
 	}
 	password := fmt.Sprintf("%x", h.Sum(nil))
-	return db.CreateUser(s.ctx, []*db.User{{
+	return db.CreateUser(s.ctx, &db.User{
 		Username: req.Username,
 		Password: password,
-	}})
+	})
 }

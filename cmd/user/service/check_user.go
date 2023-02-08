@@ -17,9 +17,7 @@ type CheckUserService struct {
 
 // NewCheckUserService new CheckUserService
 func NewCheckUserService(ctx context.Context) *CheckUserService {
-	return &CheckUserService{
-		ctx: ctx,
-	}
+	return &CheckUserService{ctx: ctx}
 }
 
 // CheckUser check user info

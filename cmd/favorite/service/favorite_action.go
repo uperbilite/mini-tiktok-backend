@@ -26,10 +26,10 @@ func (s *FavoriteActionService) FavoriteAction(req *favorite.FavoriteActionReque
 		if len(favorites) != 0 {
 			return errno.UserAlreadyExistErr // TODO: FavoriteAlreadyExistErr
 		}
-		return db.CreateFavorite(s.ctx, []*db.Favorite{{
+		return db.CreateFavorite(s.ctx, &db.Favorite{
 			UserId:  req.UserId,
 			VideoId: req.VideoId,
-		}})
+		})
 	}
 	if req.ActionType == 2 {
 		return db.DeleteFavorite(s.ctx, req.UserId, req.VideoId)

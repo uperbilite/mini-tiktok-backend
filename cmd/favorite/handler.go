@@ -39,7 +39,7 @@ func (s *FavoriteServiceImpl) GetIsFavorite(ctx context.Context, req *favorite.G
 		return resp, nil
 	}
 
-	isFavorite, err := service.NewGetFavoriteService(ctx).GetIsFavorite(req)
+	isFavorite, err := service.NewGetIsFavoriteService(ctx).GetIsFavorite(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil

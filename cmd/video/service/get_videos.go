@@ -30,6 +30,9 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 	// TODO: err handler
 	for _, v := range vs {
 		video := pack.Video(v)
+		if video == nil {
+			continue
+		}
 
 		// get user info
 		resp, _ := rpc.QueryUser(s.ctx, &user.QueryUserRequest{

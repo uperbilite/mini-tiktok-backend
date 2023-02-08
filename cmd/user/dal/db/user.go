@@ -17,8 +17,8 @@ func (u *User) TableName() string {
 }
 
 // CreateUser create user info
-func CreateUser(ctx context.Context, users []*User) error {
-	return DB.WithContext(ctx).Create(users).Error
+func CreateUser(ctx context.Context, user *User) error {
+	return DB.WithContext(ctx).Create(user).Error
 }
 
 // QueryUserByName query list of user info

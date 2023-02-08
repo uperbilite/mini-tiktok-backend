@@ -41,7 +41,7 @@ func (s *CommentServiceImpl) DeleteComment(ctx context.Context, req *comment.Del
 		return resp, nil
 	}
 
-	err = service.NewDeleteCommentService(ctx).DeleteService(req)
+	err = service.NewDeleteCommentService(ctx).DeleteComment(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil

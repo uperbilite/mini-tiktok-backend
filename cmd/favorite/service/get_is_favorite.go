@@ -6,17 +6,17 @@ import (
 	"mini-tiktok-backend/kitex_gen/favorite"
 )
 
-type GetFavoriteService struct {
+type GetIsFavoriteService struct {
 	ctx context.Context
 }
 
-func NewGetFavoriteService(ctx context.Context) *GetFavoriteService {
-	return &GetFavoriteService{
+func NewGetIsFavoriteService(ctx context.Context) *GetIsFavoriteService {
+	return &GetIsFavoriteService{
 		ctx: ctx,
 	}
 }
 
-func (s *GetFavoriteService) GetIsFavorite(req *favorite.GetIsFavoriteRequest) (bool, error) {
+func (s *GetIsFavoriteService) GetIsFavorite(req *favorite.GetIsFavoriteRequest) (bool, error) {
 	if req.UserId == 0 { // no login user
 		return false, nil
 	}

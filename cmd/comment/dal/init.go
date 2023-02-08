@@ -1,6 +1,8 @@
 package dal
 
-import "mini-tiktok-backend/cmd/comment/dal/db"
+import (
+	"mini-tiktok-backend/cmd/comment/dal/db"
+)
 
 // Init init dal
 func Init() {

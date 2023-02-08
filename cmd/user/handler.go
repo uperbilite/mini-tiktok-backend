@@ -20,14 +20,14 @@ func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserRequ
 		return resp, nil
 	}
 
-	uid, err := service.NewCheckUserService(ctx).CheckUser(req)
+	userId, err := service.NewCheckUserService(ctx).CheckUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err) // pack err message
 		return resp, nil
 	}
 
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.UserId = uid
+	resp.UserId = userId
 
 	return resp, nil
 }
@@ -59,14 +59,14 @@ func (s *UserServiceImpl) QueryUser(ctx context.Context, req *user.QueryUserRequ
 		return resp, nil
 	}
 
-	respUser, err := service.NewQueryUserService(ctx).QueryUser(req)
+	u, err := service.NewQueryUserService(ctx).QueryUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.User = respUser
+	resp.User = u
 
 	return resp, nil
 }

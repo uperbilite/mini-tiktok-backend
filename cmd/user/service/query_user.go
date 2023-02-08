@@ -13,9 +13,7 @@ type QueryUserService struct {
 }
 
 func NewQueryUserService(ctx context.Context) *QueryUserService {
-	return &QueryUserService{
-		ctx: ctx,
-	}
+	return &QueryUserService{ctx: ctx}
 }
 
 func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, error) {

@@ -35,6 +35,7 @@ func DeleteComment(ctx context.Context, id int64) error {
 func GetCommentsByVideoId(ctx context.Context, videoId int64) ([]*Comment, error) {
 	res := make([]*Comment, 0)
 	if err := DB.WithContext(ctx).
+		Model(&Comment{}).
 		Where("video_id = ?", videoId).
 		Find(&res).Error; err != nil {
 		return res, err

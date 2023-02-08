@@ -16,9 +16,8 @@ func (f *Favorite) TableName() string {
 	return consts.FavoriteTableName
 }
 
-func CreateFavorite(ctx context.Context, favorites []*Favorite) error {
-	return DB.WithContext(ctx).
-		Create(favorites).Error
+func CreateFavorite(ctx context.Context, favorite *Favorite) error {
+	return DB.WithContext(ctx).Create(favorite).Error
 }
 
 func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
