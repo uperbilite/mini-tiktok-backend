@@ -19,8 +19,10 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "CommentService"
 	handlerType := (*comment.CommentService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"CreateComment": kitex.NewMethodInfo(createCommentHandler, newCommentServiceCreateCommentArgs, newCommentServiceCreateCommentResult, false),
-		"DeleteComment": kitex.NewMethodInfo(deleteCommentHandler, newCommentServiceDeleteCommentArgs, newCommentServiceDeleteCommentResult, false),
+		"CreateComment":   kitex.NewMethodInfo(createCommentHandler, newCommentServiceCreateCommentArgs, newCommentServiceCreateCommentResult, false),
+		"DeleteComment":   kitex.NewMethodInfo(deleteCommentHandler, newCommentServiceDeleteCommentArgs, newCommentServiceDeleteCommentResult, false),
+		"GetCommentCount": kitex.NewMethodInfo(getCommentCountHandler, newCommentServiceGetCommentCountArgs, newCommentServiceGetCommentCountResult, false),
+		"GetCommentList":  kitex.NewMethodInfo(getCommentListHandler, newCommentServiceGetCommentListArgs, newCommentServiceGetCommentListResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "comment",
@@ -72,6 +74,42 @@ func newCommentServiceDeleteCommentResult() interface{} {
 	return comment.NewCommentServiceDeleteCommentResult()
 }
 
+func getCommentCountHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*comment.CommentServiceGetCommentCountArgs)
+	realResult := result.(*comment.CommentServiceGetCommentCountResult)
+	success, err := handler.(comment.CommentService).GetCommentCount(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newCommentServiceGetCommentCountArgs() interface{} {
+	return comment.NewCommentServiceGetCommentCountArgs()
+}
+
+func newCommentServiceGetCommentCountResult() interface{} {
+	return comment.NewCommentServiceGetCommentCountResult()
+}
+
+func getCommentListHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*comment.CommentServiceGetCommentListArgs)
+	realResult := result.(*comment.CommentServiceGetCommentListResult)
+	success, err := handler.(comment.CommentService).GetCommentList(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newCommentServiceGetCommentListArgs() interface{} {
+	return comment.NewCommentServiceGetCommentListArgs()
+}
+
+func newCommentServiceGetCommentListResult() interface{} {
+	return comment.NewCommentServiceGetCommentListResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -97,6 +135,26 @@ func (p *kClient) DeleteComment(ctx context.Context, req *comment.DeleteCommentR
 	_args.Req = req
 	var _result comment.CommentServiceDeleteCommentResult
 	if err = p.c.Call(ctx, "DeleteComment", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetCommentCount(ctx context.Context, req *comment.GetCommentCountRequest) (r *comment.GetCommentCountResponse, err error) {
+	var _args comment.CommentServiceGetCommentCountArgs
+	_args.Req = req
+	var _result comment.CommentServiceGetCommentCountResult
+	if err = p.c.Call(ctx, "GetCommentCount", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetCommentList(ctx context.Context, req *comment.GetCommentListRequest) (r *comment.GetCommentListResponse, err error) {
+	var _args comment.CommentServiceGetCommentListArgs
+	_args.Req = req
+	var _result comment.CommentServiceGetCommentListResult
+	if err = p.c.Call(ctx, "GetCommentList", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

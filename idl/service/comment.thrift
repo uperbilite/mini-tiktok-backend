@@ -40,7 +40,28 @@ struct DeleteCommentResponse {
     1: required BaseResp base_resp
 }
 
+struct GetCommentCountRequest {
+    1: required i64 video_id (vt.gt = "0")
+}
+
+struct GetCommentCountResponse {
+    1: required BaseResp base_resp
+    2: required i64 comment_count
+}
+
+struct GetCommentListRequest {
+    1: required i64 user_id (vt.gt = "0")
+    2: required i64 video_id (vt.gt = "0")
+}
+
+struct GetCommentListResponse {
+    1: required BaseResp base_resp
+    2: required list<Comment> comment_list
+}
+
 service CommentService {
     CreateCommentResponse CreateComment(1: CreateCommentRequest req)
     DeleteCommentResponse DeleteComment(1: DeleteCommentRequest req)
+    GetCommentCountResponse GetCommentCount(1: GetCommentCountRequest req)
+    GetCommentListResponse GetCommentList(1: GetCommentListRequest req)
 }
