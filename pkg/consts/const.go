@@ -22,9 +22,11 @@ const (
 	PublishServiceName  = "publish"
 	FavoriteServiceName = "favorite"
 	VideoServiceName    = "video"
+	CommentServiceName  = "comment"
 	ApiServiceAddr      = "0.0.0.0:8080"
 	UserServiceAddr     = "127.0.0.1:8081"
 	PublishServiceAddr  = "127.0.0.1:8082"
 	FavoriteServiceAddr = "127.0.0.1:8083"
 	VideoServiceAddr    = "127.0.0.1:8084"
+	CommentServiceAddr  = "127.0.0.1:8085"
 )

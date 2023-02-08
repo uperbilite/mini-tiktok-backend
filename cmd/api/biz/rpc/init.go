@@ -4,4 +4,5 @@ func Init() {
 	initUser()
 	initPublish()
 	initFavorite()
+	initComment()
 }
