@@ -5,6 +5,7 @@ import (
 	"mini-tiktok-backend/cmd/video/dal/db"
 	"mini-tiktok-backend/cmd/video/pack"
 	"mini-tiktok-backend/cmd/video/rpc"
+	"mini-tiktok-backend/kitex_gen/comment"
 	"mini-tiktok-backend/kitex_gen/favorite"
 	"mini-tiktok-backend/kitex_gen/user"
 	video2 "mini-tiktok-backend/kitex_gen/video"
@@ -26,14 +27,15 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 
 	videos := make([]*video2.Video, 0)
 
+	// TODO: err handler
 	for _, v := range vs {
 		video := pack.Video(v)
 
+		// get user info
 		resp, _ := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
 			UserId:       req.UserId,
 			TargetUserId: v.AuthorId,
 		})
-		// TODO: err handle
 		video.Author = pack.User(resp)
 
 		// get is_favorite
@@ -41,17 +43,19 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 			UserId:  req.UserId,
 			VideoId: int64(v.ID),
 		})
-		// TODO: err handle
 		video.IsFavorite = isFavorite
 
 		// get favorite count
 		favoriteCount, _ := rpc.GetFavoriteCount(s.ctx, &favorite.GetFavoriteCountRequest{
 			VideoId: int64(v.ID),
 		})
-		// TODO: err handle
 		video.FavoriteCount = favoriteCount
 
-		// TODO: get comment count
+		// get comment count
+		commentCount, _ := rpc.GetCommentCount(s.ctx, &comment.GetCommentCountRequest{
+			VideoId: int64(v.ID),
+		})
+		video.CommentCount = commentCount
 
 		videos = append(videos, video)
 	}

@@ -41,3 +41,14 @@ func GetCommentsByVideoId(ctx context.Context, videoId int64) ([]*Comment, error
 	}
 	return res, nil
 }
+
+func QueryCommentCount(ctx context.Context, videoId int64) (int64, error) {
+	var res int64
+	if err := DB.WithContext(ctx).
+		Model(&Comment{}).
+		Where("video_id = ?", videoId).
+		Count(&res).Error; err != nil {
+		return 0, err
+	}
+	return res, nil
+}

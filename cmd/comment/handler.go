@@ -73,5 +73,21 @@ func (s *CommentServiceImpl) GetCommentList(ctx context.Context, req *comment.Ge
 }
 
 func (s *CommentServiceImpl) GetCommentCount(ctx context.Context, req *comment.GetCommentCountRequest) (resp *comment.GetCommentCountResponse, err error) {
-	return nil, nil
+	resp = new(comment.GetCommentCountResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	commentCount, err := service.NewGetCommentCountService(ctx).GetCommentCount(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.CommentCount = commentCount
+
+	return resp, nil
 }
