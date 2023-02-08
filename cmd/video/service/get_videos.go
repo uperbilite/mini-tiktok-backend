@@ -51,6 +51,8 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 		// TODO: err handle
 		video.FavoriteCount = favoriteCount
 
+		// TODO: get comment count
+
 		videos = append(videos, video)
 	}
 

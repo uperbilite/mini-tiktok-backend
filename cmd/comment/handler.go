@@ -34,6 +34,20 @@ func (s *CommentServiceImpl) CreateComment(ctx context.Context, req *comment.Cre
 
 // DeleteComment implements the CommentServiceImpl interface.
 func (s *CommentServiceImpl) DeleteComment(ctx context.Context, req *comment.DeleteCommentRequest) (resp *comment.DeleteCommentResponse, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(comment.DeleteCommentResponse)
+
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	err = service.NewDeleteCommentService(ctx).DeleteService(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+
+	return resp, nil
 }

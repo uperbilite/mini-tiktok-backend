@@ -30,14 +30,8 @@ func (s *FavoriteActionService) FavoriteAction(req *favorite.FavoriteActionReque
 			UserId:  req.UserId,
 			VideoId: req.VideoId,
 		}})
-	} else if req.ActionType == 2 {
-		favorites, err := db.QueryFavorite(s.ctx, req.UserId, req.VideoId)
-		if err != nil {
-			return err
-		}
-		if len(favorites) == 0 {
-			return errno.UserNotExistErr // TODO: FavoriteNotExistErr
-		}
+	}
+	if req.ActionType == 2 {
 		return db.DeleteFavorite(s.ctx, req.UserId, req.VideoId)
 	}
 
