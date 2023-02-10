@@ -4,6 +4,8 @@ import (
 	"context"
 	"gorm.io/gorm"
 	"mini-tiktok-backend/pkg/consts"
+	"strconv"
+	"strings"
 )
 
 type Favorite struct {
@@ -16,11 +18,40 @@ func (f *Favorite) TableName() string {
 	return consts.FavoriteTableName
 }
 
+// GetVideoKey Key format is video:{id}
+func GetVideoKey(videoId int64) string {
+	var res strings.Builder
+	res.WriteString("video:")
+	res.WriteString(strconv.FormatInt(videoId, 10))
+	return res.String()
+}
+
+func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
+	res := RDB.Get(ctx, GetVideoKey(videoId))
+	if res == nil {
+		return 0, nil
+	}
+	return res.Int64()
+}
+
+func IncrFavoriteCount(ctx context.Context, videoId int64) {
+	RDB.Incr(ctx, GetVideoKey(videoId))
+}
+
+func DecrFavoriteCount(ctx context.Context, videoId int64) {
+	favoriteCount, _ := GetFavoriteCount(ctx, videoId)
+	if favoriteCount > 0 {
+		RDB.Decr(ctx, GetVideoKey(videoId))
+	}
+}
+
 func CreateFavorite(ctx context.Context, favorite *Favorite) error {
+	IncrFavoriteCount(ctx, favorite.VideoId)
 	return DB.WithContext(ctx).Create(favorite).Error
 }
 
 func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
+	DecrFavoriteCount(ctx, videoId)
 	return DB.WithContext(ctx).
 		Where("user_id = ? and video_id = ? ", userId, videoId).
 		Delete(&Favorite{}).Error

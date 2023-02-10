@@ -54,13 +54,13 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 		video.IsFavorite = isFavorite
 
 		// get favorite count
-		favoriteCount, err := rpc.GetFavoriteCount(s.ctx, &favorite.GetFavoriteCountRequest{
-			VideoId: int64(v.ID),
-		})
-		if err != nil {
-			return nil, err
-		}
-		video.FavoriteCount = favoriteCount
+		// favoriteCount, err := rpc.GetFavoriteCount(s.ctx, &favorite.GetFavoriteCountRequest{
+		//	VideoId: int64(v.ID),
+		// })
+		// if err != nil {
+		//	return nil, err
+		// }
+		video.FavoriteCount, _ = db.GetFavoriteCount(s.ctx, int64(v.ID))
 
 		// get comment count
 		commentCount, err := rpc.GetCommentCount(s.ctx, &comment.GetCommentCountRequest{

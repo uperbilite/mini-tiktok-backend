@@ -13,6 +13,12 @@ services:
       - MYSQL_PASSWORD=gorm
       - MYSQL_RANDOM_ROOT_PASSWORD="yes"
 
+  # Redis
+  redis:
+    image: 'redis:latest'
+    ports:
+      - 6379:6379
+
   # ETCD
   Etcd:
     image: 'bitnami/etcd:latest'
