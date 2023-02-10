@@ -27,7 +27,6 @@ func (s *GetIsFavoriteService) GetIsFavorite(req *favorite.GetIsFavoriteRequest)
 	}
 	if len(favorites) == 0 {
 		return false, nil
-	} else {
-		return true, nil
 	}
+	return true, nil
 }
