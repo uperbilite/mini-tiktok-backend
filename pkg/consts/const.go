@@ -16,6 +16,7 @@ const (
 	OSSBucketName       = "mini-tiktok-backend"
 	OSSResourceURL      = "https://mini-tiktok-backend.oss-cn-beijing.aliyuncs.com/"
 	TCP                 = "tcp"
+	ExportEndpoint      = ":4317"
 	ETCDAddress         = "127.0.0.1:2379"
 	ApiServiceName      = "api"
 	UserServiceName     = "user"

@@ -4,6 +4,8 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	"github.com/kitex-contrib/obs-opentelemetry/provider"
+	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	etcd "github.com/kitex-contrib/registry-etcd"
 	"mini-tiktok-backend/kitex_gen/favorite"
 	"mini-tiktok-backend/kitex_gen/favorite/favoriteservice"
@@ -18,9 +20,15 @@ func initFavorite() {
 	if err != nil {
 		panic(err)
 	}
+	provider.NewOpenTelemetryProvider(
+		provider.WithServiceName(consts.VideoServiceName),
+		provider.WithExportEndpoint(consts.ExportEndpoint),
+		provider.WithInsecure(),
+	)
 	c, err := favoriteservice.NewClient(
 		consts.FavoriteServiceName,
 		client.WithResolver(r),
+		client.WithSuite(tracing.NewClientSuite()),
 		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.VideoServiceName}),
 	)
 	if err != nil {

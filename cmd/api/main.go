@@ -4,6 +4,7 @@ package main
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
+	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/pkg/consts"
@@ -17,10 +18,15 @@ func Init() {
 func main() {
 	Init()
 
+	tracer, cfg := hertztracing.NewServerTracer()
+
 	// 设置127.0.0.1:8080用于本地运行，设置0.0.0.0:8080用于服务器运行
 	h := server.Default(server.WithHostPorts(consts.ApiServiceAddr),
 		server.WithHandleMethodNotAllowed(true),
+		tracer,
 	)
+
+	h.Use(hertztracing.ServerMiddleware(cfg))
 
 	register(h)
 	h.Spin()

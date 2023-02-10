@@ -4,6 +4,8 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	"github.com/kitex-contrib/obs-opentelemetry/provider"
+	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	etcd "github.com/kitex-contrib/registry-etcd"
 	"mini-tiktok-backend/kitex_gen/comment"
 	"mini-tiktok-backend/kitex_gen/comment/commentservice"
@@ -18,9 +20,15 @@ func initComment() {
 	if err != nil {
 		panic(err)
 	}
+	provider.NewOpenTelemetryProvider(
+		provider.WithServiceName(consts.ApiServiceName),
+		provider.WithExportEndpoint(consts.ExportEndpoint),
+		provider.WithInsecure(),
+	)
 	c, err := commentservice.NewClient(
 		consts.CommentServiceName,
 		client.WithResolver(r),
+		client.WithSuite(tracing.NewClientSuite()),
 		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.ApiServiceName}),
 	)
 	if err != nil {
