@@ -11,6 +11,7 @@ import (
 	"mini-tiktok-backend/kitex_gen/video/videoservice"
 	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
+	"mini-tiktok-backend/pkg/mw"
 )
 
 var videoClient videoservice.Client
@@ -28,6 +29,8 @@ func initVideo() {
 	c, err := videoservice.NewClient(
 		consts.VideoServiceName,
 		client.WithResolver(r),
+		client.WithMiddleware(mw.CommonMiddleware),
+		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithSuite(tracing.NewClientSuite()),
 		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PublishServiceName}),
 	)

@@ -11,6 +11,7 @@ import (
 	"mini-tiktok-backend/kitex_gen/publish/publishservice"
 	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
+	"mini-tiktok-backend/pkg/mw"
 )
 
 var publishClient publishservice.Client
@@ -28,6 +29,8 @@ func initPublish() {
 	c, err := publishservice.NewClient(
 		consts.PublishServiceName,
 		client.WithResolver(r),
+		client.WithMiddleware(mw.CommonMiddleware),
+		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithSuite(tracing.NewClientSuite()),
 		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.ApiServiceName}),
 	)

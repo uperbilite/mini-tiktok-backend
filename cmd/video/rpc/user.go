@@ -11,6 +11,7 @@ import (
 	"mini-tiktok-backend/kitex_gen/user/userservice"
 	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
+	"mini-tiktok-backend/pkg/mw"
 )
 
 var userClient userservice.Client
@@ -28,6 +29,8 @@ func initUser() {
 	c, err := userservice.NewClient(
 		consts.UserServiceName,
 		client.WithResolver(r),
+		client.WithMiddleware(mw.CommonMiddleware),
+		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithSuite(tracing.NewClientSuite()),
 		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.VideoServiceName}),
 	)

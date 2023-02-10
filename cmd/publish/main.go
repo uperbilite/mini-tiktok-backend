@@ -11,6 +11,7 @@ import (
 	"mini-tiktok-backend/cmd/publish/rpc"
 	"mini-tiktok-backend/kitex_gen/publish/publishservice"
 	"mini-tiktok-backend/pkg/consts"
+	"mini-tiktok-backend/pkg/mw"
 	"net"
 )
 
@@ -40,6 +41,8 @@ func main() {
 	svr := publishservice.NewServer(new(PublishServiceImpl),
 		server.WithServiceAddr(addr),
 		server.WithRegistry(r),
+		server.WithMiddleware(mw.CommonMiddleware),
+		server.WithMiddleware(mw.ServerMiddleware),
 		server.WithSuite(tracing.NewServerSuite()),
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PublishServiceName}),
 	)

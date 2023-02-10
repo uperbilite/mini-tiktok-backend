@@ -11,6 +11,7 @@ import (
 	"mini-tiktok-backend/kitex_gen/comment/commentservice"
 	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/errno"
+	"mini-tiktok-backend/pkg/mw"
 )
 
 var commentClient commentservice.Client
@@ -28,6 +29,8 @@ func initComment() {
 	c, err := commentservice.NewClient(
 		consts.CommentServiceName,
 		client.WithResolver(r),
+		client.WithMiddleware(mw.CommonMiddleware),
+		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithSuite(tracing.NewClientSuite()),
 		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.ApiServiceName}),
 	)

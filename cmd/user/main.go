@@ -10,6 +10,7 @@ import (
 	"mini-tiktok-backend/cmd/user/dal"
 	"mini-tiktok-backend/kitex_gen/user/userservice"
 	"mini-tiktok-backend/pkg/consts"
+	"mini-tiktok-backend/pkg/mw"
 	"net"
 )
 
@@ -38,6 +39,8 @@ func main() {
 	svr := userservice.NewServer(new(UserServiceImpl),
 		server.WithServiceAddr(addr),
 		server.WithRegistry(r),
+		server.WithMiddleware(mw.CommonMiddleware),
+		server.WithMiddleware(mw.ServerMiddleware),
 		server.WithSuite(tracing.NewServerSuite()),
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.UserServiceName}),
 	)

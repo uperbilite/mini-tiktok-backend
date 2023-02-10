@@ -4,6 +4,8 @@ package main
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/cloudwego/hertz/pkg/common/hlog"
+	hertzlogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
 	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
@@ -13,6 +15,8 @@ import (
 func Init() {
 	rpc.Init()
 	mw.InitJWT()
+	hlog.SetLogger(hertzlogrus.NewLogger())
+	hlog.SetLevel(hlog.LevelInfo)
 }
 
 func main() {
