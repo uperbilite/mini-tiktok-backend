@@ -7,6 +7,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	hertzlogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
 	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
+	"github.com/hertz-contrib/pprof"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
 	"mini-tiktok-backend/pkg/consts"
@@ -31,6 +32,7 @@ func main() {
 	)
 
 	h.Use(hertztracing.ServerMiddleware(cfg))
+	pprof.Register(h)
 
 	register(h)
 	h.Spin()
