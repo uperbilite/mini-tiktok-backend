@@ -15,6 +15,7 @@ require (
 	github.com/hertz-contrib/obs-opentelemetry/logging/logrus v0.1.1
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.1.1
 	github.com/kitex-contrib/obs-opentelemetry v0.1.0
+	github.com/kitex-contrib/obs-opentelemetry/logging/logrus v0.0.0-20221109071748-a433b0b57972
 	github.com/kitex-contrib/registry-etcd v0.1.0
 	github.com/u2takey/ffmpeg-go v0.4.1
 	gorm.io/driver/mysql v1.4.5

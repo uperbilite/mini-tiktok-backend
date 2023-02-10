@@ -1,8 +1,10 @@
 package main
 
 import (
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
 	"github.com/kitex-contrib/obs-opentelemetry/provider"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	etcd "github.com/kitex-contrib/registry-etcd"
@@ -18,6 +20,8 @@ import (
 func Init() {
 	dal.Init()
 	rpc.Init()
+	klog.SetLogger(kitexlogrus.NewLogger())
+	klog.SetLevel(klog.LevelInfo)
 }
 
 func main() {
