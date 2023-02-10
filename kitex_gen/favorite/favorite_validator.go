@@ -77,20 +77,6 @@ func (p *GetIsFavoriteResponse) IsValid() error {
 	}
 	return nil
 }
-func (p *GetFavoriteCountRequest) IsValid() error {
-	if p.VideoId <= int64(0) {
-		return fmt.Errorf("field VideoId gt rule failed, current value: %v", p.VideoId)
-	}
-	return nil
-}
-func (p *GetFavoriteCountResponse) IsValid() error {
-	if p.BaseResp != nil {
-		if err := p.BaseResp.IsValid(); err != nil {
-			return fmt.Errorf("filed BaseResp not valid, %w", err)
-		}
-	}
-	return nil
-}
 func (p *GetFavoriteListRequest) IsValid() error {
 	if p.UserId <= int64(0) {
 		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)

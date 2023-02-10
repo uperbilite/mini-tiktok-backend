@@ -51,26 +51,6 @@ func (s *FavoriteServiceImpl) GetIsFavorite(ctx context.Context, req *favorite.G
 	return resp, nil
 }
 
-func (s *FavoriteServiceImpl) GetFavoriteCount(ctx context.Context, req *favorite.GetFavoriteCountRequest) (resp *favorite.GetFavoriteCountResponse, err error) {
-	resp = new(favorite.GetFavoriteCountResponse)
-
-	if err = req.IsValid(); err != nil {
-		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-		return resp, nil
-	}
-
-	favoriteCount, err := service.NewGetFavoriteCountService(ctx).GetFavoriteCount(req)
-	if err != nil {
-		resp.BaseResp = pack.BuildBaseResp(err)
-		return resp, nil
-	}
-
-	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.FavoriteCount = favoriteCount
-
-	return resp, nil
-}
-
 func (s *FavoriteServiceImpl) GetFavoriteList(ctx context.Context, req *favorite.GetFavoriteListRequest) (resp *favorite.GetFavoriteListResponse, err error) {
 	resp = new(favorite.GetFavoriteListResponse)
 

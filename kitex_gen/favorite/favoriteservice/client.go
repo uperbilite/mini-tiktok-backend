@@ -13,7 +13,6 @@ import (
 type Client interface {
 	FavoriteAction(ctx context.Context, req *favorite.FavoriteActionRequest, callOptions ...callopt.Option) (r *favorite.FavoriteActionResponse, err error)
 	GetIsFavorite(ctx context.Context, req *favorite.GetIsFavoriteRequest, callOptions ...callopt.Option) (r *favorite.GetIsFavoriteResponse, err error)
-	GetFavoriteCount(ctx context.Context, req *favorite.GetFavoriteCountRequest, callOptions ...callopt.Option) (r *favorite.GetFavoriteCountResponse, err error)
 	GetFavoriteList(ctx context.Context, req *favorite.GetFavoriteListRequest, callOptions ...callopt.Option) (r *favorite.GetFavoriteListResponse, err error)
 }
 
@@ -54,11 +53,6 @@ func (p *kFavoriteServiceClient) FavoriteAction(ctx context.Context, req *favori
 func (p *kFavoriteServiceClient) GetIsFavorite(ctx context.Context, req *favorite.GetIsFavoriteRequest, callOptions ...callopt.Option) (r *favorite.GetIsFavoriteResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetIsFavorite(ctx, req)
-}
-
-func (p *kFavoriteServiceClient) GetFavoriteCount(ctx context.Context, req *favorite.GetFavoriteCountRequest, callOptions ...callopt.Option) (r *favorite.GetFavoriteCountResponse, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetFavoriteCount(ctx, req)
 }
 
 func (p *kFavoriteServiceClient) GetFavoriteList(ctx context.Context, req *favorite.GetFavoriteListRequest, callOptions ...callopt.Option) (r *favorite.GetFavoriteListResponse, err error) {

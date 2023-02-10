@@ -74,20 +74,6 @@ func (p *DeleteCommentResponse) IsValid() error {
 	}
 	return nil
 }
-func (p *GetCommentCountRequest) IsValid() error {
-	if p.VideoId <= int64(0) {
-		return fmt.Errorf("field VideoId gt rule failed, current value: %v", p.VideoId)
-	}
-	return nil
-}
-func (p *GetCommentCountResponse) IsValid() error {
-	if p.BaseResp != nil {
-		if err := p.BaseResp.IsValid(); err != nil {
-			return fmt.Errorf("filed BaseResp not valid, %w", err)
-		}
-	}
-	return nil
-}
 func (p *GetCommentListRequest) IsValid() error {
 	if p.UserId <= int64(0) {
 		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)

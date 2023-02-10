@@ -13,7 +13,6 @@ import (
 type Client interface {
 	CreateComment(ctx context.Context, req *comment.CreateCommentRequest, callOptions ...callopt.Option) (r *comment.CreateCommentResponse, err error)
 	DeleteComment(ctx context.Context, req *comment.DeleteCommentRequest, callOptions ...callopt.Option) (r *comment.DeleteCommentResponse, err error)
-	GetCommentCount(ctx context.Context, req *comment.GetCommentCountRequest, callOptions ...callopt.Option) (r *comment.GetCommentCountResponse, err error)
 	GetCommentList(ctx context.Context, req *comment.GetCommentListRequest, callOptions ...callopt.Option) (r *comment.GetCommentListResponse, err error)
 }
 
@@ -54,11 +53,6 @@ func (p *kCommentServiceClient) CreateComment(ctx context.Context, req *comment.
 func (p *kCommentServiceClient) DeleteComment(ctx context.Context, req *comment.DeleteCommentRequest, callOptions ...callopt.Option) (r *comment.DeleteCommentResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DeleteComment(ctx, req)
-}
-
-func (p *kCommentServiceClient) GetCommentCount(ctx context.Context, req *comment.GetCommentCountRequest, callOptions ...callopt.Option) (r *comment.GetCommentCountResponse, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetCommentCount(ctx, req)
 }
 
 func (p *kCommentServiceClient) GetCommentList(ctx context.Context, req *comment.GetCommentListRequest, callOptions ...callopt.Option) (r *comment.GetCommentListResponse, err error) {

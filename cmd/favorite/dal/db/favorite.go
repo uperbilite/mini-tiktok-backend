@@ -18,16 +18,16 @@ func (f *Favorite) TableName() string {
 	return consts.FavoriteTableName
 }
 
-// GetVideoKey Key format is video:{id}
-func GetVideoKey(videoId int64) string {
+// GetFavoriteKey Key format is "favorite:{video_id}"
+func GetFavoriteKey(videoId int64) string {
 	var res strings.Builder
-	res.WriteString("video:")
+	res.WriteString("favorite:")
 	res.WriteString(strconv.FormatInt(videoId, 10))
 	return res.String()
 }
 
 func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
-	res := RDB.Get(ctx, GetVideoKey(videoId))
+	res := RDB.Get(ctx, GetFavoriteKey(videoId))
 	if res == nil {
 		return 0, nil
 	}
@@ -35,13 +35,13 @@ func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
 }
 
 func IncrFavoriteCount(ctx context.Context, videoId int64) {
-	RDB.Incr(ctx, GetVideoKey(videoId))
+	RDB.Incr(ctx, GetFavoriteKey(videoId))
 }
 
 func DecrFavoriteCount(ctx context.Context, videoId int64) {
 	favoriteCount, _ := GetFavoriteCount(ctx, videoId)
 	if favoriteCount > 0 {
-		RDB.Decr(ctx, GetVideoKey(videoId))
+		RDB.Decr(ctx, GetFavoriteKey(videoId))
 	}
 }
 
@@ -63,17 +63,6 @@ func QueryFavorite(ctx context.Context, userId int64, videoId int64) ([]*Favorit
 		Where("user_id = ? and video_id = ? ", userId, videoId).
 		Find(&res).Error; err != nil {
 		return nil, err
-	}
-	return res, nil
-}
-
-func QueryFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
-	var res int64
-	if err := DB.WithContext(ctx).
-		Model(&Favorite{}).
-		Where("video_id = ?", videoId).
-		Count(&res).Error; err != nil {
-		return 0, err
 	}
 	return res, nil
 }

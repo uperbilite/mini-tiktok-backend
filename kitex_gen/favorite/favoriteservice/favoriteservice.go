@@ -19,10 +19,9 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "FavoriteService"
 	handlerType := (*favorite.FavoriteService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"FavoriteAction":   kitex.NewMethodInfo(favoriteActionHandler, newFavoriteServiceFavoriteActionArgs, newFavoriteServiceFavoriteActionResult, false),
-		"GetIsFavorite":    kitex.NewMethodInfo(getIsFavoriteHandler, newFavoriteServiceGetIsFavoriteArgs, newFavoriteServiceGetIsFavoriteResult, false),
-		"GetFavoriteCount": kitex.NewMethodInfo(getFavoriteCountHandler, newFavoriteServiceGetFavoriteCountArgs, newFavoriteServiceGetFavoriteCountResult, false),
-		"GetFavoriteList":  kitex.NewMethodInfo(getFavoriteListHandler, newFavoriteServiceGetFavoriteListArgs, newFavoriteServiceGetFavoriteListResult, false),
+		"FavoriteAction":  kitex.NewMethodInfo(favoriteActionHandler, newFavoriteServiceFavoriteActionArgs, newFavoriteServiceFavoriteActionResult, false),
+		"GetIsFavorite":   kitex.NewMethodInfo(getIsFavoriteHandler, newFavoriteServiceGetIsFavoriteArgs, newFavoriteServiceGetIsFavoriteResult, false),
+		"GetFavoriteList": kitex.NewMethodInfo(getFavoriteListHandler, newFavoriteServiceGetFavoriteListArgs, newFavoriteServiceGetFavoriteListResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "favorite",
@@ -74,24 +73,6 @@ func newFavoriteServiceGetIsFavoriteResult() interface{} {
 	return favorite.NewFavoriteServiceGetIsFavoriteResult()
 }
 
-func getFavoriteCountHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*favorite.FavoriteServiceGetFavoriteCountArgs)
-	realResult := result.(*favorite.FavoriteServiceGetFavoriteCountResult)
-	success, err := handler.(favorite.FavoriteService).GetFavoriteCount(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newFavoriteServiceGetFavoriteCountArgs() interface{} {
-	return favorite.NewFavoriteServiceGetFavoriteCountArgs()
-}
-
-func newFavoriteServiceGetFavoriteCountResult() interface{} {
-	return favorite.NewFavoriteServiceGetFavoriteCountResult()
-}
-
 func getFavoriteListHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*favorite.FavoriteServiceGetFavoriteListArgs)
 	realResult := result.(*favorite.FavoriteServiceGetFavoriteListResult)
@@ -135,16 +116,6 @@ func (p *kClient) GetIsFavorite(ctx context.Context, req *favorite.GetIsFavorite
 	_args.Req = req
 	var _result favorite.FavoriteServiceGetIsFavoriteResult
 	if err = p.c.Call(ctx, "GetIsFavorite", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) GetFavoriteCount(ctx context.Context, req *favorite.GetFavoriteCountRequest) (r *favorite.GetFavoriteCountResponse, err error) {
-	var _args favorite.FavoriteServiceGetFavoriteCountArgs
-	_args.Req = req
-	var _result favorite.FavoriteServiceGetFavoriteCountResult
-	if err = p.c.Call(ctx, "GetFavoriteCount", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
