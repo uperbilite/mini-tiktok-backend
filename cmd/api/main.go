@@ -5,6 +5,7 @@ package main
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
+	"github.com/hertz-contrib/gzip"
 	hertzlogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
 	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/pprof"
@@ -32,6 +33,7 @@ func main() {
 	)
 
 	h.Use(hertztracing.ServerMiddleware(cfg))
+	h.Use(gzip.Gzip(gzip.DefaultCompression))
 	pprof.Register(h)
 
 	register(h)

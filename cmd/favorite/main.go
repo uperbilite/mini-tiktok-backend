@@ -45,6 +45,7 @@ func main() {
 	svr := favoriteservice.NewServer(new(FavoriteServiceImpl),
 		server.WithServiceAddr(addr),
 		server.WithRegistry(r),
+		server.WithMuxTransport(),
 		server.WithMiddleware(mw.CommonMiddleware),
 		server.WithMiddleware(mw.ServerMiddleware),
 		server.WithSuite(tracing.NewServerSuite()),

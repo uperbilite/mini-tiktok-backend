@@ -45,6 +45,7 @@ func main() {
 	svr := videoservice.NewServer(new(VideoServiceImpl),
 		server.WithServiceAddr(addr),
 		server.WithRegistry(r),
+		server.WithMuxTransport(),
 		server.WithMiddleware(mw.CommonMiddleware),
 		server.WithMiddleware(mw.ServerMiddleware),
 		server.WithSuite(tracing.NewServerSuite()),

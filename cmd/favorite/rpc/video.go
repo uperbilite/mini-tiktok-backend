@@ -29,6 +29,7 @@ func initVideo() {
 	c, err := videoservice.NewClient(
 		consts.VideoServiceName,
 		client.WithResolver(r),
+		client.WithMuxConnection(1),
 		client.WithMiddleware(mw.CommonMiddleware),
 		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithSuite(tracing.NewClientSuite()),

@@ -45,6 +45,7 @@ func main() {
 	svr := publishservice.NewServer(new(PublishServiceImpl),
 		server.WithServiceAddr(addr),
 		server.WithRegistry(r),
+		server.WithMuxTransport(),
 		server.WithMiddleware(mw.CommonMiddleware),
 		server.WithMiddleware(mw.ServerMiddleware),
 		server.WithSuite(tracing.NewServerSuite()),

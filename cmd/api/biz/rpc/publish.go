@@ -29,6 +29,7 @@ func initPublish() {
 	c, err := publishservice.NewClient(
 		consts.PublishServiceName,
 		client.WithResolver(r),
+		client.WithMuxConnection(1),
 		client.WithMiddleware(mw.CommonMiddleware),
 		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithSuite(tracing.NewClientSuite()),
