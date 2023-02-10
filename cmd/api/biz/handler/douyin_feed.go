@@ -21,6 +21,7 @@ func DouyinFeed(ctx context.Context, c *app.RequestContext) {
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		SendResponse(c, err, utils.H{})
+		return
 	}
 
 	var userId int64
@@ -42,6 +43,7 @@ func DouyinFeed(ctx context.Context, c *app.RequestContext) {
 	})
 	if err != nil {
 		SendResponse(c, err, utils.H{})
+		return
 	}
 
 	SendResponse(c, errno.Success, utils.H{

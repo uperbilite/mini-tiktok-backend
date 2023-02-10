@@ -36,6 +36,7 @@ func DouyinFavoriteAction(ctx context.Context, c *app.RequestContext) {
 
 	if err != nil {
 		SendResponse(c, err, utils.H{})
+		return
 	}
 
 	SendResponse(c, errno.Success, utils.H{})
