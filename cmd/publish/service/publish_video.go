@@ -39,32 +39,22 @@ func (s *PublishVideoService) PublishVideo(req *publish.PublishVideoRequest) err
 	videoUid, _ := uuid.NewV4()
 	videoUidString := videoUid.String()
 
-	var videoUrl strings.Builder
-	videoUrl.Grow(consts.UrlLen)
-	videoUrl.WriteString(consts.OSSResourceURL)
-	videoUrl.WriteString("video/")
-	videoUrl.WriteString(videoUidString)
-	videoUrl.WriteString(".mp4")
-
 	var videoObjectKey strings.Builder
 	videoObjectKey.Grow(consts.ObjKeyLen)
 	videoObjectKey.WriteString("video/")
 	videoObjectKey.WriteString(videoUidString)
 	videoObjectKey.WriteString(".mp4")
 
-	err = bucket.PutObject(videoObjectKey.String(), bytes.NewReader(req.Data)) // TODO: set key access
+	err = bucket.PutObject(videoObjectKey.String(), bytes.NewReader(req.Data))
 	if err != nil {
 		return err
 	}
 
-	cover, _ := GetCoverFromVideo(videoUrl.String())
-
-	var coverUrl strings.Builder
-	coverUrl.Grow(consts.UrlLen)
-	coverUrl.WriteString(consts.OSSResourceURL)
-	coverUrl.WriteString("cover/")
-	coverUrl.WriteString(videoUidString)
-	coverUrl.WriteString(".jpg")
+	videoSignedUrl, err := bucket.SignURL(videoObjectKey.String(), oss.HTTPGet, 600)
+	if err != nil {
+		return err
+	}
+	cover, _ := GetCoverFromVideo(videoSignedUrl)
 
 	var coverObjectKey strings.Builder
 	coverObjectKey.Grow(consts.ObjKeyLen)
@@ -72,15 +62,15 @@ func (s *PublishVideoService) PublishVideo(req *publish.PublishVideoRequest) err
 	coverObjectKey.WriteString(videoUidString)
 	coverObjectKey.WriteString(".jpg")
 
-	err = bucket.PutObject(coverObjectKey.String(), bytes.NewReader(cover)) // TODO: set key access
+	err = bucket.PutObject(coverObjectKey.String(), bytes.NewReader(cover))
 	if err != nil {
 		return err
 	}
 
 	return db.CreateVideo(s.ctx, &db.Video{
 		AuthorId: req.UserId,
-		PlayURL:  videoUrl.String(),
-		CoverURL: coverUrl.String(),
+		PlayURL:  videoObjectKey.String(),
+		CoverURL: coverObjectKey.String(),
 		Title:    req.Title,
 	})
 
