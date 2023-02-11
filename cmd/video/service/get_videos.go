@@ -53,14 +53,6 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 		video.IsFavorite = isFavorite
 
 		video.FavoriteCount, _ = db.GetFavoriteCount(s.ctx, int64(v.ID))
-
-		// get comment count
-		//commentCount, err := rpc.GetCommentCount(s.ctx, &comment.GetCommentCountRequest{
-		//	VideoId: int64(v.ID),
-		//})
-		//if err != nil {
-		//	return nil, err
-		//}
 		video.CommentCount, _ = db.GetCommentCount(s.ctx, int64(v.ID))
 
 		videos = append(videos, video)

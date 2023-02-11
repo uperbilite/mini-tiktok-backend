@@ -18,6 +18,8 @@ const (
 	AccessKeySecret     = "iNWQt90rnVTZJYENX4EDWZSUfNDtBu"
 	OSSBucketName       = "mini-tiktok-backend"
 	OSSResourceURL      = "https://mini-tiktok-backend.oss-cn-beijing.aliyuncs.com/"
+	UrlLen              = 120
+	ObjKeyLen           = 60
 	TCP                 = "tcp"
 	ExportEndpoint      = ":4317"
 	ETCDAddress         = "127.0.0.1:2379"

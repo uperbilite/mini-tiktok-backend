@@ -13,6 +13,7 @@ import (
 	"mini-tiktok-backend/kitex_gen/publish"
 	"mini-tiktok-backend/pkg/consts"
 	"os"
+	"strings"
 )
 
 type PublishVideoService struct {
@@ -36,22 +37,50 @@ func (s *PublishVideoService) PublishVideo(req *publish.PublishVideoRequest) err
 	}
 
 	videoUid, _ := uuid.NewV4()
-	videoUrl := consts.OSSResourceURL + "video/" + videoUid.String() + ".mp4"
-	err = bucket.PutObject("video/"+videoUid.String()+".mp4", bytes.NewReader(req.Data)) // TODO: set key access
+	videoUidString := videoUid.String()
+
+	var videoUrl strings.Builder
+	videoUrl.Grow(consts.UrlLen)
+	videoUrl.WriteString(consts.OSSResourceURL)
+	videoUrl.WriteString("video/")
+	videoUrl.WriteString(videoUidString)
+	videoUrl.WriteString(".mp4")
+
+	var videoObjectKey strings.Builder
+	videoObjectKey.Grow(consts.ObjKeyLen)
+	videoObjectKey.WriteString("video/")
+	videoObjectKey.WriteString(videoUidString)
+	videoObjectKey.WriteString(".mp4")
+
+	err = bucket.PutObject(videoObjectKey.String(), bytes.NewReader(req.Data)) // TODO: set key access
 	if err != nil {
 		return err
 	}
-	cover, _ := GetCoverFromVideo(videoUrl)
-	coverUrl := consts.OSSResourceURL + "cover/" + videoUid.String() + ".jpg"
-	err = bucket.PutObject("cover/"+videoUid.String()+".jpg", bytes.NewReader(cover)) // TODO: set key access
+
+	cover, _ := GetCoverFromVideo(videoUrl.String())
+
+	var coverUrl strings.Builder
+	coverUrl.Grow(consts.UrlLen)
+	coverUrl.WriteString(consts.OSSResourceURL)
+	coverUrl.WriteString("cover/")
+	coverUrl.WriteString(videoUidString)
+	coverUrl.WriteString(".jpg")
+
+	var coverObjectKey strings.Builder
+	coverObjectKey.Grow(consts.ObjKeyLen)
+	coverObjectKey.WriteString("cover/")
+	coverObjectKey.WriteString(videoUidString)
+	coverObjectKey.WriteString(".jpg")
+
+	err = bucket.PutObject(coverObjectKey.String(), bytes.NewReader(cover)) // TODO: set key access
 	if err != nil {
 		return err
 	}
 
 	return db.CreateVideo(s.ctx, &db.Video{
 		AuthorId: req.UserId,
-		PlayURL:  videoUrl,
-		CoverURL: coverUrl,
+		PlayURL:  videoUrl.String(),
+		CoverURL: coverUrl.String(),
 		Title:    req.Title,
 	})
 
