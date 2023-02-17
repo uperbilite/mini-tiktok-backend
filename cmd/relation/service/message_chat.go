@@ -24,7 +24,7 @@ func (s *MessageChatService) MessageChat(req *relation.MessageChatRequest) ([]*r
 	for i,m := range res {
 		message[i] = &relation.Message{
 			Id: m.Id,
-			CreateTime: m.CreatedAt.Unix(),
+			CreateTime: m.CreatedAt.Format("2006-01-02 15:04:05"),
 			Content: m.Content,
 		}
 	}

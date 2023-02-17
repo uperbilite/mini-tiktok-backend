@@ -752,7 +752,7 @@ func (p *User) Field5DeepEqual(src bool) bool {
 type Message struct {
 	Id         int64  `thrift:"Id,1,required" frugal:"1,required,i64" json:"Id"`
 	Content    string `thrift:"content,2,required" frugal:"2,required,string" json:"content"`
-	CreateTime int64  `thrift:"create_time,3,required" frugal:"3,required,i64" json:"create_time"`
+	CreateTime string `thrift:"create_time,3,required" frugal:"3,required,string" json:"create_time"`
 }
 
 func NewMessage() *Message {
@@ -771,7 +771,7 @@ func (p *Message) GetContent() (v string) {
 	return p.Content
 }
 
-func (p *Message) GetCreateTime() (v int64) {
+func (p *Message) GetCreateTime() (v string) {
 	return p.CreateTime
 }
 func (p *Message) SetId(val int64) {
@@ -780,7 +780,7 @@ func (p *Message) SetId(val int64) {
 func (p *Message) SetContent(val string) {
 	p.Content = val
 }
-func (p *Message) SetCreateTime(val int64) {
+func (p *Message) SetCreateTime(val string) {
 	p.CreateTime = val
 }
 
@@ -835,7 +835,7 @@ func (p *Message) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -910,7 +910,7 @@ func (p *Message) ReadField2(iprot thrift.TProtocol) error {
 }
 
 func (p *Message) ReadField3(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
 		p.CreateTime = v
@@ -990,10 +990,10 @@ WriteFieldEndError:
 }
 
 func (p *Message) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("create_time", thrift.I64, 3); err != nil {
+	if err = oprot.WriteFieldBegin("create_time", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.CreateTime); err != nil {
+	if err := oprot.WriteString(p.CreateTime); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -1045,9 +1045,9 @@ func (p *Message) Field2DeepEqual(src string) bool {
 	}
 	return true
 }
-func (p *Message) Field3DeepEqual(src int64) bool {
+func (p *Message) Field3DeepEqual(src string) bool {
 
-	if p.CreateTime != src {
+	if strings.Compare(p.CreateTime, src) != 0 {
 		return false
 	}
 	return true
