@@ -27,7 +27,7 @@ func initRelation() {
 		provider.WithInsecure(),
 	)
 	c, err := relationservice.NewClient(
-		consts.FavoriteServiceName,
+		consts.RelationServiceName,
 		client.WithResolver(r),
 		client.WithMuxConnection(1),
 		client.WithMiddleware(mw.CommonMiddleware),
