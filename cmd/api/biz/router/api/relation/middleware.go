@@ -75,3 +75,28 @@ func _douyinrelationfriendlistMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _messageMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _douyinmessage_ctionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _chatMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _douyinmessagechatMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _action0Mw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
