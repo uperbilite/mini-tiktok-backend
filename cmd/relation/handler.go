@@ -17,13 +17,13 @@ func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.
 
 	if err = req.IsValid(); err != nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-		return resp,nil
+		return resp, nil
 	}
 
 	err = service.NewRelationActionService(ctx).RelationAction(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
-		return resp,nil
+		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	return
@@ -35,13 +35,13 @@ func (s *RelationServiceImpl) GetFollowList(ctx context.Context, req *relation.G
 
 	if err = req.IsValid(); err != nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-		return resp,nil
+		return resp, nil
 	}
 
-	users,err := service.NewGetFollowListService(ctx).GetFollowList(req)
+	users, err := service.NewGetFollowListService(ctx).GetFollowList(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
-		return resp,nil
+		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.UserList = users
@@ -54,13 +54,13 @@ func (s *RelationServiceImpl) GetFollowerList(ctx context.Context, req *relation
 
 	if err = req.IsValid(); err != nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-		return resp,nil
+		return resp, nil
 	}
 
-	users,err := service.NewGetFollowerListService(ctx).GetFollowerList(req)
+	users, err := service.NewGetFollowerListService(ctx).GetFollowerList(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
-		return resp,nil
+		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.UserList = users
@@ -73,13 +73,13 @@ func (s *RelationServiceImpl) GetFriendList(ctx context.Context, req *relation.G
 
 	if err = req.IsValid(); err != nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-		return resp,nil
+		return resp, nil
 	}
 
-	users,err := service.NewFriendListService(ctx).GetFriendList(req)
+	users, err := service.NewFriendListService(ctx).GetFriendList(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
-		return resp,nil
+		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.UserList = users
@@ -92,13 +92,13 @@ func (s *RelationServiceImpl) MessageAction(ctx context.Context, req *relation.M
 
 	if err = req.IsValid(); err != nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-		return resp,nil
+		return resp, nil
 	}
 
 	err = service.NewMessageActionService(ctx).MessageAction(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
-		return resp,nil
+		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	return
@@ -110,14 +110,49 @@ func (s *RelationServiceImpl) MessageChat(ctx context.Context, req *relation.Mes
 
 	if err = req.IsValid(); err != nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+	messages, err := service.NewMessageChatService(ctx).MessageChat(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.MessageList = messages
+	return
+}
+
+// GetFollowAndFollowerCount implements the RelationServiceImpl interface.
+func (s *RelationServiceImpl) GetFollowAndFollowerCount(ctx context.Context, req *relation.GetFollowAndFollowerCountRequest) (resp *relation.GetFollowAndFollowerCountResponse, err error) {
+	resp = new(relation.GetFollowAndFollowerCountResponse)
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+	follows, followers, err := service.NewGetFollowAndFollowerCountService(ctx).GetFollowAndFollowerCount(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.Follows = follows
+	resp.Followers = followers
+	return
+}
+
+// IsFollowToUser implements the RelationServiceImpl interface.
+func (s *RelationServiceImpl) IsFollowToUser(ctx context.Context, req *relation.IsFollowToUserRequest) (resp *relation.IsFollowToUserResponse, err error) {
+	resp = new(relation.IsFollowToUserResponse)
+	if err = req.IsValid(); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp,nil
 	}
-	messages,err := service.NewMessageChatService(ctx).MessageChat(req)
+	is_follow, err := service.NewIsFollowToUserService(ctx).IsFollowToUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp,nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.MessageList = messages
+	resp.IsFollow = is_follow
 	return
 }

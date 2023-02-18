@@ -19,12 +19,14 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "RelationService"
 	handlerType := (*relation.RelationService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"RelationAction":  kitex.NewMethodInfo(relationActionHandler, newRelationServiceRelationActionArgs, newRelationServiceRelationActionResult, false),
-		"GetFollowList":   kitex.NewMethodInfo(getFollowListHandler, newRelationServiceGetFollowListArgs, newRelationServiceGetFollowListResult, false),
-		"GetFollowerList": kitex.NewMethodInfo(getFollowerListHandler, newRelationServiceGetFollowerListArgs, newRelationServiceGetFollowerListResult, false),
-		"GetFriendList":   kitex.NewMethodInfo(getFriendListHandler, newRelationServiceGetFriendListArgs, newRelationServiceGetFriendListResult, false),
-		"MessageAction":   kitex.NewMethodInfo(messageActionHandler, newRelationServiceMessageActionArgs, newRelationServiceMessageActionResult, false),
-		"MessageChat":     kitex.NewMethodInfo(messageChatHandler, newRelationServiceMessageChatArgs, newRelationServiceMessageChatResult, false),
+		"RelationAction":            kitex.NewMethodInfo(relationActionHandler, newRelationServiceRelationActionArgs, newRelationServiceRelationActionResult, false),
+		"GetFollowList":             kitex.NewMethodInfo(getFollowListHandler, newRelationServiceGetFollowListArgs, newRelationServiceGetFollowListResult, false),
+		"GetFollowerList":           kitex.NewMethodInfo(getFollowerListHandler, newRelationServiceGetFollowerListArgs, newRelationServiceGetFollowerListResult, false),
+		"GetFriendList":             kitex.NewMethodInfo(getFriendListHandler, newRelationServiceGetFriendListArgs, newRelationServiceGetFriendListResult, false),
+		"MessageAction":             kitex.NewMethodInfo(messageActionHandler, newRelationServiceMessageActionArgs, newRelationServiceMessageActionResult, false),
+		"MessageChat":               kitex.NewMethodInfo(messageChatHandler, newRelationServiceMessageChatArgs, newRelationServiceMessageChatResult, false),
+		"GetFollowAndFollowerCount": kitex.NewMethodInfo(getFollowAndFollowerCountHandler, newRelationServiceGetFollowAndFollowerCountArgs, newRelationServiceGetFollowAndFollowerCountResult, false),
+		"IsFollowToUser":            kitex.NewMethodInfo(isFollowToUserHandler, newRelationServiceIsFollowToUserArgs, newRelationServiceIsFollowToUserResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "relation",
@@ -148,6 +150,42 @@ func newRelationServiceMessageChatResult() interface{} {
 	return relation.NewRelationServiceMessageChatResult()
 }
 
+func getFollowAndFollowerCountHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceGetFollowAndFollowerCountArgs)
+	realResult := result.(*relation.RelationServiceGetFollowAndFollowerCountResult)
+	success, err := handler.(relation.RelationService).GetFollowAndFollowerCount(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceGetFollowAndFollowerCountArgs() interface{} {
+	return relation.NewRelationServiceGetFollowAndFollowerCountArgs()
+}
+
+func newRelationServiceGetFollowAndFollowerCountResult() interface{} {
+	return relation.NewRelationServiceGetFollowAndFollowerCountResult()
+}
+
+func isFollowToUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceIsFollowToUserArgs)
+	realResult := result.(*relation.RelationServiceIsFollowToUserResult)
+	success, err := handler.(relation.RelationService).IsFollowToUser(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceIsFollowToUserArgs() interface{} {
+	return relation.NewRelationServiceIsFollowToUserArgs()
+}
+
+func newRelationServiceIsFollowToUserResult() interface{} {
+	return relation.NewRelationServiceIsFollowToUserResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -213,6 +251,26 @@ func (p *kClient) MessageChat(ctx context.Context, req *relation.MessageChatRequ
 	_args.Req = req
 	var _result relation.RelationServiceMessageChatResult
 	if err = p.c.Call(ctx, "MessageChat", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetFollowAndFollowerCount(ctx context.Context, req *relation.GetFollowAndFollowerCountRequest) (r *relation.GetFollowAndFollowerCountResponse, err error) {
+	var _args relation.RelationServiceGetFollowAndFollowerCountArgs
+	_args.Req = req
+	var _result relation.RelationServiceGetFollowAndFollowerCountResult
+	if err = p.c.Call(ctx, "GetFollowAndFollowerCount", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) IsFollowToUser(ctx context.Context, req *relation.IsFollowToUserRequest) (r *relation.IsFollowToUserResponse, err error) {
+	var _args relation.RelationServiceIsFollowToUserArgs
+	_args.Req = req
+	var _result relation.RelationServiceIsFollowToUserResult
+	if err = p.c.Call(ctx, "IsFollowToUser", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

@@ -60,6 +60,26 @@ struct GetFriendListResponse {
     2: required list<User> user_list
 }
 
+struct GetFollowAndFollowerCountRequest {
+    1: required i64 user_id
+}
+
+struct GetFollowAndFollowerCountResponse {
+    1: required BaseResp base_resp
+    2: required i64 follows
+    3: required i64 followers
+}
+
+struct IsFollowToUserRequest {
+    1: required i64 user_id
+    2: required i64 to_user_id
+}
+
+struct IsFollowToUserResponse {
+    1: required BaseResp base_resp
+    2: required bool is_follow
+}
+
 struct MessageActionRequest {
     1: required i64 user_id (vt.gt = "0")
     2: required i64 to_user_id (vt.gt = "0")
@@ -87,6 +107,8 @@ service RelationService {
     GetFriendListResponse GetFriendList(1: GetFriendListRequest req)
     MessageActionResponse MessageAction(1: MessageActionRequest req)
     MessageChatResponse MessageChat(1: MessageChatRequest req)
+    GetFollowAndFollowerCountResponse GetFollowAndFollowerCount(1: GetFollowAndFollowerCountRequest req)
+    IsFollowToUserResponse IsFollowToUser(1: IsFollowToUserRequest req)
 }
 
 

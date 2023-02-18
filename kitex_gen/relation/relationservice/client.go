@@ -17,6 +17,8 @@ type Client interface {
 	GetFriendList(ctx context.Context, req *relation.GetFriendListRequest, callOptions ...callopt.Option) (r *relation.GetFriendListResponse, err error)
 	MessageAction(ctx context.Context, req *relation.MessageActionRequest, callOptions ...callopt.Option) (r *relation.MessageActionResponse, err error)
 	MessageChat(ctx context.Context, req *relation.MessageChatRequest, callOptions ...callopt.Option) (r *relation.MessageChatResponse, err error)
+	GetFollowAndFollowerCount(ctx context.Context, req *relation.GetFollowAndFollowerCountRequest, callOptions ...callopt.Option) (r *relation.GetFollowAndFollowerCountResponse, err error)
+	IsFollowToUser(ctx context.Context, req *relation.IsFollowToUserRequest, callOptions ...callopt.Option) (r *relation.IsFollowToUserResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -76,4 +78,14 @@ func (p *kRelationServiceClient) MessageAction(ctx context.Context, req *relatio
 func (p *kRelationServiceClient) MessageChat(ctx context.Context, req *relation.MessageChatRequest, callOptions ...callopt.Option) (r *relation.MessageChatResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.MessageChat(ctx, req)
+}
+
+func (p *kRelationServiceClient) GetFollowAndFollowerCount(ctx context.Context, req *relation.GetFollowAndFollowerCountRequest, callOptions ...callopt.Option) (r *relation.GetFollowAndFollowerCountResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetFollowAndFollowerCount(ctx, req)
+}
+
+func (p *kRelationServiceClient) IsFollowToUser(ctx context.Context, req *relation.IsFollowToUserRequest, callOptions ...callopt.Option) (r *relation.IsFollowToUserResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.IsFollowToUser(ctx, req)
 }

@@ -109,6 +109,28 @@ func (p *GetFriendListResponse) IsValid() error {
 	}
 	return nil
 }
+func (p *GetFollowAndFollowerCountRequest) IsValid() error {
+	return nil
+}
+func (p *GetFollowAndFollowerCountResponse) IsValid() error {
+	if p.BaseResp != nil {
+		if err := p.BaseResp.IsValid(); err != nil {
+			return fmt.Errorf("filed BaseResp not valid, %w", err)
+		}
+	}
+	return nil
+}
+func (p *IsFollowToUserRequest) IsValid() error {
+	return nil
+}
+func (p *IsFollowToUserResponse) IsValid() error {
+	if p.BaseResp != nil {
+		if err := p.BaseResp.IsValid(); err != nil {
+			return fmt.Errorf("filed BaseResp not valid, %w", err)
+		}
+	}
+	return nil
+}
 func (p *MessageActionRequest) IsValid() error {
 	if p.UserId <= int64(0) {
 		return fmt.Errorf("field UserId gt rule failed, current value: %v", p.UserId)

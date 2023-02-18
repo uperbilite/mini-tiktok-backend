@@ -69,3 +69,32 @@ func FollowUser(ctx context.Context, userId,targetUserId int64) error {
 	return nil
 }
 
+func CountFollow(ctx context.Context, userId int64) (follows int64,err error) {
+	err = DB.WithContext(ctx).Find(&Follow{}).Count(&follows).Error
+	if err != nil {
+		return 0, err
+	}
+	return
+}
+
+func CountFollower(ctx  context.Context,userId int64) (followers int64,err error) {
+	err = DB.WithContext(ctx).Find(&Follower{}).Count(&followers).Error
+	if err != nil {
+		return 0, err
+	}
+	return
+}
+
+func IsFollow(ctx context.Context, userId, toUserId int64) (bool, error) {
+	err := DB.WithContext(ctx).
+		Where("user_id = ? AND follow_id = ?",userId,toUserId).
+		First(&Follow{}).Error
+	if err == gorm.ErrRecordNotFound {
+		return false, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	return true,nil
+}
+
