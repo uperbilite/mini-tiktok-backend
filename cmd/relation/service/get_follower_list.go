@@ -29,7 +29,7 @@ func (s *GetFollowerListService) GetFollowerList(req *relation.GetFollowerListRe
 	for _, fd := range followerId {
 		u, err := rpc.QueryUser(s.ctx,&user.QueryUserRequest{
 			UserId: req.UserId,
-			TargetUserId: fd.FollowerId,
+			TargetUserId: fd.FromId,
 		})
 		if err != nil {
 			return nil, err

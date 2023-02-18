@@ -8,39 +8,29 @@ import (
 
 type Follow struct {
 	gorm.Model
-	UserId int64 `json:"user_id"`
-	FollowId int64 `json:"follow_id"`
-}
-
-type Follower struct {
-	gorm.Model
-	UserId int64 `json:"user_id"`
-	FollowerId int64 `json:"follower_id"`
+	FromId int64 `json:"from_id"`
+	ToId int64 `json:"to_id"`
 }
 
 func (f *Follow) TableName() string {
 	return consts.FollowTableName
 }
 
-func (f *Follower) TableName() string {
-	return consts.FollowerTableName
-}
-
 // QueryFollowById query list of user info
 func QueryFollowById(ctx context.Context, userId int64) ([]*Follow, error) {
 	var res []*Follow
 	if err := DB.WithContext(ctx).
-		Where("user_id = ?", userId).
+		Where("from_id = ?", userId).
 		Find(&res).Error; err != nil {
 		return nil, err
 	}
 	return res, nil
 }
 
-func QueryFollowerById(ctx context.Context, userId int64) ([]*Follower, error) {
-	var res []*Follower
+func QueryFollowerById(ctx context.Context, userId int64) ([]*Follow, error) {
+	var res []*Follow
 	if err := DB.WithContext(ctx).
-		Where("user_id = ?",userId).
+		Where("to_id = ?",userId).
 		Find(&res).Error; err != nil {
 			return nil, err
 	}
@@ -50,27 +40,31 @@ func QueryFollowerById(ctx context.Context, userId int64) ([]*Follower, error) {
 func QueryFriendById(ctx context.Context, userId int64) ([]*Follow, error) {
 	var res []*Follow
 	if err := DB.WithContext(ctx).
-		Joins("JOIN followers ON follows.user_id = ? AND follows.follow_id = followers.follower_id",userId).
+		Where("from_id IN ? AND to_id = ?",DB.Model(&Follow{}).Select("to_id").Where("from_id = ?",userId),userId).
 		Find(&res).Error; err != nil {
 			return nil, err
 	}
 	return res,nil
 }
 
-func FollowUser(ctx context.Context, userId,targetUserId int64) error {
-	err := DB.WithContext(ctx).Create(&Follow{UserId: userId,FollowId: targetUserId}).Error
+func FollowUser(ctx context.Context, fromId,toId int64) (err error) {
+	err = DB.WithContext(ctx).Create(&Follow{FromId: fromId,ToId: toId}).Error
 	if err != nil {
-		return err
+		return
 	}
-	err = DB.WithContext(ctx).Create(&Follower{UserId: targetUserId,FollowerId: userId}).Error
+	return
+}
+
+func CancelFollow(ctx context.Context, fromId, toId int64) (err error) {
+	err = DB.WithContext(ctx).Delete(&Follow{FromId: fromId,ToId: toId}).Error
 	if err != nil {
-		return err
+		return
 	}
-	return nil
+	return
 }
 
 func CountFollow(ctx context.Context, userId int64) (follows int64,err error) {
-	err = DB.WithContext(ctx).Model(&Follow{}).Where("user_id = ?",userId).Count(&follows).Error
+	err = DB.WithContext(ctx).Model(&Follow{}).Where("from_id = ?",userId).Count(&follows).Error
 	if err != nil {
 		return 0, err
 	}
@@ -78,7 +72,7 @@ func CountFollow(ctx context.Context, userId int64) (follows int64,err error) {
 }
 
 func CountFollower(ctx  context.Context,userId int64) (followers int64,err error) {
-	err = DB.WithContext(ctx).Model(&Follower{}).Where("user_id = ?",userId).Count(&followers).Error
+	err = DB.WithContext(ctx).Model(&Follow{}).Where("to_id = ?",userId).Count(&followers).Error
 	if err != nil {
 		return 0, err
 	}
@@ -87,7 +81,7 @@ func CountFollower(ctx  context.Context,userId int64) (followers int64,err error
 
 func IsFollow(ctx context.Context, userId, toUserId int64) (bool, error) {
 	err := DB.WithContext(ctx).
-		Where("user_id = ? AND follow_id = ?",userId,toUserId).
+		Where("from_id = ? AND to_id = ?",userId,toUserId).
 		First(&Follow{}).Error
 	if err == gorm.ErrRecordNotFound {
 		return false, nil
