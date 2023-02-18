@@ -58,7 +58,7 @@ func QueryFriendById(ctx context.Context, userId int64) ([]*Follow, error) {
 }
 
 func FollowUser(ctx context.Context, userId,targetUserId int64) error {
-	err := DB.WithContext(ctx).Create(Follow{UserId: userId,FollowId: targetUserId}).Error
+	err := DB.WithContext(ctx).Create(&Follow{UserId: userId,FollowId: targetUserId}).Error
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func FollowUser(ctx context.Context, userId,targetUserId int64) error {
 }
 
 func CountFollow(ctx context.Context, userId int64) (follows int64,err error) {
-	err = DB.WithContext(ctx).Find(&Follow{}).Count(&follows).Error
+	err = DB.WithContext(ctx).Model(&Follow{}).Where("user_id = ?",userId).Count(&follows).Error
 	if err != nil {
 		return 0, err
 	}
@@ -78,7 +78,7 @@ func CountFollow(ctx context.Context, userId int64) (follows int64,err error) {
 }
 
 func CountFollower(ctx  context.Context,userId int64) (followers int64,err error) {
-	err = DB.WithContext(ctx).Find(&Follower{}).Count(&followers).Error
+	err = DB.WithContext(ctx).Model(&Follower{}).Where("user_id = ?",userId).Count(&followers).Error
 	if err != nil {
 		return 0, err
 	}
