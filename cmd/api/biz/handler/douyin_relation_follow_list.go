@@ -4,24 +4,40 @@ package handler
 
 import (
 	"context"
+	"github.com/cloudwego/hertz/pkg/common/utils"
+	"mini-tiktok-backend/cmd/api/biz/mw"
+	"mini-tiktok-backend/cmd/api/biz/rpc"
+	"mini-tiktok-backend/kitex_gen/relation"
+	pkg_consts "mini-tiktok-backend/pkg/consts"
+	"mini-tiktok-backend/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	relation "mini-tiktok-backend/cmd/api/biz/model/api/relation"
+	api_relation "mini-tiktok-backend/cmd/api/biz/model/api/relation"
 )
 
 // DouyinRelationFollowList .
 // @router /douyin/relation/follow/list/ [GET]
 func DouyinRelationFollowList(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req relation.DouyinRelationFollowListRequest
+	var req api_relation.DouyinRelationFollowListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 
-	resp := new(relation.DouyinRelationFollowListResponse)
+	user, _ := c.Get(pkg_consts.IdentityKey)
 
-	c.JSON(consts.StatusOK, resp)
+	userList, err := rpc.GetFollowList(ctx, &relation.GetFollowListRequest{
+		UserId: user.(*mw.User).UserId,
+		TargetUserId: req.UserID,
+	})
+	if err != nil {
+		SendResponse(c, err, utils.H{})
+		return
+	}
+
+	SendResponse(c, errno.Success, utils.H{
+		"user_list": userList,
+	})
 }

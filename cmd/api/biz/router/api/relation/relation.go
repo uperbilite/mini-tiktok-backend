@@ -4,7 +4,7 @@ package Relation
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	handler "mini-tiktok-backend/cmd/api/biz/handler"
+	relation "mini-tiktok-backend/cmd/api/biz/handler"
 )
 
 /*
@@ -20,30 +20,41 @@ func Register(r *server.Hertz) {
 	{
 		_douyin := root.Group("/douyin", _douyinMw()...)
 		{
+			_message := _douyin.Group("/message", _messageMw()...)
+			{
+				_action := _message.Group("/action", _actionMw()...)
+				_action.GET("/", append(_douyinmessage_ctionMw(), relation.DouyinMessageAction)...)
+			}
+			{
+				_chat := _message.Group("/chat", _chatMw()...)
+				_chat.GET("/", append(_douyinmessagechatMw(), relation.DouyinMessageChat)...)
+			}
+		}
+		{
 			_relation := _douyin.Group("/relation", _relationMw()...)
 			{
-				_action := _relation.Group("/action", _actionMw()...)
-				_action.POST("/", append(_douyinrelation_ctionMw(), handler.DouyinRelationAction)...)
+				_action0 := _relation.Group("/action", _action0Mw()...)
+				_action0.POST("/", append(_douyinrelation_ctionMw(), relation.DouyinRelationAction)...)
 			}
 			{
 				_follow := _relation.Group("/follow", _followMw()...)
 				{
 					_list := _follow.Group("/list", _listMw()...)
-					_list.GET("/", append(_douyinrelationfollowlistMw(), handler.DouyinRelationFollowList)...)
+					_list.GET("/", append(_douyinrelationfollowlistMw(), relation.DouyinRelationFollowList)...)
 				}
 			}
 			{
 				_follower := _relation.Group("/follower", _followerMw()...)
 				{
 					_list0 := _follower.Group("/list", _list0Mw()...)
-					_list0.GET("/", append(_douyinrelationfollowerlistMw(), handler.DouyinRelationFollowerList)...)
+					_list0.GET("/", append(_douyinrelationfollowerlistMw(), relation.DouyinRelationFollowerList)...)
 				}
 			}
 			{
 				_friend := _relation.Group("/friend", _friendMw()...)
 				{
 					_list1 := _friend.Group("/list", _list1Mw()...)
-					_list1.GET("/", append(_douyinrelationfriendlistMw(), handler.DouyinRelationFriendList)...)
+					_list1.GET("/", append(_douyinrelationfriendlistMw(), relation.DouyinRelationFriendList)...)
 				}
 			}
 		}

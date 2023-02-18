@@ -1,0 +1,41 @@
+package db
+
+import (
+	"context"
+	"gorm.io/gorm"
+	"mini-tiktok-backend/pkg/consts"
+)
+
+type Message struct {
+	gorm.Model
+	Id int64 `json:"id"`
+	UserId int64 `json:"user_id"`
+	ToUserId int64 `json:"to_user_id"`
+	Content string `json:"content"`
+}
+
+func (m *Message) TableName() string {
+	return consts.MessageTableName
+}
+
+func CreateMessage(ctx context.Context, message *Message) error {
+	return DB.WithContext(ctx).Create(message).Error
+}
+
+func QueryMessageBothId(ctx context.Context,userId,toUserId int64) ([]*Message,error) {
+	var me2You,you2Me []*Message
+	if err := DB.WithContext(ctx).
+		Where("userId = ? AND to_user_id = ?",userId,toUserId).
+		Find(&me2You).Error; err  != nil {
+		return nil, err
+	}
+	if err := DB.WithContext(ctx).
+		Where("userId = ? AND to_user_id = ?",toUserId,userId).
+		Find(&you2Me).Error; err != nil {
+		return nil, err
+	}
+	res := make([]*Message,0,len(me2You) + len(you2Me))
+	res = append(res,me2You...)
+	res = append(res,you2Me...)
+	return res,nil
+}

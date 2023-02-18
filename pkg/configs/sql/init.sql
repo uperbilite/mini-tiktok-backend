@@ -24,16 +24,43 @@ CREATE TABLE `videos`
     KEY               `idx_author_id` (`author_id`) COMMENT 'Author id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Video table';
 
-CREATE TABLE `relations`
+CREATE TABLE `follows`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `from_id`       bigint unsigned NOT NULL COMMENT 'From user id',
-    `to_id`         bigint unsigned NOT NULL COMMENT 'To user id',
-    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'Relation create time',
-    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'Relation update time',
-    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'Relation delete time',
-    PRIMARY KEY (`id`)
+    `user_id`       bigint unsigned NOT NULL COMMENT 'From user id',
+    `follow_id`         bigint unsigned NOT NULL COMMENT 'To user id',
+    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'follow create time',
+    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'follow update time',
+    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'follow delete time',
+    PRIMARY KEY (`id`),
+    KEY          `idx_user_id` (`user_id`) COMMENT 'user_id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Relation table';
+
+CREATE TABLE `followers`
+(
+    `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
+    `user_id`       bigint unsigned NOT NULL COMMENT 'From user id',
+    `follower_id`         bigint unsigned NOT NULL COMMENT 'To user id',
+    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'follower create time',
+    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'follower update time',
+    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'follower delete time',
+    PRIMARY KEY (`id`),
+    KEY             `idx_user_id` (`user_id`) COMMENT 'user_id index'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='follower table';
+
+CREATE TABLE `messages`
+(
+    `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
+    `user_id`       bigint unsigned NOT NULL COMMENT 'From user id',
+    `to_user_id`         bigint unsigned NOT NULL COMMENT 'To user id',
+    `content`       text NOT NULL COMMENT 'content context',
+    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'message create time',
+    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'message update time',
+    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'message delete time',
+    PRIMARY KEY (`id`),
+    KEY             `idx_user_id` (`user_id`) COMMENT 'user_id index',
+    KEY             `idx_to_user_id` (`to_user_id`) COMMENT 'to_user_id index'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='message table';
 
 CREATE TABLE `favorites`
 (
