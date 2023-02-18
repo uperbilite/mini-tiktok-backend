@@ -32,7 +32,8 @@ CREATE TABLE `follows`
     `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'follow create time',
     `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'follow update time',
     `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'follow delete time',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY          `idx_user_id` (`user_id`) COMMENT 'user_id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Relation table';
 
 CREATE TABLE `followers`
@@ -43,7 +44,8 @@ CREATE TABLE `followers`
     `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'follower create time',
     `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'follower update time',
     `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'follower delete time',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY             `idx_user_id` (`user_id`) COMMENT 'user_id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='follower table';
 
 CREATE TABLE `messages`
@@ -55,8 +57,10 @@ CREATE TABLE `messages`
     `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'message create time',
     `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'message update time',
     `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'message delete time',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Relation table';
+    PRIMARY KEY (`id`),
+    KEY             `idx_user_id` (`user_id`) COMMENT 'user_id index',
+    KEY             `idx_to_user_id` (`to_user_id`) COMMENT 'to_user_id index'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='message table';
 
 CREATE TABLE `favorites`
 (

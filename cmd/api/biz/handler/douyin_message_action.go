@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	api_relation "mini-tiktok-backend/cmd/api/biz/model/api/relation"
 	"mini-tiktok-backend/cmd/api/biz/mw"
 	"mini-tiktok-backend/cmd/api/biz/rpc"
@@ -20,7 +19,7 @@ func DouyinMessageAction(ctx context.Context, c *app.RequestContext) {
 	var req api_relation.DouyinMessageActionRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, err, utils.H{})
 		return
 	}
 	user, _ := c.Get(pkg_consts.IdentityKey)

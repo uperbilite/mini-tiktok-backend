@@ -4,6 +4,7 @@ package Relation
 
 import (
 	"github.com/cloudwego/hertz/pkg/app"
+	"mini-tiktok-backend/cmd/api/biz/mw"
 )
 
 func rootMw() []app.HandlerFunc {
@@ -13,6 +14,10 @@ func rootMw() []app.HandlerFunc {
 
 func _douyinMw() []app.HandlerFunc {
 	// your code...
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 	return nil
 }
 

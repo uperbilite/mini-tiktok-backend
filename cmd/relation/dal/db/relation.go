@@ -50,7 +50,7 @@ func QueryFollowerById(ctx context.Context, userId int64) ([]*Follower, error) {
 func QueryFriendById(ctx context.Context, userId int64) ([]*Follow, error) {
 	var res []*Follow
 	if err := DB.WithContext(ctx).
-		Joins("JOIN followers ON follow.user_id = ? AND follow.follow_id = follower.follower_id",userId).
+		Joins("JOIN followers ON follows.user_id = ? AND follows.follow_id = followers.follower_id",userId).
 		Find(&res).Error; err != nil {
 			return nil, err
 	}
