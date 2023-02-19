@@ -366,7 +366,7 @@ func (p *User) String() string {
 }
 
 type Message struct {
-	Id         int64  `thrift:"Id,1,required" form:"Id,required" json:"Id,required" query:"Id,required"`
+	ID         int64  `thrift:"id,1,required" form:"id,required" json:"id,required" query:"id,required"`
 	Content    string `thrift:"content,2,required" form:"content,required" json:"content,required" query:"content,required"`
 	CreateTime int64  `thrift:"create_time,3,required" form:"create_time,required" json:"create_time,required" query:"create_time,required"`
 }
@@ -375,8 +375,8 @@ func NewMessage() *Message {
 	return &Message{}
 }
 
-func (p *Message) GetId() (v int64) {
-	return p.Id
+func (p *Message) GetID() (v int64) {
+	return p.ID
 }
 
 func (p *Message) GetContent() (v string) {
@@ -388,7 +388,7 @@ func (p *Message) GetCreateTime() (v int64) {
 }
 
 var fieldIDToName_Message = map[int16]string{
-	1: "Id",
+	1: "id",
 	2: "content",
 	3: "create_time",
 }
@@ -397,7 +397,7 @@ func (p *Message) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
-	var issetId bool = false
+	var issetID bool = false
 	var issetContent bool = false
 	var issetCreateTime bool = false
 
@@ -420,7 +420,7 @@ func (p *Message) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
-				issetId = true
+				issetID = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -462,7 +462,7 @@ func (p *Message) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
-	if !issetId {
+	if !issetID {
 		fieldId = 1
 		goto RequiredFieldNotSetError
 	}
@@ -498,7 +498,7 @@ func (p *Message) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
-		p.Id = v
+		p.ID = v
 	}
 	return nil
 }
@@ -559,10 +559,10 @@ WriteStructEndError:
 }
 
 func (p *Message) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Id", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.Id); err != nil {
+	if err := oprot.WriteI64(p.ID); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {

@@ -40,7 +40,7 @@ func QueryFollowerById(ctx context.Context, userId int64) ([]*Follow, error) {
 func QueryFriendById(ctx context.Context, userId int64) ([]*Follow, error) {
 	var res []*Follow
 	if err := DB.WithContext(ctx).
-		Where("from_id IN ? AND to_id = ?",DB.Model(&Follow{}).Select("to_id").Where("from_id = ?",userId),userId).
+		Where("from_id IN (?) AND to_id = ?",DB.Model(&Follow{}).Select("to_id").Where("from_id = ?",userId),userId).
 		Find(&res).Error; err != nil {
 			return nil, err
 	}
@@ -48,6 +48,13 @@ func QueryFriendById(ctx context.Context, userId int64) ([]*Follow, error) {
 }
 
 func FollowUser(ctx context.Context, fromId,toId int64) (err error) {
+	err = DB.WithContext(ctx).Where("from_id = ? AND to_id = ?",fromId,toId).First(&Follow{}).Error
+	if err != nil && err != gorm.ErrRecordNotFound{
+		return
+	}
+	if err == nil {
+		return
+	}
 	err = DB.WithContext(ctx).Create(&Follow{FromId: fromId,ToId: toId}).Error
 	if err != nil {
 		return
@@ -56,7 +63,7 @@ func FollowUser(ctx context.Context, fromId,toId int64) (err error) {
 }
 
 func CancelFollow(ctx context.Context, fromId, toId int64) (err error) {
-	err = DB.WithContext(ctx).Delete(&Follow{FromId: fromId,ToId: toId}).Error
+	err = DB.WithContext(ctx).Where("from_id = ? AND to_id = ?",fromId,toId).Delete(&Follow{}).Error
 	if err != nil {
 		return
 	}

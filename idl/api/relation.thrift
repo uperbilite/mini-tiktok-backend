@@ -9,7 +9,7 @@ struct User {
 }
 
 struct Message {
-    1: required i64 Id
+    1: required i64 id
     2: required string content
     3: required i64 create_time
 }
@@ -86,6 +86,6 @@ service ApiRelationService {
     DouyinRelationFollowListResponse DouyinRelationFollowList(1: DouyinRelationFollowListRequest req) (api.get="/douyin/relation/follow/list/")
     DouyinRelationFollowerListResponse DouyinRelationFollowerList(1: DouyinRelationFollowerListRequest req) (api.get="/douyin/relation/follower/list/")
     DouyinRelationFriendListResponse DouyinRelationFriendList(1: DouyinRelationFriendListRequest req) (api.get="/douyin/relation/friend/list/")
-    DouyinMessageActionResponse DouyinMessageAction(1: DouyinMessageActionRequest req) (api.get="/douyin/message/action/")
+    DouyinMessageActionResponse DouyinMessageAction(1: DouyinMessageActionRequest req) (api.post="/douyin/message/action/")
     DouyinMessageChatResponse DouyinMessageChat(1: DouyinMessageChatRequest req) (api.get="/douyin/message/chat/")
 }
