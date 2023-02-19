@@ -25,12 +25,12 @@ func CreateMessage(ctx context.Context, message *Message) error {
 func QueryMessageBothId(ctx context.Context,userId,toUserId int64) ([]*Message,error) {
 	var me2You,you2Me []*Message
 	if err := DB.WithContext(ctx).
-		Where("userId = ? AND to_user_id = ?",userId,toUserId).
+		Where("user_id = ? AND to_user_id = ?",userId,toUserId).
 		Find(&me2You).Error; err  != nil {
 		return nil, err
 	}
 	if err := DB.WithContext(ctx).
-		Where("userId = ? AND to_user_id = ?",toUserId,userId).
+		Where("user_id = ? AND to_user_id = ?",toUserId,userId).
 		Find(&you2Me).Error; err != nil {
 		return nil, err
 	}

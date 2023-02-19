@@ -15,7 +15,7 @@ struct User {
 }
 
 struct Message {
-    1: required i64 Id
+    1: required i64 id
     2: required string content
     3: required string create_time
 }

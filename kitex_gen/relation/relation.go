@@ -750,7 +750,7 @@ func (p *User) Field5DeepEqual(src bool) bool {
 }
 
 type Message struct {
-	Id         int64  `thrift:"Id,1,required" frugal:"1,required,i64" json:"Id"`
+	Id         int64  `thrift:"id,1,required" frugal:"1,required,i64" json:"id"`
 	Content    string `thrift:"content,2,required" frugal:"2,required,string" json:"content"`
 	CreateTime string `thrift:"create_time,3,required" frugal:"3,required,string" json:"create_time"`
 }
@@ -785,7 +785,7 @@ func (p *Message) SetCreateTime(val string) {
 }
 
 var fieldIDToName_Message = map[int16]string{
-	1: "Id",
+	1: "id",
 	2: "content",
 	3: "create_time",
 }
@@ -956,7 +956,7 @@ WriteStructEndError:
 }
 
 func (p *Message) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Id", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.Id); err != nil {

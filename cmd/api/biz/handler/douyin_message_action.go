@@ -13,7 +13,7 @@ import (
 )
 
 // DouyinMessageAction .
-// @router /douyin/message/action/ [GET]
+// @router /douyin/message/action/ [POST]
 func DouyinMessageAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api_relation.DouyinMessageActionRequest

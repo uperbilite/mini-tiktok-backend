@@ -16,9 +16,9 @@ func NewIsFollowToUserService(ctx context.Context) *IsFollowToUserService {
 
 func (s *IsFollowToUserService) IsFollowToUser(req *relation.IsFollowToUserRequest) (bool, error) {
 	userId,toUserId := req.GetUserId(),req.GetToUserId()
-	is_follow,err := db.IsFollow(s.ctx,userId,toUserId)
+	isFollow,err := db.IsFollow(s.ctx,userId,toUserId)
 	if err != nil {
 		return false, err
 	}
-	return is_follow, nil
+	return isFollow, nil
 }

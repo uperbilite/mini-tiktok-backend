@@ -6,7 +6,6 @@ const (
 	FavoriteTableName   = "favorites"
 	CommentTableName    = "comments"
 	FollowTableName     = "follows"
-	FollowerTableName   = "followers"
 	MessageTableName    = "messages"
 	SecretKey           = "secret key"
 	IdentityKey         = "id"

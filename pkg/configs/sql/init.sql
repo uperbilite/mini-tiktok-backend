@@ -27,26 +27,15 @@ CREATE TABLE `videos`
 CREATE TABLE `follows`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `user_id`       bigint unsigned NOT NULL COMMENT 'From user id',
-    `follow_id`         bigint unsigned NOT NULL COMMENT 'To user id',
+    `from_id`       bigint unsigned NOT NULL COMMENT 'From user id',
+    `to_id`         bigint unsigned NOT NULL COMMENT 'To user id',
     `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'follow create time',
     `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'follow update time',
     `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'follow delete time',
     PRIMARY KEY (`id`),
-    KEY          `idx_user_id` (`user_id`) COMMENT 'user_id index'
+    KEY          `idx_from_id` (`from_id`) COMMENT 'from_id index',
+    KEY          `idx_to_id` (`to_id`) COMMENT 'to_id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Relation table';
-
-CREATE TABLE `followers`
-(
-    `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `user_id`       bigint unsigned NOT NULL COMMENT 'From user id',
-    `follower_id`         bigint unsigned NOT NULL COMMENT 'To user id',
-    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'follower create time',
-    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'follower update time',
-    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'follower delete time',
-    PRIMARY KEY (`id`),
-    KEY             `idx_user_id` (`user_id`) COMMENT 'user_id index'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='follower table';
 
 CREATE TABLE `messages`
 (

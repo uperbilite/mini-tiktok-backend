@@ -29,7 +29,7 @@ func (s *GetFriendListService) GetFriendList(req *relation.GetFriendListRequest)
 	for _, fd := range friendsId {
 		u, err := rpc.QueryUser(s.ctx,&user.QueryUserRequest{
 			UserId: req.UserId,
-			TargetUserId: fd.FollowId,
+			TargetUserId: fd.FromId,
 		})
 		if err != nil {
 			return nil, err
