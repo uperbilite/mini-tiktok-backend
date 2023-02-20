@@ -21,21 +21,21 @@ func NewFriendListService(ctx context.Context) *GetFriendListService {
 // GetFollowList get follow list
 func (s *GetFriendListService) GetFriendList(req *relation.GetFriendListRequest) ([]*relation.User, error) {
 	userId := req.GetTargetUserId()
-	friendsId,err := db.QueryFriendById(s.ctx,userId)
+	friendsId, err := db.QueryFriendById(s.ctx, userId)
 	if err != nil {
 		return nil, err
 	}
 	var users []*relation.User
 	for _, fd := range friendsId {
-		u, err := rpc.QueryUser(s.ctx,&user.QueryUserRequest{
-			UserId: req.UserId,
+		u, err := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
+			UserId:       req.UserId,
 			TargetUserId: fd.FromId,
 		})
 		if err != nil {
 			return nil, err
 		}
 		r := pack.User(u)
-		users = append(users,r)
+		users = append(users, r)
 	}
-	return users,nil
+	return users, nil
 }

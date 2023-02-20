@@ -16,13 +16,13 @@ func NewMessageActionService(ctx context.Context) *MessageActionService {
 
 func (s *MessageActionService) MessageAction(req *relation.MessageActionRequest) error {
 	message := &db.Message{
-		UserId: req.GetUserId(),
+		UserId:   req.GetUserId(),
 		ToUserId: req.GetToUserId(),
-		Content: req.GetContent(),
+		Content:  req.GetContent(),
 	}
 	actionType := req.GetActionType()
 	if actionType == 1 {
-		if err := db.CreateMessage(s.ctx,message); err != nil {
+		if err := db.CreateMessage(s.ctx, message); err != nil {
 			return err
 		}
 	}

@@ -14,7 +14,7 @@ func init() {
 func TestRelationActionService_RelationAction1(t *testing.T) {
 	ctx := context.Background()
 	relationActionService := NewRelationActionService(ctx)
-	err := relationActionService.RelationAction(&relation.RelationActionRequest{UserId: 2,ToUserId: 1,ActionType: 1})
+	err := relationActionService.RelationAction(&relation.RelationActionRequest{UserId: 2, ToUserId: 1, ActionType: 1})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,7 +23,7 @@ func TestRelationActionService_RelationAction1(t *testing.T) {
 func TestRelationActionService_RelationAction2(t *testing.T) {
 	ctx := context.Background()
 	relationActionService := NewRelationActionService(ctx)
-	err := relationActionService.RelationAction(&relation.RelationActionRequest{UserId: 1,ToUserId: 2,ActionType: 2})
+	err := relationActionService.RelationAction(&relation.RelationActionRequest{UserId: 1, ToUserId: 2, ActionType: 2})
 	if err != nil {
 		t.Fatal(err)
 	}

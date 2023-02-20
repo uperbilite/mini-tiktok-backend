@@ -145,12 +145,12 @@ func (s *RelationServiceImpl) IsFollowToUser(ctx context.Context, req *relation.
 	resp = new(relation.IsFollowToUserResponse)
 	if err = req.IsValid(); err != nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-		return resp,nil
+		return resp, nil
 	}
 	is_follow, err := service.NewIsFollowToUserService(ctx).IsFollowToUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
-		return resp,nil
+		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.IsFollow = is_follow

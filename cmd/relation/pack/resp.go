@@ -29,4 +29,3 @@ func baseResp(err errno.ErrNo) *relation.BaseResp {
 		ServiceTime: time.Now().Unix(),
 	}
 }
-

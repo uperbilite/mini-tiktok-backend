@@ -15,13 +15,13 @@ func NewRelationActionService(ctx context.Context) *RelationActionService {
 }
 
 func (s *RelationActionService) RelationAction(req *relation.RelationActionRequest) (err error) {
-	fromId,toId,actionType := req.GetUserId(),req.GetToUserId(),req.GetActionType()
+	fromId, toId, actionType := req.GetUserId(), req.GetToUserId(), req.GetActionType()
 	if actionType == 1 {
-		if err = db.FollowUser(s.ctx,fromId,toId); err != nil {
+		if err = db.FollowUser(s.ctx, fromId, toId); err != nil {
 			return
 		}
-	}else if actionType == 2 {
-		if err = db.CancelFollow(s.ctx,fromId,toId); err != nil {
+	} else if actionType == 2 {
+		if err = db.CancelFollow(s.ctx, fromId, toId); err != nil {
 			return
 		}
 	}
