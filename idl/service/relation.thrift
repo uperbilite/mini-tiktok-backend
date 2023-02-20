@@ -16,8 +16,10 @@ struct User {
 
 struct Message {
     1: required i64 id
-    2: required string content
-    3: required string create_time
+    2: required i64 to_user_id
+    3: required i64 from_user_id
+    4: required string content
+    5: required string create_time
 }
 
 struct RelationActionRequest {
