@@ -13,7 +13,7 @@ func init() {
 
 func TestGetFollowListService_GetFollowList(t *testing.T) {
 	getFollowListService := NewGetFollowListService(context.Background())
-	follow,err := getFollowListService.GetFollowList(&relation.GetFollowListRequest{UserId: 1,TargetUserId: 1})
+	follow, err := getFollowListService.GetFollowList(&relation.GetFollowListRequest{UserId: 1, TargetUserId: 1})
 	if err != nil {
 		t.Fatal(err)
 	}

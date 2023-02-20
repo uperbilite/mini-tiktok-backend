@@ -13,7 +13,7 @@ func init() {
 
 func TestGetFriendListService_GetFriendList(t *testing.T) {
 	getFriendListService := NewFriendListService(context.Background())
-	friend,err := getFriendListService.GetFriendList(&relation.GetFriendListRequest{UserId: 1,TargetUserId: 1})
+	friend, err := getFriendListService.GetFriendList(&relation.GetFriendListRequest{UserId: 1, TargetUserId: 1})
 	if err != nil {
 		t.Fatal(err)
 	}

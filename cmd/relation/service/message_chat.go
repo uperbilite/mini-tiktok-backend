@@ -14,22 +14,22 @@ func NewMessageChatService(ctx context.Context) *MessageChatService {
 	return &MessageChatService{ctx}
 }
 
-func (s *MessageChatService) MessageChat(req *relation.MessageChatRequest) ([]*relation.Message,error) {
-	userId,ToUserId := req.GetUserId(),req.GetToUserId()
+func (s *MessageChatService) MessageChat(req *relation.MessageChatRequest) ([]*relation.Message, error) {
+	userId, ToUserId := req.GetUserId(), req.GetToUserId()
 	preMsgTime := req.GetPreMsgTime()
-	res,err := db.QueryMessageBothId(s.ctx,userId,ToUserId,preMsgTime)
+	res, err := db.QueryMessageBothId(s.ctx, userId, ToUserId, preMsgTime)
 	if err != nil {
 		return nil, err
 	}
-	message := make([]*relation.Message,len(res))
-	for i,m := range res {
+	message := make([]*relation.Message, len(res))
+	for i, m := range res {
 		message[i] = &relation.Message{
-			Id: m.Id,
+			Id:         m.Id,
 			FromUserId: userId,
-			ToUserId: ToUserId,
-			Content: m.Content,
+			ToUserId:   ToUserId,
+			Content:    m.Content,
 			CreateTime: m.CreatedAt.Format("2006-01-02 15:04:05"),
 		}
 	}
-	return message,nil
+	return message, nil
 }

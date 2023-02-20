@@ -13,9 +13,9 @@ func init() {
 
 func TestGetFollowAndFollowerCountService_GetFollowAndFollowerCount(t *testing.T) {
 	getFollowAndFollowerCountService := NewGetFollowAndFollowerCountService(context.Background())
-	follows,followers,err := getFollowAndFollowerCountService.GetFollowAndFollowerCount(&relation.GetFollowAndFollowerCountRequest{UserId: 1})
+	follows, followers, err := getFollowAndFollowerCountService.GetFollowAndFollowerCount(&relation.GetFollowAndFollowerCountRequest{UserId: 1})
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("follows = %d,followers = %d",follows,followers)
+	t.Logf("follows = %d,followers = %d", follows, followers)
 }
