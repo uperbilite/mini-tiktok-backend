@@ -55,38 +55,38 @@ func RelationAction(ctx context.Context, req *relation.RelationActionRequest) er
 func GetFollowList(ctx context.Context, req *relation.GetFollowListRequest) ([]*relation.User, error) {
 	resp, err := relationClient.GetFollowList(ctx, req)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	if resp.BaseResp.StatusCode != 0 {
-		return nil,errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
-	return resp.UserList,nil
+	return resp.UserList, nil
 }
 
 func GetFollowerList(ctx context.Context, req *relation.GetFollowerListRequest) ([]*relation.User, error) {
 	resp, err := relationClient.GetFollowerList(ctx, req)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	if resp.BaseResp.StatusCode != 0 {
-		return nil,errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
-	return resp.UserList,nil
+	return resp.UserList, nil
 }
 
 func GetFriendList(ctx context.Context, req *relation.GetFriendListRequest) ([]*relation.User, error) {
 	resp, err := relationClient.GetFriendList(ctx, req)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	if resp.BaseResp.StatusCode != 0 {
-		return nil,errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
-	return resp.UserList,nil
+	return resp.UserList, nil
 }
 
-func MessageAction(ctx context.Context,req *relation.MessageActionRequest) error {
-	resp,err := relationClient.MessageAction(ctx,req)
+func MessageAction(ctx context.Context, req *relation.MessageActionRequest) error {
+	resp, err := relationClient.MessageAction(ctx, req)
 	if err != nil {
 		return err
 	}
@@ -97,12 +97,12 @@ func MessageAction(ctx context.Context,req *relation.MessageActionRequest) error
 }
 
 func MessageChat(ctx context.Context, req *relation.MessageChatRequest) ([]*relation.Message, error) {
-	resp, err := relationClient.MessageChat(ctx,req)
+	resp, err := relationClient.MessageChat(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 	if resp.BaseResp.StatusCode != 0 {
 		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
-	return resp.MessageList,nil
+	return resp.MessageList, nil
 }

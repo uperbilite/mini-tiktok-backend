@@ -27,7 +27,7 @@ func DouyinMessageAction(ctx context.Context, c *app.RequestContext) {
 	err = rpc.MessageAction(ctx, &relation.MessageActionRequest{
 		UserId:     user.(*mw.User).UserId,
 		ToUserId:   req.ToUserID,
-		Content: req.Content,
+		Content:    req.Content,
 		ActionType: req.ActionType,
 	})
 
