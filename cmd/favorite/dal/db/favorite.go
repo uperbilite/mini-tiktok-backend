@@ -18,16 +18,16 @@ func (f *Favorite) TableName() string {
 	return consts.FavoriteTableName
 }
 
-// GetFavoriteKey Key format is "favorite:{video_id}"
-func GetFavoriteKey(videoId int64) string {
+// GetVideoKey Key format is "video:{video_id}"
+func GetVideoKey(videoId int64) string {
 	var res strings.Builder
-	res.WriteString("favorite:")
+	res.WriteString("video:")
 	res.WriteString(strconv.FormatInt(videoId, 10))
 	return res.String()
 }
 
 func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
-	res := RDB.Get(ctx, GetFavoriteKey(videoId))
+	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.FavoriteCount)
 	if res == nil {
 		return 0, nil
 	}
@@ -35,13 +35,13 @@ func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
 }
 
 func IncrFavoriteCount(ctx context.Context, videoId int64) {
-	RDB.Incr(ctx, GetFavoriteKey(videoId))
+	RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.FavoriteCount, 1)
 }
 
 func DecrFavoriteCount(ctx context.Context, videoId int64) {
 	favoriteCount, _ := GetFavoriteCount(ctx, videoId)
 	if favoriteCount > 0 {
-		RDB.Decr(ctx, GetFavoriteKey(videoId))
+		RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.FavoriteCount, -1)
 	}
 }
 

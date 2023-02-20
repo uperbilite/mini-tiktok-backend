@@ -20,16 +20,16 @@ func (c *Comment) TableName() string {
 	return consts.CommentTableName
 }
 
-// GetCommentKey Key format is "comment:{video_id}"
-func GetCommentKey(videoId int64) string {
+// GetVideoKey Key format is "video:{video_id}"
+func GetVideoKey(videoId int64) string {
 	var res strings.Builder
-	res.WriteString("comment:")
+	res.WriteString("video:")
 	res.WriteString(strconv.FormatInt(videoId, 10))
 	return res.String()
 }
 
 func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
-	res := RDB.Get(ctx, GetCommentKey(videoId))
+	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.CommentCount)
 	if res == nil {
 		return 0, nil
 	}
@@ -37,13 +37,13 @@ func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
 }
 
 func IncrCommentCount(ctx context.Context, videoId int64) {
-	RDB.Incr(ctx, GetCommentKey(videoId))
+	RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.CommentCount, 1)
 }
 
 func DecrCommentCount(ctx context.Context, videoId int64) {
 	commentCount, _ := GetCommentCount(ctx, videoId)
 	if commentCount > 0 {
-		RDB.Decr(ctx, GetCommentKey(videoId))
+		RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.CommentCount, -1)
 	}
 }
 

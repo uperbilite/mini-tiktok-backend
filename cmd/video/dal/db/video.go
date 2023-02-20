@@ -4,6 +4,8 @@ import (
 	"context"
 	"gorm.io/gorm"
 	"mini-tiktok-backend/pkg/consts"
+	"strconv"
+	"strings"
 )
 
 type Video struct {
@@ -16,6 +18,30 @@ type Video struct {
 
 func (v *Video) TableName() string {
 	return consts.VideoTableName
+}
+
+// GetVideoKey Key format is "video:{video_id}"
+func GetVideoKey(videoId int64) string {
+	var res strings.Builder
+	res.WriteString("video:")
+	res.WriteString(strconv.FormatInt(videoId, 10))
+	return res.String()
+}
+
+func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
+	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.FavoriteCount)
+	if res == nil {
+		return 0, nil
+	}
+	return res.Int64()
+}
+
+func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
+	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.CommentCount)
+	if res == nil {
+		return 0, nil
+	}
+	return res.Int64()
 }
 
 // MGetVideos Multiple get list of videos.

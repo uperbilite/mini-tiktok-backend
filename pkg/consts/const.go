@@ -18,8 +18,6 @@ const (
 	AccessKeyId         = "LTAI5tBQzy3pKUKA1juX68Mq"
 	AccessKeySecret     = "iNWQt90rnVTZJYENX4EDWZSUfNDtBu"
 	OSSBucketName       = "mini-tiktok-backend"
-	OSSResourceURL      = "https://mini-tiktok-backend.oss-cn-beijing.aliyuncs.com/"
-	UrlLen              = 120
 	ObjKeyLen           = 60
 	TCP                 = "tcp"
 	ExportEndpoint      = ":4317"
@@ -31,6 +29,8 @@ const (
 	VideoServiceName    = "video"
 	CommentServiceName  = "comment"
 	RelationServiceName = "relation"
+	FavoriteCount       = "favorite_count"
+	CommentCount        = "comment_count"
 	ApiServiceAddr      = "0.0.0.0:8080"
 	UserServiceAddr     = "127.0.0.1:8090"
 	PublishServiceAddr  = "127.0.0.1:8100"
