@@ -29,27 +29,27 @@ CREATE TABLE `follows`
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `from_id`       bigint unsigned NOT NULL COMMENT 'From user id',
     `to_id`         bigint unsigned NOT NULL COMMENT 'To user id',
-    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'follow create time',
-    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'follow update time',
-    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'follow delete time',
+    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'Follow create time',
+    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'Follow update time',
+    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'Follow delete time',
     PRIMARY KEY (`id`),
     KEY          `idx_from_id` (`from_id`) COMMENT 'from_id index',
     KEY          `idx_to_id` (`to_id`) COMMENT 'to_id index'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Relation table';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Follow table';
 
 CREATE TABLE `messages`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `user_id`       bigint unsigned NOT NULL COMMENT 'From user id',
     `to_user_id`         bigint unsigned NOT NULL COMMENT 'To user id',
-    `content`       text NOT NULL COMMENT 'content context',
-    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'message create time',
-    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'message update time',
-    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'message delete time',
+    `content`       text NOT NULL COMMENT 'Message content',
+    `created_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'Message create time',
+    `updated_at`    timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT 'Message update time',
+    `deleted_at`    timestamp(3) NULL DEFAULT NULL COMMENT 'Message delete time',
     PRIMARY KEY (`id`),
     KEY             `idx_user_id` (`user_id`) COMMENT 'user_id index',
     KEY             `idx_to_user_id` (`to_user_id`) COMMENT 'to_user_id index'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='message table';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Message table';
 
 CREATE TABLE `favorites`
 (
