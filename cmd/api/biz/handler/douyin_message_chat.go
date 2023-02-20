@@ -27,6 +27,7 @@ func DouyinMessageChat(ctx context.Context, c *app.RequestContext) {
 	messageList, err := rpc.MessageChat(ctx, &relation.MessageChatRequest{
 		UserId: user.(*mw.User).UserId,
 		ToUserId: req.ToUserID,
+		PreMsgTime: req.PreMsgTime,
 	})
 	if err != nil {
 		SendResponse(c, err, utils.H{})

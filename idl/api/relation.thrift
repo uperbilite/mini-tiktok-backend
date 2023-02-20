@@ -10,8 +10,10 @@ struct User {
 
 struct Message {
     1: required i64 id
-    2: required string content
-    3: required i64 create_time
+    2: required i64 to_user_id
+    3: required i64 from_user_id
+    4: required string content
+    5: required i64 create_time
 }
 
 struct DouyinRelationActionRequest {
@@ -73,6 +75,7 @@ struct DouyinMessageActionResponse {
 struct DouyinMessageChatRequest {
     1: required string token (api.query="token")
     2: required i64 to_user_id (api.query="to_user_id")
+    3: required i64 pre_msg_time
 }
 
 struct DouyinMessageChatResponse {

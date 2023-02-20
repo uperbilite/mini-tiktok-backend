@@ -16,8 +16,10 @@ struct User {
 
 struct Message {
     1: required i64 id
-    2: required string content
-    3: required string create_time
+    2: required i64 to_user_id
+    3: required i64 from_user_id
+    4: required string content
+    5: required string create_time
 }
 
 struct RelationActionRequest {
@@ -84,6 +86,7 @@ struct MessageActionRequest {
     1: required i64 user_id (vt.gt = "0")
     2: required i64 to_user_id (vt.gt = "0")
     3: required string content (vt.min_size = "1")
+    4: required i32 action_type
 }
 
 struct MessageActionResponse {
@@ -93,6 +96,7 @@ struct MessageActionResponse {
 struct MessageChatRequest {
     1: required i64 user_id (vt.gt = "0")
     2: required i64 to_user_id (vt.gt = "0")
+    3: required i64 pre_msg_time
 }
 
 struct MessageChatResponse {

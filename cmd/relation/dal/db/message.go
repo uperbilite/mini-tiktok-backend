@@ -22,15 +22,15 @@ func CreateMessage(ctx context.Context, message *Message) error {
 	return DB.WithContext(ctx).Create(message).Error
 }
 
-func QueryMessageBothId(ctx context.Context,userId,toUserId int64) ([]*Message,error) {
+func QueryMessageBothId(ctx context.Context,userId,toUserId int64,preMsgTime int64) ([]*Message,error) {
 	var me2You,you2Me []*Message
 	if err := DB.WithContext(ctx).
-		Where("user_id = ? AND to_user_id = ?",userId,toUserId).
+		Where("user_id = ? AND to_user_id = ? AND created_at > ?",userId,toUserId,preMsgTime).
 		Find(&me2You).Error; err  != nil {
 		return nil, err
 	}
 	if err := DB.WithContext(ctx).
-		Where("user_id = ? AND to_user_id = ?",toUserId,userId).
+		Where("user_id = ? AND to_user_id = ? AND created_at > ?",toUserId,userId,preMsgTime).
 		Find(&you2Me).Error; err != nil {
 		return nil, err
 	}

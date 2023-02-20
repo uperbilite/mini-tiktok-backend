@@ -20,8 +20,11 @@ func (s *MessageActionService) MessageAction(req *relation.MessageActionRequest)
 		ToUserId: req.GetToUserId(),
 		Content: req.GetContent(),
 	}
-	if err := db.CreateMessage(s.ctx,message); err != nil {
-		return err
+	actionType := req.GetActionType()
+	if actionType == 1 {
+		if err := db.CreateMessage(s.ctx,message); err != nil {
+			return err
+		}
 	}
 	return nil
 }
