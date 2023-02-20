@@ -16,7 +16,8 @@ func NewMessageChatService(ctx context.Context) *MessageChatService {
 
 func (s *MessageChatService) MessageChat(req *relation.MessageChatRequest) ([]*relation.Message,error) {
 	userId,ToUserId := req.GetUserId(),req.GetToUserId()
-	res,err := db.QueryMessageBothId(s.ctx,userId,ToUserId)
+	preMsgTime := req.GetPreMsgTime()
+	res,err := db.QueryMessageBothId(s.ctx,userId,ToUserId,preMsgTime)
 	if err != nil {
 		return nil, err
 	}

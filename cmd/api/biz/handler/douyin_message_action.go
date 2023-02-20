@@ -28,6 +28,7 @@ func DouyinMessageAction(ctx context.Context, c *app.RequestContext) {
 		UserId:     user.(*mw.User).UserId,
 		ToUserId:   req.ToUserID,
 		Content: req.Content,
+		ActionType: req.ActionType,
 	})
 
 	if err != nil {

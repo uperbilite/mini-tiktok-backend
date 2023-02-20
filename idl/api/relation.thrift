@@ -75,6 +75,7 @@ struct DouyinMessageActionResponse {
 struct DouyinMessageChatRequest {
     1: required string token (api.query="token")
     2: required i64 to_user_id (api.query="to_user_id")
+    3: required i64 pre_msg_time
 }
 
 struct DouyinMessageChatResponse {
