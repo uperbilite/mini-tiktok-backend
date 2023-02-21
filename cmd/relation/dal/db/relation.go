@@ -40,6 +40,7 @@ func QueryFollowerById(ctx context.Context, userId int64) ([]*Follow, error) {
 }
 
 func QueryFriendById(ctx context.Context, userId int64) ([]*Follow, error) {
+	// TODO: optimize by raw sql
 	var res []*Follow
 	if err := DB.WithContext(ctx).
 		Where("from_id IN (?) AND to_id = ?", DB.Model(&Follow{}).Select("to_id").Where("from_id = ?", userId), userId).
