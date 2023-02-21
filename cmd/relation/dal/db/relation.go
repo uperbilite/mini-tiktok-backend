@@ -88,6 +88,11 @@ func CountFollower(ctx context.Context, userId int64) (followers int64, err erro
 	return
 }
 
+func RemoveKeyFromRedis(ctx context.Context, fromId, toId int64) (err error) {
+	err = RDB.Del(ctx, strconv.FormatInt(fromId, 10), strconv.FormatInt(toId, 10)).Err()
+	return
+}
+
 func SetFollowNumAndFollowerNumToRedis(ctx context.Context, userId, follows, followers int64) error {
 	err := RDB.HMSet(ctx, strconv.FormatInt(userId, 10), "follows", follows, "followers", followers).Err()
 	if err != nil {

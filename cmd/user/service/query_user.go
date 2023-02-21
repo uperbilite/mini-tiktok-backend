@@ -28,7 +28,7 @@ func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, er
 		return nil, errno.UserNotExistErr
 	}
 	r := pack.User(users[0])
-	follows,followers,err := rpc.GetFollowAndFollowerCount(s.ctx,&relation.GetFollowAndFollowerCountRequest{
+	follows, followers, err := rpc.GetFollowAndFollowerCount(s.ctx, &relation.GetFollowAndFollowerCountRequest{
 		UserId: req.TargetUserId,
 	})
 	if err != nil {
@@ -37,8 +37,8 @@ func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, er
 	r.FollowCount = follows
 	r.FollowerCount = followers
 	if req.UserId != 0 {
-		isFollow,err := rpc.IsFollowToUser(s.ctx,&relation.IsFollowToUserRequest{
-			UserId: req.GetUserId(),
+		isFollow, err := rpc.IsFollowToUser(s.ctx, &relation.IsFollowToUserRequest{
+			UserId:   req.GetUserId(),
 			ToUserId: req.GetTargetUserId(),
 		})
 		if err != nil {

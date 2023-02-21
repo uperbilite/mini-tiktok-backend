@@ -42,20 +42,20 @@ func initRelation() {
 }
 
 func GetFollowAndFollowerCount(ctx context.Context, req *relation.GetFollowAndFollowerCountRequest) (follows, followers int64, err error) {
-	resp, err := relationClient.GetFollowAndFollowerCount(ctx,req)
+	resp, err := relationClient.GetFollowAndFollowerCount(ctx, req)
 	if err != nil {
 		return 0, 0, err
 	}
 	if resp.BaseResp.StatusCode != 0 {
-		return 0,0, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+		return 0, 0, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
 	follows = resp.Follows
 	followers = resp.Followers
 	return
 }
 
-func IsFollowToUser(ctx context.Context,req *relation.IsFollowToUserRequest) (IsFollow bool, err error) {
-	resp,err := relationClient.IsFollowToUser(ctx,req)
+func IsFollowToUser(ctx context.Context, req *relation.IsFollowToUserRequest) (IsFollow bool, err error) {
+	resp, err := relationClient.IsFollowToUser(ctx, req)
 	if err != nil {
 		return false, err
 	}
