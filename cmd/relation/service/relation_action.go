@@ -26,7 +26,7 @@ func (s *RelationActionService) RelationAction(req *relation.RelationActionReque
 			return
 		}
 	}
-	err = db.RemoveKeyFromRedis(s.ctx,fromId,toId)
+	err = db.RemoveKeyFromRedis(s.ctx, fromId, toId)
 	if err != nil {
 		log.Println("redis err")
 		err = nil

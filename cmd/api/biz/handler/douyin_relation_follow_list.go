@@ -29,7 +29,7 @@ func DouyinRelationFollowList(ctx context.Context, c *app.RequestContext) {
 	user, _ := c.Get(pkg_consts.IdentityKey)
 
 	userList, err := rpc.GetFollowList(ctx, &relation.GetFollowListRequest{
-		UserId: user.(*mw.User).UserId,
+		UserId:       user.(*mw.User).UserId,
 		TargetUserId: req.UserID,
 	})
 	if err != nil {

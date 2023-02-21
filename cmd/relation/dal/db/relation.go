@@ -88,8 +88,8 @@ func CountFollower(ctx context.Context, userId int64) (followers int64, err erro
 	return
 }
 
-func RemoveKeyFromRedis(ctx context.Context, fromId,toId int64) (err error) {
-	err = RDB.Del(ctx,strconv.FormatInt(fromId, 10),strconv.FormatInt(toId, 10)).Err()
+func RemoveKeyFromRedis(ctx context.Context, fromId, toId int64) (err error) {
+	err = RDB.Del(ctx, strconv.FormatInt(fromId, 10), strconv.FormatInt(toId, 10)).Err()
 	return
 }
 

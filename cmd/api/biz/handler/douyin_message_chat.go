@@ -25,8 +25,8 @@ func DouyinMessageChat(ctx context.Context, c *app.RequestContext) {
 
 	user, _ := c.Get(pkg_consts.IdentityKey)
 	messageList, err := rpc.MessageChat(ctx, &relation.MessageChatRequest{
-		UserId: user.(*mw.User).UserId,
-		ToUserId: req.ToUserID,
+		UserId:     user.(*mw.User).UserId,
+		ToUserId:   req.ToUserID,
 		PreMsgTime: req.PreMsgTime,
 	})
 	if err != nil {
