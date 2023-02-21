@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"log"
 	"mini-tiktok-backend/cmd/relation/dal/db"
 	"mini-tiktok-backend/kitex_gen/relation"
 )
@@ -24,6 +25,11 @@ func (s *RelationActionService) RelationAction(req *relation.RelationActionReque
 		if err = db.CancelFollow(s.ctx, fromId, toId); err != nil {
 			return
 		}
+	}
+	err = db.RemoveKeyFromRedis(s.ctx, fromId, toId)
+	if err != nil {
+		log.Println("redis err")
+		err = nil
 	}
 	return
 }
