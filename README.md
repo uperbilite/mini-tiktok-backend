@@ -16,10 +16,10 @@
 - 使用docker compose负责项目中容器集群的快速编排
 <a name="xPxik"></a>
 # 项目架构
-![architecture.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676980652173-530989e0-7da7-4b49-a86c-e81ae72227a1.png#averageHue=%23f6f6f6&clientId=u13d39cde-b026-4&from=drop&id=u853db267&name=architecture.png&originHeight=1025&originWidth=1266&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=1077792&status=done&style=none&taskId=u5cd658e4-ba42-4767-9d08-4615a810b42&title=)
+![architecture.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676980652173-530989e0-7da7-4b49-a86c-e81ae72227a1.png#averageHue=%23f6f6f6&clientId=u13d39cde-b026-4&from=drop&height=405&id=u853db267&name=architecture.png&originHeight=1025&originWidth=1266&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=1077792&status=done&style=none&taskId=u5cd658e4-ba42-4767-9d08-4615a810b42&title=&width=500)
 <a name="qWRO3"></a>
 # 调用关系
-![屏幕截图 2023-02-20 225939.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676980656565-d5b293f5-a375-447b-a758-c387505d9674.png#averageHue=%23f6f6f6&clientId=u13d39cde-b026-4&from=drop&id=uddb2f726&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-20%20225939.png&originHeight=720&originWidth=957&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=118585&status=done&style=none&taskId=u9a92c10b-393e-47d6-a144-fef22d90d7e&title=)
+![屏幕截图 2023-02-20 225939.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676980656565-d5b293f5-a375-447b-a758-c387505d9674.png#averageHue=%23f6f6f6&clientId=u13d39cde-b026-4&from=drop&height=376&id=uddb2f726&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-20%20225939.png&originHeight=720&originWidth=957&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=118585&status=done&style=none&taskId=u9a92c10b-393e-47d6-a144-fef22d90d7e&title=&width=500)
 <a name="o7zeq"></a>
 # 项目结构
 ```c
@@ -53,11 +53,11 @@ mini-tiktok-backend/
 └── README.md
 ```
 <a name="zUkaC"></a>
-# 数据库![db.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676980664780-c8e77ddc-65d5-4617-b109-52f4506a1622.png#averageHue=%23fbfafa&clientId=u13d39cde-b026-4&from=drop&id=u6b84181a&name=db.png&originHeight=656&originWidth=992&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=239337&status=done&style=none&taskId=uc4720c45-736c-45c0-b63c-cb6a8937396&title=)
+# 数据库![db.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676980664780-c8e77ddc-65d5-4617-b109-52f4506a1622.png#averageHue=%23fbfafa&clientId=u13d39cde-b026-4&from=drop&height=496&id=u6b84181a&name=db.png&originHeight=656&originWidth=992&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=239337&status=done&style=none&taskId=uc4720c45-736c-45c0-b63c-cb6a8937396&title=&width=750)
 
 <a name="bheAi"></a>
 # 链路追踪
-![屏幕截图 2023-02-12 142258.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676182994708-a438f3d0-09a4-4fda-9753-c78cfde347b4.png#averageHue=%23f8f4f1&clientId=uddb70f32-1692-4&from=drop&id=u15a29ff5&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-12%20142258.png&originHeight=792&originWidth=1898&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=122013&status=done&style=none&taskId=u37624a37-006d-49a3-bb08-54f4b15c8ba&title=)
+![屏幕截图 2023-02-12 142258.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676182994708-a438f3d0-09a4-4fda-9753-c78cfde347b4.png#averageHue=%23f8f4f1&clientId=uddb70f32-1692-4&from=drop&height=417&id=u15a29ff5&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-12%20142258.png&originHeight=792&originWidth=1898&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=122013&status=done&style=none&taskId=u37624a37-006d-49a3-bb08-54f4b15c8ba&title=&width=1000)
 <a name="FaUq3"></a>
 # 性能优化
 采用的性能优化方法有：
@@ -70,7 +70,7 @@ mini-tiktok-backend/
 - 数据库设置索引
 - 字符串处理优化
 
-实测在高并发场景下（受于机器限制，使用的并发量是100），优化性能后的请求处理的平均耗时缩短的40%。<br />![屏幕截图 2023-02-12 142019.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676182834716-f953acfd-8ceb-4563-8fcb-d03927b87078.png#averageHue=%23fefefe&clientId=uddb70f32-1692-4&from=drop&id=uab5c79dd&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-12%20142019.png&originHeight=327&originWidth=1478&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=33249&status=done&style=none&taskId=u5c73927f-97bf-4822-a517-b72e905a2b8&title=)![屏幕截图 2023-02-12 141143.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676182834717-8d25acc1-15ad-415e-961e-366370a5b048.png#averageHue=%23fefefe&clientId=uddb70f32-1692-4&from=drop&id=uff7a3052&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-12%20141143.png&originHeight=322&originWidth=1477&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=32876&status=done&style=none&taskId=u3564a00c-273c-4158-bf1b-824373fb206&title=)
+实测在高并发场景下（受于机器限制，使用的并发量是100），优化性能后的请求处理的平均耗时缩短的40%。<br />![屏幕截图 2023-02-12 142019.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676182834716-f953acfd-8ceb-4563-8fcb-d03927b87078.png#averageHue=%23fefefe&clientId=uddb70f32-1692-4&from=drop&height=221&id=uab5c79dd&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-12%20142019.png&originHeight=327&originWidth=1478&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=33249&status=done&style=none&taskId=u5c73927f-97bf-4822-a517-b72e905a2b8&title=&width=1000)![屏幕截图 2023-02-12 141143.png](https://cdn.nlark.com/yuque/0/2023/png/12760556/1676182834717-8d25acc1-15ad-415e-961e-366370a5b048.png#averageHue=%23fefefe&clientId=uddb70f32-1692-4&from=drop&height=218&id=uff7a3052&name=%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-12%20141143.png&originHeight=322&originWidth=1477&originalType=binary&ratio=1.5625&rotation=0&showTitle=false&size=32876&status=done&style=none&taskId=u3564a00c-273c-4158-bf1b-824373fb206&title=&width=1000)
 <a name="VY9Xy"></a>
 # 安全性
 
