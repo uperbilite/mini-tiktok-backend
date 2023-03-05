@@ -10,6 +10,7 @@ import (
 	"mini-tiktok-backend/kitex_gen/user"
 	video2 "mini-tiktok-backend/kitex_gen/video"
 	"mini-tiktok-backend/pkg/consts"
+	"sync"
 )
 
 type GetVideosService struct {
@@ -35,49 +36,79 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 		return nil, err
 	}
 
-	videos := make([]*video2.Video, 0)
+	type item struct {
+		video *video2.Video
+		err   error
+	}
+	ch := make(chan item)
+	var wg sync.WaitGroup
 
 	for _, v := range vs {
-		video := pack.Video(v)
-		if video == nil {
-			continue
-		}
+		wg.Add(1)
+		go func(v *db.Video) {
+			defer wg.Done()
 
-		videoSignedUrl, err := bucket.SignURL(v.PlayURL, oss.HTTPGet, 600)
-		if err != nil {
-			return nil, err
-		}
-		coverSignedUrl, err := bucket.SignURL(v.CoverURL, oss.HTTPGet, 600)
-		if err != nil {
-			return nil, err
-		}
-		video.PlayUrl = videoSignedUrl
-		video.CoverUrl = coverSignedUrl
+			var i item
+			i.video = pack.Video(v)
 
-		// get user info
-		resp, err := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
-			UserId:       req.UserId,
-			TargetUserId: v.AuthorId,
-		})
-		if err != nil {
-			return nil, err
+			videoSignedUrl, err := bucket.SignURL(v.PlayURL, oss.HTTPGet, 600)
+			if err != nil {
+				i.err = err
+				ch <- i
+				return
+			}
+			coverSignedUrl, err := bucket.SignURL(v.CoverURL, oss.HTTPGet, 600)
+			if err != nil {
+				i.err = err
+				ch <- i
+				return
+			}
+			i.video.PlayUrl = videoSignedUrl
+			i.video.CoverUrl = coverSignedUrl
+
+			// get user info
+			resp, err := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
+				UserId:       req.UserId,
+				TargetUserId: v.AuthorId,
+			})
+			if err != nil {
+				i.err = err
+				ch <- i
+				return
+			}
+			i.video.Author = pack.User(resp)
+
+			// get is_favorite
+			isFavorite, err := rpc.GetIsFavorite(s.ctx, &favorite.GetIsFavoriteRequest{
+				UserId:  req.UserId,
+				VideoId: int64(v.ID),
+			})
+			if err != nil {
+				i.err = err
+				ch <- i
+				return
+			}
+			i.video.IsFavorite = isFavorite
+
+			i.video.FavoriteCount, _ = db.GetFavoriteCount(s.ctx, int64(v.ID))
+			i.video.CommentCount, _ = db.GetCommentCount(s.ctx, int64(v.ID))
+
+			ch <- i
+		}(v)
+	}
+
+	// closer
+	go func() {
+		wg.Wait()
+		close(ch)
+	}()
+
+	videos := make([]*video2.Video, 0)
+	for v := range ch {
+		if v.err != nil {
+			return nil, v.err
 		}
-		video.Author = pack.User(resp)
-
-		// get is_favorite
-		isFavorite, err := rpc.GetIsFavorite(s.ctx, &favorite.GetIsFavoriteRequest{
-			UserId:  req.UserId,
-			VideoId: int64(v.ID),
-		})
-		if err != nil {
-			return nil, err
-		}
-		video.IsFavorite = isFavorite
-
-		video.FavoriteCount, _ = db.GetFavoriteCount(s.ctx, int64(v.ID))
-		video.CommentCount, _ = db.GetCommentCount(s.ctx, int64(v.ID))
-
-		videos = append(videos, video)
+		videos = append(videos, v.video)
 	}
 
 	return videos, nil
