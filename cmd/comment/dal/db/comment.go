@@ -16,6 +16,16 @@ type Comment struct {
 	CreateDate string `json:"create_date"`
 }
 
+type Video struct {
+	gorm.Model
+	AuthorId      int64  `json:"author_id"`
+	PlayURL       string `json:"play_url"`
+	CoverURL      string `json:"cover_url"`
+	Title         string `json:"title"`
+	FavoriteCount uint   `json:"favorite_count"`
+	CommentCount  uint   `json:"comment_count"`
+}
+
 func (c *Comment) TableName() string {
 	return consts.CommentTableName
 }
@@ -48,11 +58,29 @@ func DecrCommentCount(ctx context.Context, videoId int64) {
 }
 
 func CreateComment(ctx context.Context, comment *Comment) (*Comment, error) {
-	if err := DB.WithContext(ctx).
-		Create(comment).Error; err != nil {
+	// TODO: redis consistent
+	IncrCommentCount(ctx, comment.VideoId)
+
+	var err error
+	db := DB.Begin()
+
+	if err = db.WithContext(ctx).Create(comment).Error; err != nil {
+		db.Rollback()
+	}
+
+	if err = db.WithContext(ctx).
+		Model(&Video{}).
+		Where("id = ?", comment.VideoId).
+		Update("comment_count", gorm.Expr("comment_count + ?", 1)).
+		Error; err != nil {
+		db.Rollback()
+	}
+
+	db.Commit()
+
+	if err != nil {
 		return nil, err
 	}
-	IncrCommentCount(ctx, comment.VideoId)
 	return comment, nil
 }
 
@@ -65,10 +93,30 @@ func DeleteComment(ctx context.Context, id int64) error {
 		Find(&videoId).Error; err != nil {
 		return err
 	}
+
+	// TODO: redis consistent
 	DecrCommentCount(ctx, videoId)
-	return DB.WithContext(ctx).
+
+	var err error
+	db := DB.Begin()
+
+	if err = db.WithContext(ctx).
 		Where("id = ?", id).
-		Delete(&Comment{}).Error
+		Delete(&Comment{}).Error; err != nil {
+		db.Rollback()
+	}
+
+	if err = db.WithContext(ctx).
+		Model(&Video{}).
+		Where("id = ?", videoId).
+		Update("comment_count", gorm.Expr("comment_count - ?", 1)).
+		Error; err != nil {
+		db.Rollback()
+	}
+
+	db.Commit()
+
+	return err
 }
 
 func GetCommentsByVideoId(ctx context.Context, videoId int64) ([]*Comment, error) {
