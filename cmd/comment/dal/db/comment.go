@@ -38,29 +38,7 @@ func GetVideoKey(videoId int64) string {
 	return res.String()
 }
 
-func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
-	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.CommentCount)
-	if res == nil {
-		return 0, nil
-	}
-	return res.Int64()
-}
-
-func IncrCommentCount(ctx context.Context, videoId int64) {
-	RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.CommentCount, 1)
-}
-
-func DecrCommentCount(ctx context.Context, videoId int64) {
-	commentCount, _ := GetCommentCount(ctx, videoId)
-	if commentCount > 0 {
-		RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.CommentCount, -1)
-	}
-}
-
 func CreateComment(ctx context.Context, comment *Comment) (*Comment, error) {
-	// TODO: redis consistent
-	IncrCommentCount(ctx, comment.VideoId)
-
 	var err error
 	db := DB.Begin()
 
@@ -78,6 +56,9 @@ func CreateComment(ctx context.Context, comment *Comment) (*Comment, error) {
 
 	db.Commit()
 
+	// delete redis key for consistent
+	RDB.HDel(ctx, GetVideoKey(comment.VideoId), consts.CommentCount)
+
 	if err != nil {
 		return nil, err
 	}
@@ -93,9 +74,6 @@ func DeleteComment(ctx context.Context, id int64) error {
 		Find(&videoId).Error; err != nil {
 		return err
 	}
-
-	// TODO: redis consistent
-	DecrCommentCount(ctx, videoId)
 
 	var err error
 	db := DB.Begin()
@@ -115,6 +93,9 @@ func DeleteComment(ctx context.Context, id int64) error {
 	}
 
 	db.Commit()
+
+	// delete redis key for consistent
+	RDB.HDel(ctx, GetVideoKey(videoId), consts.CommentCount)
 
 	return err
 }

@@ -10,10 +10,12 @@ import (
 
 type Video struct {
 	gorm.Model
-	AuthorId int64  `json:"author_id"`
-	PlayURL  string `json:"play_url"`
-	CoverURL string `json:"cover_url"`
-	Title    string `json:"title"`
+	AuthorId      int64  `json:"author_id"`
+	PlayURL       string `json:"play_url"`
+	CoverURL      string `json:"cover_url"`
+	Title         string `json:"title"`
+	FavoriteCount uint   `json:"favorite_count"`
+	CommentCount  uint   `json:"comment_count"`
 }
 
 func (v *Video) TableName() string {
@@ -29,19 +31,47 @@ func GetVideoKey(videoId int64) string {
 }
 
 func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
-	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.FavoriteCount)
-	if res == nil {
-		return 0, nil
+	ok, err := RDB.HExists(ctx, GetVideoKey(videoId), consts.FavoriteCount).Result()
+	if err != nil {
+		return 0, err
 	}
-	return res.Int64()
+
+	if ok == true { // if favorite count exists in redis
+		res := RDB.HGet(ctx, GetVideoKey(videoId), consts.FavoriteCount)
+		if res == nil {
+			return 0, nil
+		}
+		return res.Int64()
+	} else { // get favorite from db
+		var v Video
+		if err = DB.Find(&v).
+			Where("id", videoId).Error; err != nil {
+			return 0, nil
+		}
+		return int64(v.FavoriteCount), nil
+	}
 }
 
 func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
-	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.CommentCount)
-	if res == nil {
-		return 0, nil
+	ok, err := RDB.HExists(ctx, GetVideoKey(videoId), consts.FavoriteCount).Result()
+	if err != nil {
+		return 0, err
 	}
-	return res.Int64()
+
+	if ok == true { // if favorite count exists in redis
+		res := RDB.HGet(ctx, GetVideoKey(videoId), consts.FavoriteCount)
+		if res == nil {
+			return 0, nil
+		}
+		return res.Int64()
+	} else { // get favorite from db
+		var v Video
+		if err = DB.Find(&v).
+			Where("id", videoId).Error; err != nil {
+			return 0, nil
+		}
+		return int64(v.CommentCount), nil
+	}
 }
 
 // MGetVideos Multiple get list of videos.

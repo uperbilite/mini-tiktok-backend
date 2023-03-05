@@ -36,29 +36,7 @@ func GetVideoKey(videoId int64) string {
 	return res.String()
 }
 
-func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
-	res := RDB.HGet(ctx, GetVideoKey(videoId), consts.FavoriteCount)
-	if res == nil {
-		return 0, nil
-	}
-	return res.Int64()
-}
-
-func IncrFavoriteCount(ctx context.Context, videoId int64) {
-	RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.FavoriteCount, 1)
-}
-
-func DecrFavoriteCount(ctx context.Context, videoId int64) {
-	favoriteCount, _ := GetFavoriteCount(ctx, videoId)
-	if favoriteCount > 0 {
-		RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.FavoriteCount, -1)
-	}
-}
-
 func CreateFavorite(ctx context.Context, favorite *Favorite) error {
-	// TODO: redis consistency
-	IncrFavoriteCount(ctx, favorite.VideoId)
-
 	var err error
 	db := DB.Begin()
 
@@ -76,13 +54,13 @@ func CreateFavorite(ctx context.Context, favorite *Favorite) error {
 
 	db.Commit()
 
+	// delete redis key for consistent
+	RDB.HDel(ctx, GetVideoKey(favorite.VideoId), consts.FavoriteCount)
+
 	return err
 }
 
 func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
-	// TODO: redis consistent
-	DecrFavoriteCount(ctx, videoId)
-
 	var err error
 	db := DB.Begin()
 
@@ -101,6 +79,9 @@ func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
 	}
 
 	db.Commit()
+
+	// delete redis key for consistent
+	RDB.HDel(ctx, GetVideoKey(videoId), consts.FavoriteCount)
 
 	return err
 }
