@@ -77,6 +77,7 @@ func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
 // MGetVideos Multiple get list of videos.
 func MGetVideos(ctx context.Context, videoIds []int64) ([]*Video, error) {
 	res := make([]*Video, 0)
+	// TODO: goroutine optimized
 	for _, id := range videoIds {
 		var v Video
 		if err := DB.WithContext(ctx).

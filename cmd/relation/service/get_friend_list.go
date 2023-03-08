@@ -26,6 +26,7 @@ func (s *GetFriendListService) GetFriendList(req *relation.GetFriendListRequest)
 		return nil, err
 	}
 	var users []*relation.User
+	// TODO: goroutine optimize
 	for _, fd := range friendsId {
 		u, err := rpc.QueryUser(s.ctx, &user.QueryUserRequest{
 			UserId:       req.UserId,
