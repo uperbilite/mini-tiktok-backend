@@ -53,13 +53,13 @@ func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
 }
 
 func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
-	ok, err := RDB.HExists(ctx, GetVideoKey(videoId), consts.FavoriteCount).Result()
+	ok, err := RDB.HExists(ctx, GetVideoKey(videoId), consts.CommentCount).Result()
 	if err != nil {
 		return 0, err
 	}
 
 	if ok == true { // if favorite count exists in redis
-		res := RDB.HGet(ctx, GetVideoKey(videoId), consts.FavoriteCount)
+		res := RDB.HGet(ctx, GetVideoKey(videoId), consts.CommentCount)
 		if res == nil {
 			return 0, nil
 		}
