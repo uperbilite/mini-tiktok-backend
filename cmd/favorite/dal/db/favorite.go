@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"gorm.io/gorm"
+	"mini-tiktok-backend/cmd/favorite/dal/mq"
 	"mini-tiktok-backend/pkg/consts"
 	"strconv"
 	"strings"
@@ -52,12 +53,26 @@ func CreateFavorite(ctx context.Context, favorite *Favorite) error {
 		db.Rollback()
 	}
 
+	db.Commit()
+
 	// delete redis key for consistent
-	if err = RDB.HDel(ctx, GetVideoKey(favorite.VideoId), consts.FavoriteCount).Err(); err != nil {
-		db.Rollback()
+	RDB.HDel(ctx, GetVideoKey(favorite.VideoId), consts.FavoriteCount)
+
+	// TODO: update data in redis
+	// TODO: produce create favorite message into kafka
+	// TODO: mysql consume message
+	// TODO: if consume error, delete key in redis
+
+	if err = RDB.Incr(ctx, GetVideoKey(favorite.VideoId)).Err(); err != nil {
+		// TODO: handle error
 	}
 
-	db.Commit()
+	msg := &mq.Message{
+		ActionType: 10,
+		UserId:     20,
+		VideoId:    30,
+	}
+	msg.Produce()
 
 	return err
 }
@@ -80,12 +95,14 @@ func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
 		db.Rollback()
 	}
 
+	db.Commit()
+
 	// delete redis key for consistent
 	if err = RDB.HDel(ctx, GetVideoKey(videoId), consts.FavoriteCount).Err(); err != nil {
 		db.Rollback()
 	}
 
-	db.Commit()
+	// TODO: kafka listen binlog and send to redis
 
 	return err
 }
