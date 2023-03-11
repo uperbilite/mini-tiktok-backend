@@ -52,10 +52,12 @@ func CreateFavorite(ctx context.Context, favorite *Favorite) error {
 		db.Rollback()
 	}
 
-	db.Commit()
-
 	// delete redis key for consistent
-	RDB.HDel(ctx, GetVideoKey(favorite.VideoId), consts.FavoriteCount)
+	if err = RDB.HDel(ctx, GetVideoKey(favorite.VideoId), consts.FavoriteCount).Err(); err != nil {
+		db.Rollback()
+	}
+
+	db.Commit()
 
 	return err
 }
@@ -78,10 +80,12 @@ func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
 		db.Rollback()
 	}
 
-	db.Commit()
-
 	// delete redis key for consistent
-	RDB.HDel(ctx, GetVideoKey(videoId), consts.FavoriteCount)
+	if err = RDB.HDel(ctx, GetVideoKey(videoId), consts.FavoriteCount).Err(); err != nil {
+		db.Rollback()
+	}
+
+	db.Commit()
 
 	return err
 }
