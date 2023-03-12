@@ -21,25 +21,25 @@ func NewFavoriteActionService(ctx context.Context) *FavoriteActionService {
 func (s *FavoriteActionService) FavoriteAction(req *favorite.FavoriteActionRequest) error {
 	if req.ActionType == 1 {
 		// TODO: favorite exists error
-		err := db.CreateFavoriteInRedis(s.ctx, req.VideoId)
+		db.CreateFavoriteInRedis(s.ctx, req.VideoId)
 		msg := &mq.Message{
 			ActionType: 1,
 			UserId:     req.UserId,
 			VideoId:    req.VideoId,
 		}
 		msg.Produce()
-		return err
+		return nil
 	}
 	if req.ActionType == 2 {
 		// TODO: favorite not exists error
-		err := db.DeleteFavoriteInRedis(s.ctx, req.VideoId)
+		db.DeleteFavoriteInRedis(s.ctx, req.VideoId)
 		msg := &mq.Message{
 			ActionType: 2,
 			UserId:     req.UserId,
 			VideoId:    req.VideoId,
 		}
 		msg.Produce()
-		return err
+		return nil
 	}
 
 	return errno.ParamErr

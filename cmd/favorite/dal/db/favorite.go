@@ -36,10 +36,9 @@ func GetVideoKey(videoId int64) string {
 	return res.String()
 }
 
-func CreateFavoriteInRedis(ctx context.Context, videoId int64) error {
+func CreateFavoriteInRedis(ctx context.Context, videoId int64) {
 	// TODO: error handle
 	RDB.Incr(ctx, GetVideoKey(videoId))
-	return nil
 }
 
 func CreateFavoriteInMysql(userId int64, videoId int64) {
@@ -60,15 +59,14 @@ func CreateFavoriteInMysql(userId int64, videoId int64) {
 		d.Rollback()
 	}
 
-	// TODO: delete key in redis if failed
-
 	d.Commit()
+
+	// TODO: delete key in redis if failed
 }
 
-func DeleteFavoriteInRedis(ctx context.Context, videoId int64) error {
+func DeleteFavoriteInRedis(ctx context.Context, videoId int64) {
 	// TODO: error handle
 	RDB.HDel(ctx, GetVideoKey(videoId), consts.FavoriteCount)
-	return nil
 }
 
 func DeleteFavoriteInMysql(userId int64, videoId int64) {
@@ -88,6 +86,8 @@ func DeleteFavoriteInMysql(userId int64, videoId int64) {
 	}
 
 	db.Commit()
+
+	// TODO: delete key in redis if failed
 }
 
 func QueryFavorite(ctx context.Context, userId int64, videoId int64) ([]*Favorite, error) {
