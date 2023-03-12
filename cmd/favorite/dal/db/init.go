@@ -1,7 +1,6 @@
 package db
 
 import (
-	"github.com/Shopify/sarama"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -10,8 +9,6 @@ import (
 
 var DB *gorm.DB
 var RDB *redis.Client
-var Producer sarama.AsyncProducer
-var Consumer sarama.Consumer
 
 // Init init DB
 func Init() {
@@ -28,29 +25,4 @@ func Init() {
 		Password: consts.RedisPassword,
 		DB:       consts.RedisDB,
 	})
-
-	initProducer()
-	initConsumer()
-	go Consume()
-}
-
-func initProducer() {
-	config := sarama.NewConfig()
-	config.Producer.Partitioner = sarama.NewRandomPartitioner
-
-	var err error
-	Producer, err = sarama.NewAsyncProducer([]string{consts.KafkaAddress}, config)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func initConsumer() {
-	config := sarama.NewConfig()
-
-	var err error
-	Consumer, err = sarama.NewConsumer([]string{consts.KafkaAddress}, config)
-	if err != nil {
-		panic(err)
-	}
 }

@@ -2,12 +2,10 @@ package db
 
 import (
 	"context"
-	"github.com/Shopify/sarama"
 	"gorm.io/gorm"
 	"mini-tiktok-backend/pkg/consts"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type Favorite struct {
@@ -43,14 +41,6 @@ func CreateFavorite(ctx context.Context, favorite *Favorite) error {
 	if err = RDB.Incr(ctx, GetVideoKey(favorite.VideoId)).Err(); err != nil {
 		// TODO: handle error
 	}
-
-	msg := &Message{
-		ActionType: 1,
-		UserId:     favorite.UserId,
-		VideoId:    favorite.VideoId,
-	}
-	msg.Produce()
-
 	return err
 }
 
@@ -104,99 +94,4 @@ func GetVideoIdsByUserId(ctx context.Context, id int64) ([]int64, error) {
 		return nil, err
 	}
 	return res, nil
-}
-
-type Message struct {
-	ActionType int
-	UserId     int64
-	VideoId    int64
-}
-
-func (msg *Message) String() string {
-	return strconv.Itoa(msg.ActionType) + " " +
-		strconv.FormatInt(msg.UserId, 10) + " " +
-		strconv.FormatInt(msg.VideoId, 10)
-}
-
-func ParseMsg(msg string) *Message {
-	ms := strings.Split(msg, " ")
-	actionType, _ := strconv.Atoi(ms[0])
-	userId, _ := strconv.ParseInt(ms[1], 10, 64)
-	videoId, _ := strconv.ParseInt(ms[2], 10, 64)
-	return &Message{
-		ActionType: actionType,
-		UserId:     userId,
-		VideoId:    videoId,
-	}
-}
-
-func (msg *Message) Produce() {
-	message := &sarama.ProducerMessage{
-		Topic: consts.FavoriteTopic,
-		Value: sarama.StringEncoder(msg.String()),
-	}
-	Producer.Input() <- message
-}
-
-func Consume() {
-	pIds, err := Consumer.Partitions(consts.FavoriteTopic)
-	if err != nil {
-		panic(err)
-	}
-
-	for _, pId := range pIds {
-		// create partition consumer for every partition id
-		pc, err := Consumer.ConsumePartition(consts.FavoriteTopic, pId, sarama.OffsetOldest)
-		if err != nil {
-			panic(err)
-		}
-
-		go func(pc *sarama.PartitionConsumer) {
-			defer (*pc).Close()
-			// block
-			for message := range (*pc).Messages() {
-				time.Sleep(20)
-				m := ParseMsg(string(message.Value))
-				switch m.ActionType {
-				case 1:
-					var err error
-					db := DB.Begin()
-
-					if err = db.Create(&Favorite{
-						UserId:  m.UserId,
-						VideoId: m.VideoId,
-					}).Error; err != nil {
-						db.Rollback()
-					}
-
-					if err = db.Model(&Video{}).
-						Where("id = ?", m.VideoId).
-						Update("favorite_count", gorm.Expr("favorite_count + ?", 1)).
-						Error; err != nil {
-						db.Rollback()
-					}
-
-					db.Commit()
-				case 2:
-					var err error
-					db := DB.Begin()
-
-					if err = db.
-						Where("user_id = ? and video_id = ? ", m.UserId, m.VideoId).
-						Delete(&Favorite{}).Error; err != nil {
-						db.Rollback()
-					}
-
-					if err = db.Model(&Video{}).
-						Where("id = ?", m.VideoId).
-						Update("favorite_count", gorm.Expr("favorite_count - ?", 1)).
-						Error; err != nil {
-						db.Rollback()
-					}
-
-					db.Commit()
-				}
-			}
-		}(&pc)
-	}
 }
