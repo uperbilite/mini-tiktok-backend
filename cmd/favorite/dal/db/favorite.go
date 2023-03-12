@@ -38,7 +38,7 @@ func GetVideoKey(videoId int64) string {
 
 func CreateFavoriteInRedis(ctx context.Context, videoId int64) {
 	// TODO: error handle
-	RDB.Incr(ctx, GetVideoKey(videoId))
+	RDB.HIncrBy(ctx, GetVideoKey(videoId), consts.FavoriteCount, 1)
 }
 
 func CreateFavoriteInMysql(userId int64, videoId int64) {
