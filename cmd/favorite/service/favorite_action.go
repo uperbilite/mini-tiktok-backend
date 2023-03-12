@@ -20,17 +20,8 @@ func NewFavoriteActionService(ctx context.Context) *FavoriteActionService {
 
 func (s *FavoriteActionService) FavoriteAction(req *favorite.FavoriteActionRequest) error {
 	if req.ActionType == 1 {
-		favorites, err := db.QueryFavorite(s.ctx, req.UserId, req.VideoId)
-		if err != nil {
-			return err
-		}
-		if len(favorites) != 0 {
-			return errno.UserAlreadyExistErr // TODO: FavoriteAlreadyExistErr
-		}
-		err = db.CreateFavorite(s.ctx, &db.Favorite{
-			UserId:  req.UserId,
-			VideoId: req.VideoId,
-		})
+		// TODO: favorite exists error
+		err := db.CreateFavoriteInRedis(s.ctx, req.VideoId)
 		msg := &mq.Message{
 			ActionType: 1,
 			UserId:     req.UserId,
@@ -40,7 +31,15 @@ func (s *FavoriteActionService) FavoriteAction(req *favorite.FavoriteActionReque
 		return err
 	}
 	if req.ActionType == 2 {
-		return db.DeleteFavorite(s.ctx, req.UserId, req.VideoId)
+		// TODO: favorite not exists error
+		err := db.DeleteFavoriteInRedis(s.ctx, req.VideoId)
+		msg := &mq.Message{
+			ActionType: 2,
+			UserId:     req.UserId,
+			VideoId:    req.VideoId,
+		}
+		msg.Produce()
+		return err
 	}
 
 	return errno.ParamErr

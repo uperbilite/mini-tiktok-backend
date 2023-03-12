@@ -2,7 +2,6 @@ package mq
 
 import (
 	"github.com/Shopify/sarama"
-	"gorm.io/gorm"
 	"mini-tiktok-backend/cmd/favorite/dal/db"
 	"mini-tiktok-backend/pkg/consts"
 	"strconv"
@@ -57,48 +56,16 @@ func Consume() {
 
 		go func(pc *sarama.PartitionConsumer) {
 			defer (*pc).Close()
-			// block
 			for message := range (*pc).Messages() {
+				// sleep 20ms to gentle to peak of flow
+				// TODO: update mysql in batch.
 				time.Sleep(20)
 				m := ParseMsg(string(message.Value))
 				switch m.ActionType {
 				case 1:
-					var err error
-					d := db.DB.Begin()
-
-					if err = d.Create(&db.Favorite{
-						UserId:  m.UserId,
-						VideoId: m.VideoId,
-					}).Error; err != nil {
-						d.Rollback()
-					}
-
-					if err = d.Model(&db.Video{}).
-						Where("id = ?", m.VideoId).
-						Update("favorite_count", gorm.Expr("favorite_count + ?", 1)).
-						Error; err != nil {
-						d.Rollback()
-					}
-
-					d.Commit()
+					db.CreateFavoriteInMysql(m.UserId, m.VideoId)
 				case 2:
-					var err error
-					d := db.DB.Begin()
-
-					if err = d.
-						Where("user_id = ? and video_id = ? ", m.UserId, m.VideoId).
-						Delete(&db.Favorite{}).Error; err != nil {
-						d.Rollback()
-					}
-
-					if err = d.Model(&db.Video{}).
-						Where("id = ?", m.VideoId).
-						Update("favorite_count", gorm.Expr("favorite_count - ?", 1)).
-						Error; err != nil {
-						d.Rollback()
-					}
-
-					d.Commit()
+					db.DeleteFavoriteInMysql(m.UserId, m.VideoId)
 				}
 			}
 		}(&pc)

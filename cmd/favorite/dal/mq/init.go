@@ -17,7 +17,6 @@ func Init() {
 func initProducer() {
 	config := sarama.NewConfig()
 	config.Producer.Partitioner = sarama.NewRandomPartitioner
-
 	var err error
 	Producer, err = sarama.NewAsyncProducer([]string{consts.KafkaAddress}, config)
 	if err != nil {
@@ -27,7 +26,6 @@ func initProducer() {
 
 func initConsumer() {
 	config := sarama.NewConfig()
-
 	var err error
 	Consumer, err = sarama.NewConsumer([]string{consts.KafkaAddress}, config)
 	if err != nil {

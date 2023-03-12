@@ -36,26 +36,51 @@ func GetVideoKey(videoId int64) string {
 	return res.String()
 }
 
-func CreateFavorite(ctx context.Context, favorite *Favorite) error {
-	var err error
-	if err = RDB.Incr(ctx, GetVideoKey(favorite.VideoId)).Err(); err != nil {
-		// TODO: handle error
-	}
-	return err
+func CreateFavoriteInRedis(ctx context.Context, videoId int64) error {
+	// TODO: error handle
+	RDB.Incr(ctx, GetVideoKey(videoId))
+	return nil
 }
 
-func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
+func CreateFavoriteInMysql(userId int64, videoId int64) {
+	var err error
+	d := DB.Begin()
+
+	if err = d.Create(&Favorite{
+		UserId:  userId,
+		VideoId: videoId,
+	}).Error; err != nil {
+		d.Rollback()
+	}
+
+	if err = d.Model(&Video{}).
+		Where("id = ?", videoId).
+		Update("favorite_count", gorm.Expr("favorite_count + ?", 1)).
+		Error; err != nil {
+		d.Rollback()
+	}
+
+	// TODO: delete key in redis if failed
+
+	d.Commit()
+}
+
+func DeleteFavoriteInRedis(ctx context.Context, videoId int64) error {
+	// TODO: error handle
+	RDB.HDel(ctx, GetVideoKey(videoId), consts.FavoriteCount)
+	return nil
+}
+
+func DeleteFavoriteInMysql(userId int64, videoId int64) {
 	var err error
 	db := DB.Begin()
 
-	if err = db.WithContext(ctx).
-		Where("user_id = ? and video_id = ? ", userId, videoId).
+	if err = db.Where("user_id = ? and video_id = ? ", userId, videoId).
 		Delete(&Favorite{}).Error; err != nil {
 		db.Rollback()
 	}
 
-	if err = db.WithContext(ctx).
-		Model(&Video{}).
+	if err = db.Model(&Video{}).
 		Where("id = ?", videoId).
 		Update("favorite_count", gorm.Expr("favorite_count - ?", 1)).
 		Error; err != nil {
@@ -63,15 +88,6 @@ func DeleteFavorite(ctx context.Context, userId int64, videoId int64) error {
 	}
 
 	db.Commit()
-
-	// delete redis key for consistent
-	if err = RDB.HDel(ctx, GetVideoKey(videoId), consts.FavoriteCount).Err(); err != nil {
-		db.Rollback()
-	}
-
-	// TODO: kafka listen binlog and send to redis
-
-	return err
 }
 
 func QueryFavorite(ctx context.Context, userId int64, videoId int64) ([]*Favorite, error) {
