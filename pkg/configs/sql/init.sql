@@ -9,7 +9,7 @@ CREATE TABLE `users`
     `updated_at`     timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT 'User account update time',
     `deleted_at`     timestamp(3) NULL DEFAULT NULL COMMENT 'User account delete time',
     PRIMARY KEY (`id`),
-    KEY              `idx_username` (`username`) COMMENT 'Username index'
+    UNIQUE KEY `uk_username` (`username`) COMMENT 'Unique username index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='User account table';
 
 CREATE TABLE `videos`
@@ -36,7 +36,10 @@ CREATE TABLE `follows`
     `created_at` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'Follow create time',
     `updated_at` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT 'Follow update time',
     `deleted_at` timestamp(3) NULL DEFAULT NULL COMMENT 'Follow delete time',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_follow` (`from_id`, `to_id`, `deleted_at`) COMMENT 'Unique compound follow index',
+    KEY          `idx_from_id` (`from_id`) COMMENT 'From user id index',
+    KEY          `idx_to_id` (`to_id`) COMMENT 'To user id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Follow table';
 
 CREATE TABLE `messages`
@@ -60,7 +63,9 @@ CREATE TABLE `favorites`
     `updated_at` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT 'Favourite update time',
     `deleted_at` timestamp(3) NULL DEFAULT NULL COMMENT 'Favourite delete time',
     PRIMARY KEY (`id`),
-    KEY          `idx_user_video_id` (`user_id`, `video_id`) COMMENT 'User-Video id index'
+    UNIQUE KEY          `idx_user_video_id` (`user_id`, `video_id`, `deleted_id`) COMMENT 'User-Video id index',
+    KEY `idx_user_id` (`user_id`) COMMENT 'User id index',
+    KEY `idex_video_id` (`video_id`) COMMENT 'Video id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Favourite table';
 
 CREATE TABLE `comments`
