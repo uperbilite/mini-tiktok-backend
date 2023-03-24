@@ -4,8 +4,6 @@ import (
 	"context"
 	"mini-tiktok-backend/cmd/user/dal/db"
 	"mini-tiktok-backend/cmd/user/pack"
-	"mini-tiktok-backend/cmd/user/rpc"
-	"mini-tiktok-backend/kitex_gen/relation"
 	"mini-tiktok-backend/kitex_gen/user"
 	"mini-tiktok-backend/pkg/errno"
 )
@@ -27,7 +25,14 @@ func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, er
 	if len(users) == 0 {
 		return nil, errno.UserNotExistErr
 	}
-	r := pack.User(users[0])
+
+	if req.UserId == 0 {
+		// TODO: Get follow and follower count.
+	} else {
+		// TODO: Get follow and follower count and is_follow
+	}
+
+	/*r := pack.User(users[0])
 	follows, followers, err := rpc.GetFollowAndFollowerCount(s.ctx, &relation.GetFollowAndFollowerCountRequest{
 		UserId: req.TargetUserId,
 	})
@@ -45,6 +50,6 @@ func (s *QueryUserService) QueryUser(req *user.QueryUserRequest) (*user.User, er
 			return nil, err
 		}
 		r.IsFollow = isFollow
-	}
-	return r, nil
+	}*/
+	return pack.User(users[0]), nil
 }
