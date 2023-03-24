@@ -8,7 +8,6 @@ require (
 	github.com/Shopify/sarama v1.38.1
 	github.com/aliyun/aliyun-oss-go-sdk v2.2.6+incompatible
 	github.com/apache/thrift v0.13.0
-	github.com/bsm/sarama-cluster v2.1.15+incompatible
 	github.com/cloudwego/hertz v0.5.2
 	github.com/cloudwego/kitex v0.4.4
 	github.com/gofrs/uuid v4.4.0+incompatible
@@ -22,14 +21,12 @@ require (
 	github.com/kitex-contrib/obs-opentelemetry/logging/logrus v0.0.0-20221109071748-a433b0b57972
 	github.com/kitex-contrib/registry-etcd v0.1.0
 	github.com/redis/go-redis/v9 v9.0.2
-	github.com/u2takey/ffmpeg-go v0.4.1
 	gorm.io/driver/mysql v1.4.5
 	gorm.io/gorm v1.24.3
 )
 
 require (
 	github.com/andeya/goutil v1.0.0 // indirect
-	github.com/aws/aws-sdk-go v1.38.20 // indirect
 	github.com/bytedance/go-tagexpr/v2 v2.9.6 // indirect
 	github.com/bytedance/gopkg v0.0.0-20221122125632-68358b8ecec6 // indirect
 	github.com/bytedance/sonic v1.7.0 // indirect
@@ -71,7 +68,6 @@ require (
 	github.com/jhump/protoreflect v1.8.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.15.14 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.3 // indirect
@@ -79,8 +75,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nyaruka/phonenumbers v1.1.5 // indirect
 	github.com/oleiade/lane v1.0.1 // indirect
-	github.com/onsi/ginkgo v1.16.5 // indirect
-	github.com/onsi/gomega v1.27.3 // indirect
 	github.com/pierrec/lz4/v4 v4.1.17 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
@@ -90,7 +84,6 @@ require (
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
-	github.com/u2takey/go-utils v0.3.1 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.5 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.5 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.5 // indirect

@@ -3,16 +3,11 @@ package service
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/gofrs/uuid"
-	ffmpeg "github.com/u2takey/ffmpeg-go"
-	"image"
-	"image/jpeg"
 	"mini-tiktok-backend/cmd/publish/dal/db"
 	"mini-tiktok-backend/kitex_gen/publish"
 	"mini-tiktok-backend/pkg/consts"
-	"os"
 	"strings"
 )
 
@@ -50,45 +45,12 @@ func (s *PublishVideoService) PublishVideo(req *publish.PublishVideoRequest) err
 		return err
 	}
 
-	videoSignedUrl, err := bucket.SignURL(videoObjectKey.String(), oss.HTTPGet, 600)
-	if err != nil {
-		return err
-	}
-	cover, _ := GetCoverFromVideo(videoSignedUrl)
-
-	var coverObjectKey strings.Builder
-	coverObjectKey.Grow(consts.ObjKeyLen)
-	coverObjectKey.WriteString("cover/")
-	coverObjectKey.WriteString(videoUidString)
-	coverObjectKey.WriteString(".jpg")
-
-	err = bucket.PutObject(coverObjectKey.String(), bytes.NewReader(cover))
-	if err != nil {
-		return err
-	}
-
+	// TODO: gen signed url from video url, remove cover url in favorites table.
 	return db.CreateVideo(s.ctx, &db.Video{
 		AuthorId: req.UserId,
 		PlayURL:  videoObjectKey.String(),
-		CoverURL: coverObjectKey.String(),
+		CoverURL: "",
 		Title:    req.Title,
 	})
 
-}
-
-func GetCoverFromVideo(videoUrl string) ([]byte, error) {
-	reader := bytes.NewBuffer(nil)
-
-	_ = ffmpeg.Input(videoUrl).
-		Filter("select", ffmpeg.Args{fmt.Sprintf("gte(n,%d)", 1)}).
-		Output("pipe:", ffmpeg.KwArgs{"vframes": 1, "format": "image2", "vcodec": "mjpeg"}).
-		WithOutput(reader, os.Stdout).
-		Run()
-
-	img, _, _ := image.Decode(reader)
-
-	buf := new(bytes.Buffer)
-	jpeg.Encode(buf, img, nil)
-
-	return buf.Bytes(), nil
 }

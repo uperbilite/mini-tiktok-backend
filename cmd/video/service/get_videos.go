@@ -57,7 +57,7 @@ func (s *GetVideosService) GetVideos(req *video2.GetVideosRequest) ([]*video2.Vi
 				ch <- i
 				return
 			}
-			coverSignedUrl, err := bucket.SignURL(v.CoverURL, oss.HTTPGet, 600)
+			coverSignedUrl, err := bucket.SignURL(v.PlayURL, oss.HTTPGet, 600, oss.Process("video/snapshot,t_0,f_jpg,w_0,h_0"))
 			if err != nil {
 				i.err = err
 				ch <- i
