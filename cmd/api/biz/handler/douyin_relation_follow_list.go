@@ -5,7 +5,6 @@ package handler
 import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/common/utils"
-	"mini-tiktok-backend/kitex_gen/relation"
 	"mini-tiktok-backend/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -34,9 +33,7 @@ func DouyinRelationFollowList(ctx context.Context, c *app.RequestContext) {
 		return
 	}*/
 
-	var userList []*relation.User
+	// var userList []*relation.User
 
-	SendResponse(c, errno.Success, utils.H{
-		"user_list": userList,
-	})
+	SendResponse(c, errno.Success, utils.H{})
 }

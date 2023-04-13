@@ -5,7 +5,6 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	api_relation "mini-tiktok-backend/cmd/api/biz/model/api/relation"
-	"mini-tiktok-backend/kitex_gen/relation"
 	"mini-tiktok-backend/pkg/errno"
 )
 
@@ -31,9 +30,7 @@ func DouyinMessageChat(ctx context.Context, c *app.RequestContext) {
 		return
 	}*/
 
-	var messageList []*relation.Message
+	// var messageList []*relation.Message
 
-	SendResponse(c, errno.Success, utils.H{
-		"message_list": messageList,
-	})
+	SendResponse(c, errno.Success, utils.H{})
 }

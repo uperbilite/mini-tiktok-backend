@@ -10,7 +10,6 @@ import (
 	etcd "github.com/kitex-contrib/registry-etcd"
 	"log"
 	"mini-tiktok-backend/cmd/user/dal"
-	"mini-tiktok-backend/cmd/user/rpc"
 	"mini-tiktok-backend/kitex_gen/user/userservice"
 	"mini-tiktok-backend/pkg/consts"
 	"mini-tiktok-backend/pkg/mw"
@@ -19,7 +18,6 @@ import (
 
 func Init() {
 	dal.Init()
-	rpc.Init()
 	klog.SetLogger(kitexlogrus.NewLogger())
 	klog.SetLevel(klog.LevelInfo)
 }

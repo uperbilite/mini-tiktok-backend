@@ -5,5 +5,4 @@ func Init() {
 	initPublish()
 	initFavorite()
 	initComment()
-	initRelation()
 }

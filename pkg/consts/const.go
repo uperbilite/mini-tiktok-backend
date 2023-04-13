@@ -5,8 +5,6 @@ const (
 	VideoTableName      = "videos"
 	FavoriteTableName   = "favorites"
 	CommentTableName    = "comments"
-	FollowTableName     = "follows"
-	MessageTableName    = "messages"
 	SecretKey           = "secret key"
 	IdentityKey         = "id"
 	UserIdKey           = "user_id"
@@ -29,7 +27,6 @@ const (
 	FavoriteServiceName = "favorite"
 	VideoServiceName    = "video"
 	CommentServiceName  = "comment"
-	RelationServiceName = "relation"
 	FavoriteCount       = "favorite_count"
 	FavoriteTopic       = "favorite_topic"
 	CommentCount        = "comment_count"
@@ -40,5 +37,4 @@ const (
 	FavoriteServiceAddr = "127.0.0.1:8110"
 	VideoServiceAddr    = "127.0.0.1:8120"
 	CommentServiceAddr  = "127.0.0.1:8130"
-	RelationServiceAddr = "127.0.0.1:8140"
 )
