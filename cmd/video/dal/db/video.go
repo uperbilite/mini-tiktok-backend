@@ -44,8 +44,8 @@ func GetFavoriteCount(ctx context.Context, videoId int64) (int64, error) {
 		return res.Int64()
 	} else { // get favorite from db
 		var v Video
-		if err = DB.Find(&v).
-			Where("id", videoId).Error; err != nil {
+		if err = DB.Where("id = ?", videoId).
+			Find(&v).Error; err != nil {
 			return 0, nil
 		}
 		return int64(v.FavoriteCount), nil
@@ -66,8 +66,8 @@ func GetCommentCount(ctx context.Context, videoId int64) (int64, error) {
 		return res.Int64()
 	} else { // get favorite from db
 		var v Video
-		if err = DB.Find(&v).
-			Where("id", videoId).Error; err != nil {
+		if err = DB.Where("id = ?", videoId).
+			Find(&v).Error; err != nil {
 			return 0, nil
 		}
 		return int64(v.CommentCount), nil
