@@ -55,4 +55,3 @@ CREATE TABLE `comments`
     PRIMARY KEY (`id`),
     KEY           `idx_video_id` (`video_id`) COMMENT 'Video id index'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Comment table';
-
